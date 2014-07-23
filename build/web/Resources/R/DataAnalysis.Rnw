@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage[hmargin=3cm,vmargin=2cm]{geometry}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage[colorlinks=true, linkcolor=blue,
+citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
+\usepackage{longtable}
+
+<<echo=FALSE, results='hide', message=FALSE>>=
+
+
+sql <- paste("SELECT * FROM ",table, sep="")
+data <- dbGetQuery(connection, sql)
+dbDisconnect(connection)
+dbUnloadDriver(driver)
+#data <- data[ , -which(names(data) %in% c("identificacion"))]
+data <- as.data.frame(sapply(data, str_trim))
+data <- as.data.frame(sapply(data, as.factor))
+N <- nrow(data)
+VARS <- names(data)
+VALUES_TO_SHOW <- 10
+NULL_VALUES <- c('', 'NULL', 'None')
+NVARS <- length(VARS)
+nulls_table <- data.frame(Variable=rep("", NVARS),Perc =rep(1.0, NVARS), Detalle=rep("", NVARS),  stringsAsFactors=FALSE) 
+i <- 1
+@
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+%\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{3\baselineskip}
+  \includegraphics[width=3cm]{udenar.png}\hspace{2cm}
+  \includegraphics[width=4cm]{icfes.png}\hspace{2cm}
+  \includegraphics[width=3cm]{coperativa.png} 
+  \\ \vspace*{4\baselineskip}
+  \large
+  \bfseries
+  Detección de Patrones de rendimiento en competencias genéricas de las pruebas SABER PRO 2011 - 2012 \\ [5\baselineskip]
+  \normalfont
+  Análisis de Datos Conjunto ``\Sexpr{table}'' \\
+  Version 1.0 \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\ [5\baselineskip]
+  
+  \textbf{2014} \\[2\baselineskip]    
+\end{titlepage}
+
+\pagestyle{plain}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman} 
+\tableofcontents 
+\listoffigures
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de datos.}
+<<run-all, include=FALSE>>=
+output <- NULL
+for (var in VARS){
+  output <- c(output, knit_child('DataAnalysis2.Rnw'))
+}
+@
+
+\Sexpr{paste(output, collapse = '\n')}
+
+\clearpage
+\section{Resumen de datos nulos.}
+<<echo=FALSE,results='asis'>>=
+names(nulls_table) <-c('Atributo','Nulos (%)','Detalle')
+nulls_table[,2] <- as.numeric(nulls_table[,2])
+nulls_table <- nulls_table[order(nulls_table[,2], decreasing=T),]
+rownames(nulls_table) <- seq(NVARS, 1, -1)
+print(xtable(nulls_table, caption='Resumen de atributos y su porcentaje de datos nulos.')
+      , booktabs=TRUE
+      , tabular.environment='longtable'
+      , floating=FALSE
+      , sanitize.text.function=function(str){str}
+      , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)})
+@
+
+\end{document}

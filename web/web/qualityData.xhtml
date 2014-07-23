@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      >
+
+    <ui:composition template="templates/layoutTemplate.xhtml">
+	
+        <ui:define name="titlePage">
+            Análisis de Datos - BIENVENIDO
+        </ui:define>
+        <ui:define name="title">
+            Análisis de Datos - BIENVENIDO
+        </ui:define>         
+        <ui:define name="content"> 
+             <br/>
+             <p:panel header="Datos" style="width: 50%">
+            <h:form id="form">
+                <p:growl/>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Tabla" for="tabla"/>
+                    <p:inputText id="tabla" value="#{controllerDataAnalysis.table}" required="true" requiredMessage="Tabla Campo Requerido"/>
+                    <h:outputLabel value="Archivo Salida" for="archivo"/>
+                    <p:inputText id="archivo" value="#{controllerDataAnalysis.fileOutput}" required="true" requiredMessage="Archivo Salida Campo Requerido"/>
+                    <h:commandButton image="../../Resources/img/help.gif" value="Download" >  
+                        <p:fileDownload value="#{controllerDataAnalysis.fileHelp}" />  
+                    </h:commandButton>             
+                                 
+                </h:panelGrid>
+            </h:form>
+        </p:panel>          
+        </ui:define>
+    </ui:composition>
+</html>
+

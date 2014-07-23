@@ -1,0 +1,94 @@
+
+\subsection{\Sexpr{str_replace_all(var,'_','\\\\_')}}
+
+<<echo=FALSE>>=
+data[data[,c(var)] %in% NULL_VALUES,c(var)] <- NA
+data[,c(var)] <- factor(data[,c(var)])
+var_df <- as.data.frame(table(data[,c(var)], useNA='always'))
+nulls <- var_df[is.na(var_df[,1]),2]
+distincts <- length(levels(data[,c(var)]))
+perc <- round(nulls/N, 4)*100
+@
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & \Sexpr{distincts}. \\
+Nulos: & \Sexpr{nulls} (\Sexpr{perc}\%). \\
+\bottomrule
+\end{tabular}
+
+<<echo=FALSE>>=
+#var <- "fatal_additional_victims_name"
+var_df <- as.data.frame(table(data[,c(var)], useNA='ifany'))
+names(var_df) <- c('Valor', 'Frec.')
+var_df <- var_df[order(var_df[,2], decreasing=T),]
+row.names(var_df) <- seq(1,nrow(var_df))
+if (nrow(var_df) > VALUES_TO_SHOW){
+  var_df <- var_df[1:VALUES_TO_SHOW,]
+} 
+var_df[,1] <- sapply(as.character(var_df[,1]), function(x){if(is.na(x)){'NULL'}else{x}})
+@
+
+<<echo=FALSE>>=
+nlength <- max(str_length(var_df$Valor))
+if (nlength < 25){
+  the_size <- "\\small"
+  the_align <- "rlr"
+} else if (nlength < 60){
+  the_size <- "\\footnotesize"
+  the_align <- "rp{4cm}l"
+} else {
+  the_size <- "\\tiny"
+  the_align <- "rp{5cm}l"
+}
+@
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+<<echo=FALSE, results='asis'>>=
+the_table <- xtable(var_df)
+align(the_table) <- the_align
+n <- nrow(var_df) - 1
+if (n == 0){
+  print(the_table, size=the_size, booktabs=TRUE, floating = FALSE) 
+} else {
+  rws <- seq(1, n, by = 2)
+  col <- rep("\\rowcolor[gray]{0.9}", length(rws))
+  print(the_table, size=the_size, booktabs=TRUE, floating = FALSE
+        #, include.rownames = FALSE
+        , add.to.row = list(pos = as.list(rws), command = col)
+        )
+}
+@
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+<<echo=FALSE, warning=FALSE, out.width='\\\\textwidth'>>=
+counts <- sort(table(data[,c(var)], useNA = "ifany"), decreasing=TRUE)
+values <- names(counts)
+values <- str_replace_all(values,'Ñ','N')
+values <- str_replace_all(values,'ñ','n')
+values <- str_replace_all(values,'á','a')
+values <- str_replace_all(values,'é','e')
+values <- str_replace_all(values,'í','i')
+values <- str_replace_all(values,'ó','o')
+values <- str_replace_all(values,'ú','u')
+values <- str_replace_all(str_replace_all(values, '“', ''), '”', '')
+values <- str_replace_all(values,'_','\\_')
+names(counts) <- abbreviate(sapply(values, function(x){
+  if(is.na(x) | x %in% NULL_VALUES){
+    x <- 'NULL'
+  } else {
+    x
+  }
+}), minlength=8)
+par(mar=c(8,4,2,2))
+if (length(counts) < VALUES_TO_SHOW){
+  barplot(as.table(counts), cex.axis=0.8, las=2)
+} else {
+  barplot(as.table(counts[1:VALUES_TO_SHOW]), cex.axis = 0.8, las=2)
+}
+@
+\end{minipage}
+\caption{Histograma variable \emph{\Sexpr{str_replace_all(var,'_','\\\\_')}}}
+\end{figure}

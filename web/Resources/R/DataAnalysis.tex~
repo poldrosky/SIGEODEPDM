@@ -1,0 +1,2752 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[hmargin=3cm,vmargin=2cm]{geometry}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage[colorlinks=true, linkcolor=blue,
+citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
+\usepackage{longtable}
+
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+%\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{3\baselineskip}
+  \includegraphics[width=3cm]{udenar.png}\hspace{2cm}
+  \includegraphics[width=4cm]{icfes.png}\hspace{2cm}
+  \includegraphics[width=3cm]{coperativa.png} \\
+  \\ \vspace*{4\baselineskip}
+  \large
+  \bfseries
+  Detección de Patrones de rendimiento en competencias genéricas de las pruebas SABER PRO 2011 - 2012 \\ [5\baselineskip]
+  \normalfont
+  Análisis de Datos Conjunto ``saberpro'' \\
+  Version 1.0 \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\ [5\baselineskip]
+  
+  \textbf{2014} \\[2\baselineskip]    
+\end{titlepage}
+
+\pagestyle{plain}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman} 
+\tableofcontents 
+\listoffigures
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de datos.}
+
+
+
+
+\subsection{estuconsecutivo}\label{estuconsecutivo}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 97068. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:28:59 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & SBPRO201120000003 &   1 \\ 
+   \rowcolor[gray]{0.9}2 & SBPRO201120000007 &   1 \\ 
+  3 & SBPRO201120000008 &   1 \\ 
+   \rowcolor[gray]{0.9}4 & SBPRO201120000009 &   1 \\ 
+  5 & SBPRO201120000010 &   1 \\ 
+   \rowcolor[gray]{0.9}6 & SBPRO201120000011 &   1 \\ 
+  7 & SBPRO201120000012 &   1 \\ 
+   \rowcolor[gray]{0.9}8 & SBPRO201120000013 &   1 \\ 
+  9 & SBPRO201120000014 &   1 \\ 
+   \rowcolor[gray]{0.9}10 & SBPRO201120000015 &   1 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-7} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estuconsecutivo}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_cod\_aplicacion}\label{estu_cod_aplicacion}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 1. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:02 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & EK20112 & 97068 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-13} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_cod\_aplicacion}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_genero}\label{estu_genero}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:02 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & F & 56830 \\ 
+   \rowcolor[gray]{0.9}2 & M & 40238 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-19} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_genero}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_estado\_civil}\label{estu_estado_civil}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:02 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 01 & 77957 \\ 
+   \rowcolor[gray]{0.9}2 & 02 & 10488 \\ 
+  3 & 05 & 7176 \\ 
+   \rowcolor[gray]{0.9}4 & 04 & 1283 \\ 
+  5 & 03 & 164 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-25} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_estado\_civil}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_caracter\_academico}\label{inst_caracter_academico}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:02 2014
+{\footnotesize
+\begin{tabular}{rp{4cm}l}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & UNIVERSIDAD & 73674 \\ 
+   \rowcolor[gray]{0.9}2 & INSTITUCION UNIVERSITARIA & 20479 \\ 
+  3 & TECNICA PROFESIONAL & 1504 \\ 
+   \rowcolor[gray]{0.9}4 & INSTITUCION TECNOLOGICA & 988 \\ 
+  5 & ESCUELA TECNOLOGICA & 423 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-31} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_caracter\_academico}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_metodo\_prgm}\label{estu_metodo_prgm}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 4. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:02 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & PRESENCIAL & 84278 \\ 
+   \rowcolor[gray]{0.9}2 & DISTANCIA (TRADICIONAL) & 12256 \\ 
+  3 & A DISTANCIA (VIRTUAL) & 531 \\ 
+   \rowcolor[gray]{0.9}4 & SEMIPRESENCIAL &   3 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-37} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_metodo\_prgm}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_area\_conoc}\label{estu_area_conoc}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 8. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:03 2014
+{\footnotesize
+\begin{tabular}{rp{4cm}l}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & ECONOMIA, ADMINISTRACION, CONTADURIA Y AFINES & 27098 \\ 
+   \rowcolor[gray]{0.9}2 & CIENCIAS SOCIALES Y HUMANAS & 21074 \\ 
+  3 & INGENIERIA, ARQUITECTURA, URBANISMO Y AFINES & 20692 \\ 
+   \rowcolor[gray]{0.9}4 & CIENCIAS DE LA EDUCACION & 11851 \\ 
+  5 & CIENCIAS DE LA SALUD & 9662 \\ 
+   \rowcolor[gray]{0.9}6 & BELLAS ARTES & 3250 \\ 
+  7 & MATEMATICAS Y CIENCIAS NATURALES & 1918 \\ 
+   \rowcolor[gray]{0.9}8 & AGRONOMIA VETERINARIA Y AFINES & 1523 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-43} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_area\_conoc}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_cod\_grupo\_ref}\label{estu_cod_grupo_ref}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 19. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:03 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 109 & 26620 \\ 
+   \rowcolor[gray]{0.9}2 & 112 & 18903 \\ 
+  3 & 110 & 12001 \\ 
+   \rowcolor[gray]{0.9}4 & 105 & 10703 \\ 
+  5 & 113 & 6885 \\ 
+   \rowcolor[gray]{0.9}6 & 103 & 5810 \\ 
+  7 & 106 & 3728 \\ 
+   \rowcolor[gray]{0.9}8 & 114 & 3016 \\ 
+  9 & 101 & 2435 \\ 
+   \rowcolor[gray]{0.9}10 & 108 & 1952 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-49} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_cod\_grupo\_ref}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_semestre\_cursa}\label{estu_semestre_cursa}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 12. \\
+Nulos: & 127 (0.13\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:03 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 10 & 38491 \\ 
+   \rowcolor[gray]{0.9}2 & 09 & 31536 \\ 
+  3 & 08 & 10731 \\ 
+   \rowcolor[gray]{0.9}4 & 11 & 5681 \\ 
+  5 & 12 & 4640 \\ 
+   \rowcolor[gray]{0.9}6 & 07 & 2591 \\ 
+  7 & 06 & 1131 \\ 
+   \rowcolor[gray]{0.9}8 & 01 & 881 \\ 
+  9 & 05 & 817 \\ 
+   \rowcolor[gray]{0.9}10 & 04 & 306 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-55} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_semestre\_cursa}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_vlr\_matricula\_ant}\label{inst_vlr_matricula_ant}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 6. \\
+Nulos: & 1962 (2.02\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:03 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 3 & 34304 \\ 
+   \rowcolor[gray]{0.9}2 & 1 & 16862 \\ 
+  3 & 4 & 15859 \\ 
+   \rowcolor[gray]{0.9}4 & 2 & 13546 \\ 
+  5 & 5 & 12853 \\ 
+   \rowcolor[gray]{0.9}6 & NULL & 1962 \\ 
+  7 & 0 & 1682 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-61} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_vlr\_matricula\_ant}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_titulo\_bto}\label{estu_titulo_bto}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 3. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:03 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & A & 74172 \\ 
+   \rowcolor[gray]{0.9}2 & T & 18604 \\ 
+  3 & N & 4290 \\ 
+   \rowcolor[gray]{0.9}4 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-67} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_titulo\_bto}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_sn\_cabeza\_fmlia}\label{estu_sn_cabeza_fmlia}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & No & 80617 \\ 
+   \rowcolor[gray]{0.9}2 & Si & 16449 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-73} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_sn\_cabeza\_fmlia}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_cod\_ocup\_padre}\label{fami_cod_ocup_padre}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 12. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 21 & 24022 \\ 
+   \rowcolor[gray]{0.9}2 & 23 & 12119 \\ 
+  3 & 14 & 10948 \\ 
+   \rowcolor[gray]{0.9}4 & 26 & 10476 \\ 
+  5 & 19 & 9463 \\ 
+   \rowcolor[gray]{0.9}6 & 17 & 7693 \\ 
+  7 & 20 & 6014 \\ 
+   \rowcolor[gray]{0.9}8 & 16 & 4537 \\ 
+  9 & 13 & 3757 \\ 
+   \rowcolor[gray]{0.9}10 & 18 & 3547 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-79} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_cod\_ocup\_padre}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_cod\_ocup\_madre}\label{fami_cod_ocup_madre}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 12. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 22 & 41251 \\ 
+   \rowcolor[gray]{0.9}2 & 21 & 10857 \\ 
+  3 & 17 & 7012 \\ 
+   \rowcolor[gray]{0.9}4 & 23 & 6490 \\ 
+  5 & 26 & 5999 \\ 
+   \rowcolor[gray]{0.9}6 & 19 & 5774 \\ 
+  7 & 14 & 5152 \\ 
+   \rowcolor[gray]{0.9}8 & 18 & 4042 \\ 
+  9 & 16 & 3990 \\ 
+   \rowcolor[gray]{0.9}10 & 20 & 3331 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-85} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_cod\_ocup\_madre}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_estrato}\label{estu_estrato}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 7. \\
+Nulos: & 1 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 3 & 36353 \\ 
+   \rowcolor[gray]{0.9}2 & 2 & 29271 \\ 
+  3 & 4 & 13617 \\ 
+   \rowcolor[gray]{0.9}4 & 1 & 10042 \\ 
+  5 & 5 & 5067 \\ 
+   \rowcolor[gray]{0.9}6 & 6 & 2605 \\ 
+  7 & 8 & 112 \\ 
+   \rowcolor[gray]{0.9}8 & NULL &   1 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-91} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_estrato}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_nivel\_sisben}\label{fami_nivel_sisben}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 5 & 54478 \\ 
+   \rowcolor[gray]{0.9}2 & 2 & 19171 \\ 
+  3 & 1 & 14950 \\ 
+   \rowcolor[gray]{0.9}4 & 3 & 7663 \\ 
+  5 & 4 & 804 \\ 
+   \rowcolor[gray]{0.9}6 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-97} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_nivel\_sisben}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_material\_pisos}\label{econ_material_pisos}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 4 & 67521 \\ 
+   \rowcolor[gray]{0.9}2 & 2 & 14495 \\ 
+  3 & 5 & 11503 \\ 
+   \rowcolor[gray]{0.9}4 & 3 & 2737 \\ 
+  5 & 1 & 810 \\ 
+   \rowcolor[gray]{0.9}6 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-103} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_material\_pisos}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_sn\_internet}\label{econ_sn_internet}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:04 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 1 & 71395 \\ 
+   \rowcolor[gray]{0.9}2 & 0 & 25671 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-109} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_sn\_internet}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_sn\_servicio\_tv}\label{econ_sn_servicio_tv}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 1 & 75184 \\ 
+   \rowcolor[gray]{0.9}2 & 0 & 21882 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-115} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_sn\_servicio\_tv}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_sn\_computador}\label{econ_sn_computador}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 3 & 85332 \\ 
+   \rowcolor[gray]{0.9}2 & 0 & 11734 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-121} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_sn\_computador}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_sn\_automovil}\label{econ_sn_automovil}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 0 & 63722 \\ 
+   \rowcolor[gray]{0.9}2 & 1 & 33344 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-127} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_sn\_automovil}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_ing\_fmliar\_mensual}\label{fami_ing_fmliar_mensual}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 7. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 2 & 30265 \\ 
+   \rowcolor[gray]{0.9}2 & 3 & 24353 \\ 
+  3 & 4 & 19878 \\ 
+   \rowcolor[gray]{0.9}4 & 5 & 7670 \\ 
+  5 & 1 & 6756 \\ 
+   \rowcolor[gray]{0.9}6 & 6 & 4107 \\ 
+  7 & 7 & 4037 \\ 
+   \rowcolor[gray]{0.9}8 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-133} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_ing\_fmliar\_mensual}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_trabaja}\label{estu_trabaja}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 6 (0.01\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 0 & 43066 \\ 
+   \rowcolor[gray]{0.9}2 & 3 & 32537 \\ 
+  3 & 5 & 14150 \\ 
+   \rowcolor[gray]{0.9}4 & 4 & 7308 \\ 
+  5 & NULL &   6 \\ 
+   \rowcolor[gray]{0.9}6 & 7 &   1 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-139} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_trabaja}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_horas\_trabajo}\label{estu_horas_trabajo}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 21. \\
+Nulos: & 43073 (44.37\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:05 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & NULL & 43073 \\ 
+   \rowcolor[gray]{0.9}2 & 20 & 41152 \\ 
+  3 & 8 & 3178 \\ 
+   \rowcolor[gray]{0.9}4 & 10 & 1668 \\ 
+  5 & 12 & 1142 \\ 
+   \rowcolor[gray]{0.9}6 & 16 & 927 \\ 
+  7 & 6 & 846 \\ 
+   \rowcolor[gray]{0.9}8 & 15 & 840 \\ 
+  9 & 4 & 759 \\ 
+   \rowcolor[gray]{0.9}10 & 18 & 699 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-145} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_horas\_trabajo}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_lectura\_critica}\label{mod_lectura_critica}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 48. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 10,5 & 6752 \\ 
+   \rowcolor[gray]{0.9}2 & 10,3 & 6645 \\ 
+  3 & 10,8 & 6361 \\ 
+   \rowcolor[gray]{0.9}4 & 9,8 & 5422 \\ 
+  5 & 9,6 & 4803 \\ 
+   \rowcolor[gray]{0.9}6 & 9,4 & 4354 \\ 
+  7 & 9,3 & 3812 \\ 
+   \rowcolor[gray]{0.9}8 & 10,7 & 3588 \\ 
+  9 & 10,1 & 3393 \\ 
+   \rowcolor[gray]{0.9}10 & 9,1 & 3276 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-151} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_lectura\_critica}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_comunica\_escrita\_punt}\label{mod_comunica_escrita_punt}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 64. \\
+Nulos: & 1731 (1.78\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 9,9 & 4086 \\ 
+   \rowcolor[gray]{0.9}2 & 10 & 3888 \\ 
+  3 & 10,5 & 3842 \\ 
+   \rowcolor[gray]{0.9}4 & 10,1 & 3829 \\ 
+  5 & 10,3 & 3779 \\ 
+   \rowcolor[gray]{0.9}6 & 9,7 & 3752 \\ 
+  7 & 10,2 & 3740 \\ 
+   \rowcolor[gray]{0.9}8 & 9,8 & 3625 \\ 
+  9 & 10,4 & 3607 \\ 
+   \rowcolor[gray]{0.9}10 & 9,6 & 3403 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-157} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_comunica\_escrita\_punt}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_comunica\_escrita\_desem}\label{mod_comunica_escrita_desem}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 8. \\
+Nulos: & 1731 (1.78\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 4 & 33727 \\ 
+   \rowcolor[gray]{0.9}2 & 5 & 28430 \\ 
+  3 & 3 & 13437 \\ 
+   \rowcolor[gray]{0.9}4 & 6 & 11935 \\ 
+  5 & 7 & 3937 \\ 
+   \rowcolor[gray]{0.9}6 & 2 & 2946 \\ 
+  7 & NULL & 1731 \\ 
+   \rowcolor[gray]{0.9}8 & 8 & 559 \\ 
+  9 & 1 & 366 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-163} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_comunica\_escrita\_desem}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_razona\_cuantitativo\_punt}\label{mod_razona_cuantitativo_punt}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 56. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 9,8 & 7443 \\ 
+   \rowcolor[gray]{0.9}2 & 10 & 7160 \\ 
+  3 & 10,2 & 6747 \\ 
+   \rowcolor[gray]{0.9}4 & 10,4 & 6079 \\ 
+  5 & 10,5 & 5549 \\ 
+   \rowcolor[gray]{0.9}6 & 10,7 & 4958 \\ 
+  7 & 9,6 & 3838 \\ 
+   \rowcolor[gray]{0.9}8 & 9,5 & 3544 \\ 
+  9 & 9,7 & 3504 \\ 
+   \rowcolor[gray]{0.9}10 & 9,4 & 3482 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-169} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_razona\_cuantitativo\_punt}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_ingles\_punt}\label{mod_ingles_punt}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 42. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 9,2 & 8936 \\ 
+   \rowcolor[gray]{0.9}2 & 10,3 & 6226 \\ 
+  3 & 9,4 & 5472 \\ 
+   \rowcolor[gray]{0.9}4 & 9,5 & 5432 \\ 
+  5 & 9,6 & 5313 \\ 
+   \rowcolor[gray]{0.9}6 & 9,7 & 4932 \\ 
+  7 & 9,8 & 4478 \\ 
+   \rowcolor[gray]{0.9}8 & 9,9 & 4145 \\ 
+  9 & 10 & 3748 \\ 
+   \rowcolor[gray]{0.9}10 & 10,1 & 3606 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-175} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_ingles\_punt}}
+\end{figure}
+
+
+
+
+
+\subsection{mod\_ingles\_desem}\label{mod_ingles_desem}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:06 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & A1 & 28048 \\ 
+   \rowcolor[gray]{0.9}2 & A- & 21981 \\ 
+  3 & B1 & 18978 \\ 
+   \rowcolor[gray]{0.9}4 & A2 & 18834 \\ 
+  5 & B+ & 9227 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-181} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{mod\_ingles\_desem}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_edad}\label{estu_edad}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 64. \\
+Nulos: & 82 (0.08\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 24 & 15404 \\ 
+   \rowcolor[gray]{0.9}2 & 25 & 14364 \\ 
+  3 & 26 & 10371 \\ 
+   \rowcolor[gray]{0.9}4 & 27 & 7683 \\ 
+  5 & 23 & 7281 \\ 
+   \rowcolor[gray]{0.9}6 & 28 & 5957 \\ 
+  7 & 29 & 4729 \\ 
+   \rowcolor[gray]{0.9}8 & 30 & 3738 \\ 
+  9 & 31 & 3282 \\ 
+   \rowcolor[gray]{0.9}10 & 32 & 2933 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-187} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_edad}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_discapacidad}\label{estu_discapacidad}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 5. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 0 & 96958 \\ 
+   \rowcolor[gray]{0.9}2 & 4 &  74 \\ 
+  3 & 16 &  13 \\ 
+   \rowcolor[gray]{0.9}4 & 1 &  12 \\ 
+  5 & 8 &  11 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-193} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_discapacidad}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_programa\_codzona}\label{estu_programa_codzona}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 6. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 2 & 47063 \\ 
+   \rowcolor[gray]{0.9}2 & 3 & 16500 \\ 
+  3 & 6 & 15312 \\ 
+   \rowcolor[gray]{0.9}4 & 5 & 11766 \\ 
+  5 & 1 & 5283 \\ 
+   \rowcolor[gray]{0.9}6 & 4 & 1144 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-199} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_programa\_codzona}}
+\end{figure}
+
+
+
+
+
+\subsection{dipo\_cod\_municipio}\label{dipo_cod_municipio}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 88. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 11001 & 33544 \\ 
+   \rowcolor[gray]{0.9}2 & 05001 & 10145 \\ 
+  3 & 76001 & 5748 \\ 
+   \rowcolor[gray]{0.9}4 & 08001 & 5504 \\ 
+  5 & 68001 & 4303 \\ 
+   \rowcolor[gray]{0.9}6 & 13001 & 3523 \\ 
+  7 & 73001 & 3367 \\ 
+   \rowcolor[gray]{0.9}8 & 54518 & 3199 \\ 
+  9 & 52001 & 2064 \\ 
+   \rowcolor[gray]{0.9}10 & 47001 & 1850 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-205} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{dipo\_cod\_municipio}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_programa\_zona}\label{estu_programa_zona}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 6. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & CENTRO ORIENTE & 47063 \\ 
+   \rowcolor[gray]{0.9}2 & EJE CAFETERO & 16500 \\ 
+  3 & CARIBE & 15312 \\ 
+   \rowcolor[gray]{0.9}4 & PACIFICO & 11766 \\ 
+  5 & CENTRO SUR & 5283 \\ 
+   \rowcolor[gray]{0.9}6 & LLANO & 1144 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-211} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_programa\_zona}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_reside\_coddpto}\label{estu_reside_coddpto}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 33. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:07 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 11000 & 29035 \\ 
+   \rowcolor[gray]{0.9}2 & 05000 & 11330 \\ 
+  3 & 76000 & 8140 \\ 
+   \rowcolor[gray]{0.9}4 & 08000 & 5619 \\ 
+  5 & 68000 & 5351 \\ 
+   \rowcolor[gray]{0.9}6 & 13000 & 4059 \\ 
+  7 & 25000 & 3763 \\ 
+   \rowcolor[gray]{0.9}8 & 54000 & 2722 \\ 
+  9 & 52000 & 2520 \\ 
+   \rowcolor[gray]{0.9}10 & 15000 & 2459 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-217} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_reside\_coddpto}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_reside\_dpto}\label{estu_reside_dpto}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 33. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & BOGOTÁ D.C & 29035 \\ 
+   \rowcolor[gray]{0.9}2 & ANTIOQUIA & 11330 \\ 
+  3 & VALLE DEL CAUCA & 8140 \\ 
+   \rowcolor[gray]{0.9}4 & ATLÁNTICO & 5619 \\ 
+  5 & SANTANDER & 5351 \\ 
+   \rowcolor[gray]{0.9}6 & BOLÍVAR & 4059 \\ 
+  7 & CUNDINAMARCA & 3763 \\ 
+   \rowcolor[gray]{0.9}8 & NORTE DE SANTANDER & 2722 \\ 
+  9 & NARIÑO & 2520 \\ 
+   \rowcolor[gray]{0.9}10 & BOYACÁ & 2459 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-223} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_reside\_dpto}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_vive\_flia}\label{estu_vive_flia}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & Si & 79514 \\ 
+   \rowcolor[gray]{0.9}2 & No & 17552 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-229} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_vive\_flia}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_num\_pers\_grup\_fam}\label{fami_num_pers_grup_fam}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 3. \\
+Nulos: & 85 (0.09\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & HASTA 6 & 54927 \\ 
+   \rowcolor[gray]{0.9}2 & HASTA 3 & 35883 \\ 
+  3 & MAS DE 6 & 6173 \\ 
+   \rowcolor[gray]{0.9}4 & NULL &  85 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-235} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_num\_pers\_grup\_fam}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_pers\_cargo}\label{estu_pers_cargo}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 85 (0.09\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & No & 68624 \\ 
+   \rowcolor[gray]{0.9}2 & Si & 28359 \\ 
+  3 & NULL &  85 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-241} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_pers\_cargo}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_tipo}\label{inst_tipo}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 6. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & NO OFICIAL - CORPORACION & 30282 \\ 
+   \rowcolor[gray]{0.9}2 & NO OFICIAL - FUNDACION & 27867 \\ 
+  3 & OFICIAL DEPARTAMENTAL & 20126 \\ 
+   \rowcolor[gray]{0.9}4 & OFICIAL NACIONAL & 16607 \\ 
+  5 & OFICIAL MUNICIPAL & 2139 \\ 
+   \rowcolor[gray]{0.9}6 & REGIMEN ESPECIAL &  47 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-247} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_tipo}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_cod\_dpto}\label{inst_cod_dpto}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 28. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:08 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 11000 & 33544 \\ 
+   \rowcolor[gray]{0.9}2 & 05000 & 11533 \\ 
+  3 & 76000 & 7058 \\ 
+   \rowcolor[gray]{0.9}4 & 08000 & 5636 \\ 
+  5 & 68000 & 4870 \\ 
+   \rowcolor[gray]{0.9}6 & 54000 & 4866 \\ 
+  7 & 73000 & 3619 \\ 
+   \rowcolor[gray]{0.9}8 & 13000 & 3523 \\ 
+  9 & 15000 & 2375 \\ 
+   \rowcolor[gray]{0.9}10 & 52000 & 2067 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-253} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_cod\_dpto}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_financiacion\_matricula}\label{estu_financiacion_matricula}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 16. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 4 & 38664 \\ 
+   \rowcolor[gray]{0.9}2 & 8 & 18738 \\ 
+  3 & 1 & 12302 \\ 
+   \rowcolor[gray]{0.9}4 & 5 & 5945 \\ 
+  5 & 12 & 4732 \\ 
+   \rowcolor[gray]{0.9}6 & 0 & 3644 \\ 
+  7 & 9 & 3243 \\ 
+   \rowcolor[gray]{0.9}8 & 2 & 2924 \\ 
+  9 & 6 & 2194 \\ 
+   \rowcolor[gray]{0.9}10 & 10 & 1479 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-259} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_financiacion\_matricula}}
+\end{figure}
+
+
+
+
+
+\subsection{econ\_electrodomesticos}\label{econ_electrodomesticos}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & Si & 95167 \\ 
+   \rowcolor[gray]{0.9}2 & No & 1899 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-265} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{econ\_electrodomesticos}}
+\end{figure}
+
+
+
+
+
+\subsection{estu\_hogar\_actual}\label{estu_hogar_actual}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 2. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & 1 & 79514 \\ 
+   \rowcolor[gray]{0.9}2 & 2 & 17552 \\ 
+  3 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-271} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{estu\_hogar\_actual}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_educa\_padres}\label{fami_educa_padres}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 10. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\footnotesize
+\begin{tabular}{rp{4cm}l}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & BACHILLERATO COMPLETO & 19965 \\ 
+   \rowcolor[gray]{0.9}2 & EDUCACION PROFESIONAL CON TITULO & 17915 \\ 
+  3 & BACHILLERATO INCOMPLETO & 11690 \\ 
+   \rowcolor[gray]{0.9}4 & POSTGRADO & 10964 \\ 
+  5 & EDUCACION TECNICA O TECNOLOGICA CON TITULO & 10208 \\ 
+   \rowcolor[gray]{0.9}6 & PRIMARIA COMPLETA & 9980 \\ 
+  7 & PRIMARIA INCOMPLETA & 8875 \\ 
+   \rowcolor[gray]{0.9}8 & EDUCACION PROFESIONAL SIN TITULO & 3501 \\ 
+  9 & EDUCACION TECNICA O TECNOLOGICA SIN TITULO & 3303 \\ 
+   \rowcolor[gray]{0.9}10 & NINGUNO & 665 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-277} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_educa\_padres}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_mpio\_programa}\label{inst_mpio_programa}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 88. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & BOGOTÁ & 33544 \\ 
+   \rowcolor[gray]{0.9}2 & MEDELLÍN & 10145 \\ 
+  3 & CALI & 5748 \\ 
+   \rowcolor[gray]{0.9}4 & BARRANQUILLA & 5504 \\ 
+  5 & BUCARAMANGA & 4303 \\ 
+   \rowcolor[gray]{0.9}6 & CARTAGENA & 3523 \\ 
+  7 & IBAGUÉ & 3367 \\ 
+   \rowcolor[gray]{0.9}8 & PAMPLONA & 3199 \\ 
+  9 & PASTO & 2064 \\ 
+   \rowcolor[gray]{0.9}10 & SANTA MARTA & 1850 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-283} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_mpio\_programa}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_dpto\_programa}\label{inst_dpto_programa}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 28. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:09 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & BOGOTÁ D.C & 33544 \\ 
+   \rowcolor[gray]{0.9}2 & ANTIOQUIA & 11533 \\ 
+  3 & VALLE DEL CAUCA & 7058 \\ 
+   \rowcolor[gray]{0.9}4 & ATLÁNTICO & 5636 \\ 
+  5 & SANTANDER & 4870 \\ 
+   \rowcolor[gray]{0.9}6 & NORTE DE SANTANDER & 4866 \\ 
+  7 & TOLIMA & 3619 \\ 
+   \rowcolor[gray]{0.9}8 & BOLÍVAR & 3523 \\ 
+  9 & BOYACÁ & 2375 \\ 
+   \rowcolor[gray]{0.9}10 & NARIÑO & 2067 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-289} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_dpto\_programa}}
+\end{figure}
+
+
+
+
+
+\subsection{inst\_programa\_zona}\label{inst_programa_zona}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 6. \\
+Nulos: & 0 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:10 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & CENTRO ORIENTE & 47063 \\ 
+   \rowcolor[gray]{0.9}2 & EJE CAFETERO & 16500 \\ 
+  3 & CARIBE & 15312 \\ 
+   \rowcolor[gray]{0.9}4 & PACIFICO & 11766 \\ 
+  5 & CENTRO SUR & 5283 \\ 
+   \rowcolor[gray]{0.9}6 & LLANO & 1144 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-295} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{inst\_programa\_zona}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_ocup\_madre}\label{fami_ocup_madre}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 3. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:10 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & HOGAR & 47250 \\ 
+   \rowcolor[gray]{0.9}2 & INDEPENDIENTE & 27508 \\ 
+  3 & EMPLEADO & 22308 \\ 
+   \rowcolor[gray]{0.9}4 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-301} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_ocup\_madre}}
+\end{figure}
+
+
+
+
+
+\subsection{fami\_ocup\_padre}\label{fami_ocup_padre}
+
+
+
+\begin{tabular}{rr}
+\toprule
+Distintos: & 3. \\
+Nulos: & 2 (0\%). \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+\begin{figure}[H]
+\begin{minipage}{0.5\linewidth}
+\centering
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:10 2014
+{\small
+\begin{tabular}{rlr}
+  \toprule
+ & Valor & Frec. \\ 
+  \midrule
+1 & INDEPENDIENTE & 56860 \\ 
+   \rowcolor[gray]{0.9}2 & EMPLEADO & 27775 \\ 
+  3 & HOGAR & 12431 \\ 
+   \rowcolor[gray]{0.9}4 & NULL &   2 \\ 
+   \bottomrule
+\end{tabular}
+}
+
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\textwidth]{figure/unnamed-chunk-307} 
+
+\end{knitrout}
+\end{minipage}
+\caption{Histograma variable \emph{fami\_ocup\_padre}}
+\end{figure}
+
+
+
+
+\clearpage
+\section{Resumen de datos nulos.}
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Wed Jul  2 12:29:10 2014
+\begin{longtable}{rlrl}
+  \toprule
+ & Atributo & Nulos (\%) & Detalle \\ 
+  \midrule
+51 & estu\_horas\_trabajo & 44.37 & ver Sección~\ref{estu_horas_trabajo} \\ 
+  50 & inst\_vlr\_matricula\_ant & 2.02 & ver Sección~\ref{inst_vlr_matricula_ant} \\ 
+  49 & mod\_comunica\_escrita\_punt & 1.78 & ver Sección~\ref{mod_comunica_escrita_punt} \\ 
+  48 & mod\_comunica\_escrita\_desem & 1.78 & ver Sección~\ref{mod_comunica_escrita_desem} \\ 
+  47 & estu\_semestre\_cursa & 0.13 & ver Sección~\ref{estu_semestre_cursa} \\ 
+  46 & fami\_num\_pers\_grup\_fam & 0.09 & ver Sección~\ref{fami_num_pers_grup_fam} \\ 
+  45 & estu\_pers\_cargo & 0.09 & ver Sección~\ref{estu_pers_cargo} \\ 
+  44 & estu\_edad & 0.08 & ver Sección~\ref{estu_edad} \\ 
+  43 & estu\_trabaja & 0.01 & ver Sección~\ref{estu_trabaja} \\ 
+  42 & estuconsecutivo & 0.00 & ver Sección~\ref{estuconsecutivo} \\ 
+  41 & estu\_cod\_aplicacion & 0.00 & ver Sección~\ref{estu_cod_aplicacion} \\ 
+  40 & estu\_genero & 0.00 & ver Sección~\ref{estu_genero} \\ 
+  39 & estu\_estado\_civil & 0.00 & ver Sección~\ref{estu_estado_civil} \\ 
+  38 & inst\_caracter\_academico & 0.00 & ver Sección~\ref{inst_caracter_academico} \\ 
+  37 & estu\_metodo\_prgm & 0.00 & ver Sección~\ref{estu_metodo_prgm} \\ 
+  36 & estu\_area\_conoc & 0.00 & ver Sección~\ref{estu_area_conoc} \\ 
+  35 & estu\_cod\_grupo\_ref & 0.00 & ver Sección~\ref{estu_cod_grupo_ref} \\ 
+  34 & estu\_titulo\_bto & 0.00 & ver Sección~\ref{estu_titulo_bto} \\ 
+  33 & estu\_sn\_cabeza\_fmlia & 0.00 & ver Sección~\ref{estu_sn_cabeza_fmlia} \\ 
+  32 & fami\_cod\_ocup\_padre & 0.00 & ver Sección~\ref{fami_cod_ocup_padre} \\ 
+  31 & fami\_cod\_ocup\_madre & 0.00 & ver Sección~\ref{fami_cod_ocup_madre} \\ 
+  30 & estu\_estrato & 0.00 & ver Sección~\ref{estu_estrato} \\ 
+  29 & fami\_nivel\_sisben & 0.00 & ver Sección~\ref{fami_nivel_sisben} \\ 
+  28 & econ\_material\_pisos & 0.00 & ver Sección~\ref{econ_material_pisos} \\ 
+  27 & econ\_sn\_internet & 0.00 & ver Sección~\ref{econ_sn_internet} \\ 
+  26 & econ\_sn\_servicio\_tv & 0.00 & ver Sección~\ref{econ_sn_servicio_tv} \\ 
+  25 & econ\_sn\_computador & 0.00 & ver Sección~\ref{econ_sn_computador} \\ 
+  24 & econ\_sn\_automovil & 0.00 & ver Sección~\ref{econ_sn_automovil} \\ 
+  23 & fami\_ing\_fmliar\_mensual & 0.00 & ver Sección~\ref{fami_ing_fmliar_mensual} \\ 
+  22 & mod\_lectura\_critica & 0.00 & ver Sección~\ref{mod_lectura_critica} \\ 
+  21 & mod\_razona\_cuantitativo\_punt & 0.00 & ver Sección~\ref{mod_razona_cuantitativo_punt} \\ 
+  20 & mod\_ingles\_punt & 0.00 & ver Sección~\ref{mod_ingles_punt} \\ 
+  19 & mod\_ingles\_desem & 0.00 & ver Sección~\ref{mod_ingles_desem} \\ 
+  18 & estu\_discapacidad & 0.00 & ver Sección~\ref{estu_discapacidad} \\ 
+  17 & estu\_programa\_codzona & 0.00 & ver Sección~\ref{estu_programa_codzona} \\ 
+  16 & dipo\_cod\_municipio & 0.00 & ver Sección~\ref{dipo_cod_municipio} \\ 
+  15 & estu\_programa\_zona & 0.00 & ver Sección~\ref{estu_programa_zona} \\ 
+  14 & estu\_reside\_coddpto & 0.00 & ver Sección~\ref{estu_reside_coddpto} \\ 
+  13 & estu\_reside\_dpto & 0.00 & ver Sección~\ref{estu_reside_dpto} \\ 
+  12 & estu\_vive\_flia & 0.00 & ver Sección~\ref{estu_vive_flia} \\ 
+  11 & inst\_tipo & 0.00 & ver Sección~\ref{inst_tipo} \\ 
+  10 & inst\_cod\_dpto & 0.00 & ver Sección~\ref{inst_cod_dpto} \\ 
+  9 & estu\_financiacion\_matricula & 0.00 & ver Sección~\ref{estu_financiacion_matricula} \\ 
+  8 & econ\_electrodomesticos & 0.00 & ver Sección~\ref{econ_electrodomesticos} \\ 
+  7 & estu\_hogar\_actual & 0.00 & ver Sección~\ref{estu_hogar_actual} \\ 
+  6 & fami\_educa\_padres & 0.00 & ver Sección~\ref{fami_educa_padres} \\ 
+  5 & inst\_mpio\_programa & 0.00 & ver Sección~\ref{inst_mpio_programa} \\ 
+  4 & inst\_dpto\_programa & 0.00 & ver Sección~\ref{inst_dpto_programa} \\ 
+  3 & inst\_programa\_zona & 0.00 & ver Sección~\ref{inst_programa_zona} \\ 
+  2 & fami\_ocup\_madre & 0.00 & ver Sección~\ref{fami_ocup_madre} \\ 
+  1 & fami\_ocup\_padre & 0.00 & ver Sección~\ref{fami_ocup_padre} \\ 
+   \bottomrule
+\caption{Resumen de atributos y su porcentaje de datos nulos.} 
+\end{longtable}
+
+
+\end{document}

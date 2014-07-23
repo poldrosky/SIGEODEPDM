@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="templates/layoutTemplate.xhtml">
+
+        <ui:define name="titlePage">
+            Análisis de Datos - BIENVENIDO
+        </ui:define>
+        <ui:define name="title">
+            Análisis de Datos - BIENVENIDO
+        </ui:define>         
+        <ui:define name="content"> 
+            <br/>
+
+            <h:form>
+                <p:messages autoUpdate="true" />
+                <p:panelGrid  style="margin-bottom:10px" cellpadding="5">
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="fact" value="Eventos: " />
+                            <p:selectOneMenu id="fact" value="#{dataView.fact}">
+                                <f:selectItem itemLabel="Seleccione una " itemValue="" />
+                                <f:selectItems value="#{dataView.facts}" />
+                                <f:ajax 
+                                    event="change"
+                                    listener="#{dataView.load}"
+                                    render="variablesList"/>
+                            </p:selectOneMenu>                   
+                        </p:column>
+                        <p:column>
+                            <p:pickList id="variablesList" value="#{dataView.variables}" 
+                                        var="selectItem" 
+                                        itemLabel="#{selectItem.label}" 
+                                        itemValue="#{selectItem.value}"
+                                        />
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+                <p:commandButton  action="#{dataView.loadData}" value="Submit" style="margin-left: auto"/> 
+                <br/>
+                <p:dataTable id="table1" 
+                             value="#{dataView.colNameData}"
+                             var="colNameData"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="10" style="margin-bottom:20px">
+
+                    <f:facet name="{Exporters}">
+                        <h:commandLink>
+                            <p:graphicImage name="/Resources/img/excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="table1" fileName="datos" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/Resources/img/pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="table1" fileName="datos"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/Resources/img/csv.png" width="24"/>
+                            <p:dataExporter type="csv" target="table1" fileName="datos" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/Resources/img/xml.png" width="24"/>
+                            <p:dataExporter type="xml" target="table1" fileName="datos" />
+                        </h:commandLink>
+                    </f:facet>
+
+                    <p:columns value="#{dataView.colNameData}" var="colNameData" columnIndexVar="index">  
+                        <f:facet name="header">  
+                            <h:outputText value="#{colNameData}"/>  
+                        </f:facet>  
+                        <h:outputText value="#{data[index]}"/>  
+                    </p:columns>  
+                </p:dataTable>  
+            </h:form> 
+        </ui:define>
+    </ui:composition>
+</html>
+

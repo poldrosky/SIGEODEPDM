@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html; charset=UTF-8">
+        <h:head> 
+            <link rel="shortcut icon" href="../../Resources/img/icon.gif"/>
+            <meta 
+                http-equiv="Content-Type" 
+                content="text/html; charset=UTF-8" />
+            <link 
+                rel="stylesheet" 
+                href="./../../Resources/css/style.css" 
+                type="text/css" />
+            <ui:insert name="head">  
+            </ui:insert>
+            <script type="text/javascript">                
+                function pageInactive() {//muestra la pagina deshabilitada                    
+                    document.getElementById('IdInactivityLayer').style.display = "block";
+                }
+                function pageActive() {//muestra la pagina habilitada
+                    document.getElementById('IdInactivityLayer').style.display = "none";
+                }
+            </script> 
+            <title>
+                <ui:insert name="titlePage">
+                </ui:insert>
+            </title>
+        </h:head>
+
+        <h:body>
+            <div class="InactivityLayer" id="IdInactivityLayer"> Procesando...</div>            
+
+            <p:panelGrid rendered="#{!loginMB.autenticado}" style="margin-top: 160px; margin-left: 210px; ">
+                <p:row>
+                    <p:column>
+                        <a href="./index.html">No se ha iniciado sesion</a>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:layout fullPage="true" rendered="#{loginMB.autenticado}" >  
+                <!-- ****************************** MENU LATERAL (PARTE IZQUIERDA) ************************ -->
+                <p:layoutUnit position="west" size="300" header="&nbsp;" collapsible="true"> 
+                    <h:form target="_blank">
+                        <h:commandButton value="+" action="home" image="../../Resources/img/logo2.png" />                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                
+                        
+                    </h:form>
+                    
+                    <h:form id="IdForm0">                          
+                          <p:accordionPanel  activeIndex="#{loginMB.activeIndexAcoordion1}" >                            
+                            <p:tab title="Menu Principal"  rendered="#{loginMB.permissionRegistryDataSection}">
+                                <p:menu style="width: 200px; z-index:23;">                               
+                                    <p:menuitem 
+                                        icon="ui-icon-home"
+                                        value="Calidad de datos"
+                                        action="dataAnalysis"
+                                        ajax="false"/>  
+                                                                     
+                                </p:menu>                               
+                            </p:tab>
+                                                     
+                            <p:tab title="GENERAL">
+                                <p:panel 
+                                    footer="#{loginMB.userName}" 
+                                    header="#{loginMB.userLogin} - #{loginMB.userJob}" >
+                                    <p:graphicImage value="../../Resources/img/user.png"/>                                    
+                                </p:panel>
+
+                                <br/>
+                                <p:menu style="width: 200px; z-index:23;">                               
+                                    <p:menuitem 
+                                        icon="ui-icon-home"
+                                        value="Inicio"
+                                        action="homePage"
+                                        ajax="false"/>  
+                                    <p:menuitem 
+                                        icon="ui-icon-circle-close"
+                                        value="Cerrar Sesión"
+                                        actionListener="#{loginMB.logout2}"
+                                        ajax="false"/>                                      
+                                </p:menu> 
+                            </p:tab>                            
+                        </p:accordionPanel>
+
+                        
+                    </h:form>  
+
+                </p:layoutUnit>  
+                <!-- ****************************** CONTENIDO (PARTE CENTRAL) ************************ -->
+                <p:layoutUnit position="center" > 
+                    <p:ajaxStatus 
+                        style=" position:fixed; 
+                        top: 5px; 
+                        right:35px; 
+                        width:17px;
+                        height:17px; 
+                        z-index: 21;"                        
+                        id="ajaxStatusPanel">  
+                        <f:facet name="start">  
+                            <h:graphicImage value="../../Resources/img/ajaxloading.gif" />                      
+                        </f:facet>          
+                        <f:facet name="complete">  
+                            <h:outputText value="&nbsp;" />  
+                        </f:facet>  
+                    </p:ajaxStatus>
+                    
+                    <div id="welcome">
+                        <h1>
+                            <ui:insert name="title" >  
+
+                            </ui:insert>
+                        </h1>
+                    </div>
+                    <div>
+                        <ui:insert name="content">   
+                        </ui:insert>
+                    </div>
+
+                </p:layoutUnit>
+            </p:layout>            
+            <ui:insert name="dialogs">   
+            </ui:insert>
+        </h:body>
+    </f:view>
+</html>
