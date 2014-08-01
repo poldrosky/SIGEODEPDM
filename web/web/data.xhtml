@@ -17,7 +17,7 @@
         <ui:define name="content"> 
             <br/>
 
-            <h:form>
+            <h:form id="form">
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px" cellpadding="5">
                     <p:row>
@@ -29,7 +29,8 @@
                                 <f:ajax 
                                     event="change"
                                     listener="#{dataView.load}"
-                                    render="variablesList"/>
+                                    render="variablesList"
+                                    />
                             </p:selectOneMenu>                   
                         </p:column>
                         <p:column>
@@ -43,43 +44,25 @@
 
 
                 </p:panelGrid>
-                <p:commandButton  action="#{dataView.loadData}" value="Submit" style="margin-left: auto"/> 
+                <p:commandButton  action="#{dataView.loadData}" value="Submit" style="margin-left: auto" update="form:table1" ajax="true"/> 
                 <br/>
                 <p:dataTable id="table1" 
-                             value="#{dataView.colNameData}"
-                             var="colNameData"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             value="#{dataView.data}"
+                             var="data"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" style="margin-bottom:20px">
 
-                    <f:facet name="{Exporters}">
-                        <h:commandLink>
-                            <p:graphicImage name="/Resources/img/excel.png" width="24"/>
-                            <p:dataExporter type="xls" target="table1" fileName="datos" />
-                        </h:commandLink>
-
-                        <h:commandLink>
-                            <p:graphicImage name="/Resources/img/pdf.png" width="24"/>
-                            <p:dataExporter type="pdf" target="table1" fileName="datos"/>
-                        </h:commandLink>
-
-                        <h:commandLink>
-                            <p:graphicImage name="/Resources/img/csv.png" width="24"/>
-                            <p:dataExporter type="csv" target="table1" fileName="datos" />
-                        </h:commandLink>
-
-                        <h:commandLink>
-                            <p:graphicImage name="/Resources/img/xml.png" width="24"/>
-                            <p:dataExporter type="xml" target="table1" fileName="datos" />
-                        </h:commandLink>
-                    </f:facet>
-
+                    
                     <p:columns value="#{dataView.colNameData}" var="colNameData" columnIndexVar="index">  
                         <f:facet name="header">  
                             <h:outputText value="#{colNameData}"/>  
                         </f:facet>  
                         <h:outputText value="#{data[index]}"/>  
+                        
                     </p:columns>  
-                </p:dataTable>  
+                </p:dataTable>
+              
+   
             </h:form> 
         </ui:define>
     </ui:composition>
