@@ -2,24 +2,18 @@ package Controller;
 
 import beans.connection.ConnectionJdbcMB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
-import org.primefaces.model.DualListModel;
-import beans.connection.ConnectionJdbcMB;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import managedBeans.login.ApplicationControlMB;
-import org.primefaces.event.SlideEndEvent;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @SessionScoped
@@ -37,12 +31,12 @@ public class DataView {
     private int countColNameData;
     private int countData;
     private ArrayList<Object[]> data;
-    private ArrayList<String> colNameData;
+    private List<String> colNameData;
 
     public DataView() {
     }
 
-    public DataView(int countData, int countColNameData, ArrayList<Object[]> data, ArrayList<String> colNameData) {
+    public DataView(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
@@ -51,23 +45,23 @@ public class DataView {
 
     @PostConstruct
     public void init() {
-        variablesSource = new ArrayList<SelectItem>();
-        variablesTarget = new ArrayList<SelectItem>();
+        colNameData = new ArrayList<>();
+        variablesSource = new ArrayList<>();
+        variablesTarget = new ArrayList<>();
 
-        SelectItemGroup g1 = new SelectItemGroup("Fatales");
-        g1.setSelectItems(new SelectItem[]{new SelectItem("fact_murder", "Homicidios"), new SelectItem("fact_suicide", "Suicidios"),
-                    new SelectItem("fact_traffic", "Muertes Accidentes Tránsito"), new SelectItem("fact_accidents", "Muertes Accidentales")});
+        facts = new ArrayList<>();
+        facts.add(new SelectItem("fact_murder", "Homicidios"));
+        facts.add(new SelectItem("fact_suicide", "Suicidios"));
+        facts.add(new SelectItem("fact_traffic", "Muertes Accidentes Tránsito"));
+        facts.add(new SelectItem("fact_accidents", "Muertes Accidentales"));
 
-        SelectItemGroup g2 = new SelectItemGroup("No Fatales");
-        g2.setSelectItems(new SelectItem[]{new SelectItem("fact_interpersonal", "Interpersonal"), new SelectItem("fact_intrafamiliar", "Intrafamiliar"),
-                    new SelectItem("fact_self_inflicted", "Auto Inflingido"), new SelectItem("fact_transport", "Lesiones de Tránsito"),
-                    new SelectItem("fact_unintencional", "No intencional")});
+        facts.add(new SelectItem("fact_interpersonal", "Interpersonal"));
+        facts.add(new SelectItem("fact_intrafamiliar", "Intrafamiliar"));
+        facts.add(new SelectItem("fact_self_inflicted", "Auto Inflingido"));
+        facts.add(new SelectItem("fact_transport", "Lesiones de Tránsito"));
+        facts.add(new SelectItem("fact_unintencional", "No intencional"));
 
-        facts = new ArrayList<SelectItem>();
-        facts.add(g1);
-        facts.add(g2);
-
-        variables = new DualListModel<SelectItem>(variablesSource, variablesTarget);
+        variables = new DualListModel<>(variablesSource, variablesTarget);
 
 
     }
@@ -106,38 +100,38 @@ public class DataView {
     public void loadData() throws SQLException {
         colNameData = new ArrayList<>();
         data = new ArrayList<>();
-        ArrayList<String> arrayList = new ArrayList<String>(); 
         
+        
+        
+        ArrayList<String> arrayList = new ArrayList<>();
+
         for (int i = 0; i < this.variables.getTarget().size(); i++) {
-            for (SelectItem fuente : variablesSource) {                
-                String a=(String)fuente.getValue();
-                String b=String.valueOf(variables.getTarget().get(i));
-                
+            for (SelectItem fuente : variablesSource) {
+                String a = (String) fuente.getValue();
+                String b = String.valueOf(variables.getTarget().get(i));
+
                 if (a.equals(b)) {
                     colNameData.add(fuente.getLabel());
                     break;
                 }
-            }            
-        }
-        
-        ResultSet rs = connectionJdbcMB.consult("Select * from common_variables");
-        
-        while (rs.next()){
-            int i = 1;
-            while(i<= 3){
-                arrayList.add(rs.getString(i++));
             }
         }
-        System.out.println(""+arrayList);
+
+        if (this.fact.equals("fact_murder")){
+            String aux;
+            aux = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
+                    + " join dim_neighborhood natural join dim_quadrant natural join dim_murder";
         
-        data.add(new Object[]{arrayList});
+        
+            ResultSet rs = connectionJdbcMB.consult("SELECT date_value, day_number, day_name, week_number FROM "+aux);
+        }
+ 
         //data.add(new Object[]{"Omar","sdd"});
-      
-        
-        
+
+
+
     }
-    
-    
+
     public DualListModel<SelectItem> getVariables() {
         return variables;
     }
@@ -178,11 +172,11 @@ public class DataView {
         this.countData = countData;
     }
 
-    public ArrayList<String> getColNameData() {
+    public List<String> getColNameData() {
         return colNameData;
     }
 
-    public void setColNameData(ArrayList<String> colNameData) {
+    public void setColNameData(List<String> colNameData) {
         this.colNameData = colNameData;
     }
 
