@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import managedBeans.login.ApplicationControlMB;
 import org.primefaces.model.DualListModel;
+import java.util.Date;
 
 @ManagedBean
 @SessionScoped
@@ -32,6 +33,8 @@ public class DataView {
     private int countData;
     private ArrayList<Object[]> data;
     private List<String> colNameData;
+    private Date dateStart;
+    private Date dateEnd;
 
     public DataView() {
     }
@@ -41,6 +44,7 @@ public class DataView {
         this.countColNameData = countColNameData;
         this.data = data;
         this.colNameData = colNameData;
+
     }
 
     @PostConstruct
@@ -51,7 +55,7 @@ public class DataView {
 
         facts = new ArrayList<>();
         facts.add(new SelectItem("fact_murder", "Homicidios"));
-        facts.add(new SelectItem("fact_suicide", "Suicidios"));
+        facts.add(new SelectItem("fact_suicides", "Suicidios"));
         facts.add(new SelectItem("fact_traffic", "Muertes Accidentes Tránsito"));
         facts.add(new SelectItem("fact_accidents", "Muertes Accidentales"));
 
@@ -100,36 +104,65 @@ public class DataView {
     public void loadData() throws SQLException {
         colNameData = new ArrayList<>();
         data = new ArrayList<>();
-        
-        
-        
+        String aux1, aux2 = null;
+
         ArrayList<String> arrayList = new ArrayList<>();
 
         for (int i = 0; i < this.variables.getTarget().size(); i++) {
-            for (SelectItem fuente : variablesSource) {
-                String a = (String) fuente.getValue();
+            for (SelectItem source : variablesSource) {
+                String a = (String) source.getValue();
                 String b = String.valueOf(variables.getTarget().get(i));
 
                 if (a.equals(b)) {
-                    colNameData.add(fuente.getLabel());
+                    colNameData.add(source.getLabel());
                     break;
                 }
             }
         }
 
-        if (this.fact.equals("fact_murder")){
-            String aux;
-            aux = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
-                    + " join dim_neighborhood natural join dim_quadrant natural join dim_murder";
-        
-        
-            ResultSet rs = connectionJdbcMB.consult("SELECT date_value, day_number, day_name, week_number FROM "+aux);
+        aux1 = String.valueOf(variables.getTarget()).replace("[", "").replace("]", "");
+
+        // Fatal
+        if (this.fact.equals("fact_murder")) {
+            aux2 = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
+                    + " join dim_neighborhood natural join dim_quadrant natural join dim_murder natural join "
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
- 
-        //data.add(new Object[]{"Omar","sdd"});
+        
+        if (this.fact.equals("fact_suicides")) {
+            aux2 = "fact_suicides natural join dim_victim natural join dim_date natural join dim_time natural"
+                    + " join dim_neighborhood natural join dim_quadrant natural join dim_suicide natural join "
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+        }
+        
+        if (this.fact.equals("fact_traffic")) {
+            aux2 = "fact_traffic natural join dim_victim natural join dim_date natural join dim_time natural"
+                    + " join dim_neighborhood natural join dim_quadrant natural join dim_traffic natural join "
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+        }
+        
+       if (this.fact.equals("fact_accidents")) {
+            aux2 = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
+                    + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+        }
+        
+               
+        System.out.println("SELECT " + aux1 + " FROM " + aux2);
+        
+        
+        if (!aux1.isEmpty()) {
+            ResultSet rs = connectionJdbcMB.consult("SELECT " + aux1 + " FROM " + aux2);
 
-
-
+            while (rs.next()) {
+                arrayList = new ArrayList<>();
+                int columns = rs.getMetaData().getColumnCount();
+                for (int i = 0; i < columns; i++) {
+                    arrayList.add(rs.getString(i + 1));
+                }
+                data.add(arrayList.toArray());
+            }
+        }
     }
 
     public DualListModel<SelectItem> getVariables() {
@@ -186,5 +219,21 @@ public class DataView {
 
     public void setData(ArrayList<Object[]> data) {
         this.data = data;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 }

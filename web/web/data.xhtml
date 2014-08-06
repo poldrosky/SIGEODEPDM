@@ -4,7 +4,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:composition template="templates/layoutTemplate.xhtml">
 
@@ -17,11 +18,11 @@
         <ui:define name="content"> 
             <br/>
 
-            <h:form id="form">
+            <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
-                        <p:column>
+                        <p:column colspan="2" >
                             <p:outputLabel for="fact" value="Eventos: " />
                             <p:selectOneMenu id="fact" value="#{dataView.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
@@ -31,9 +32,11 @@
                                     listener="#{dataView.load}"
                                     render="variablesList"
                                     />
-                            </p:selectOneMenu>                   
+                            </p:selectOneMenu>                            
                         </p:column>
-                        <p:column>
+                    </p:row>
+                    <p:row>                       
+                        <p:column colspan="2">
                             <p:pickList id="variablesList" value="#{dataView.variables}" 
                                         var="selectItem" 
                                         itemLabel="#{selectItem.label}" 
@@ -41,27 +44,45 @@
                                         />
                         </p:column>
                     </p:row>
-
-
+                    <p:row >                                            
+                        <p:column  colspan="1">Filtrar Fecha</p:column>
+                        <p:column colspan="1">
+                            
+                                <p:outputLabel for="start" value="Inicio:" />
+                                <br />
+                                <p:calendar id="start" value="#{dataView.dateStart}" />
+                                <br/>
+                                <br/>
+                                <p:outputLabel for="end" value="Fin:" />
+                                <br/>
+                                <p:calendar id="end" value="#{dataView.dateEnd}" /> 
+                         </p:column>                                            
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton action="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="form:table1" ajax="true"/> 
+                        </p:column>
+                    </p:row> 
                 </p:panelGrid>
-                <p:commandButton  action="#{dataView.loadData}" value="Submit" style="margin-left: auto" update="form:table1" ajax="true"/> 
-                <br/>
-                <p:dataTable id="table1" 
-                             value="#{dataView.data}"
-                             var="data"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             paginator="true" rows="10" style="margin-bottom:20px">
 
-                    
-                    <p:columns value="#{dataView.colNameData}" var="colNameData" columnIndexVar="index">  
-                        <f:facet name="header">  
-                            <h:outputText value="#{colNameData}"/>  
-                        </f:facet>  
-                        <h:outputText value="#{data[index]}"/>                          
-                    </p:columns>  
-                </p:dataTable>
-              
-   
+                
+                <br/>
+                
+                <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -200px">
+                    <p:dataTable id="table1" 
+                                 value="#{dataView.data}"
+                                 var="data"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="8" style="margin-bottom:20px">
+
+                        <p:columns value="#{dataView.colNameData}" var="colNameData" columnIndexVar="index">  
+                            <f:facet name="header">  
+                                <h:outputText value="#{colNameData}"/>  
+                            </f:facet>  
+                            <h:outputText value="#{data[index]}"/>                          
+                        </p:columns>  
+                    </p:dataTable>
+                </div>  
             </h:form> 
         </ui:define>
     </ui:composition>
