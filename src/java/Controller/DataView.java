@@ -3,6 +3,8 @@ package Controller;
 import beans.connection.ConnectionJdbcMB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,8 +35,8 @@ public class DataView {
     private int countData;
     private ArrayList<Object[]> data;
     private List<String> colNameData;
-    private Date dateStart;
-    private Date dateEnd;
+    private Date startDate;
+    private Date endDate;
 
     public DataView() {
     }
@@ -104,7 +106,7 @@ public class DataView {
     public void loadData() throws SQLException {
         colNameData = new ArrayList<>();
         data = new ArrayList<>();
-        String aux1, aux2 = null;
+        String aux1, aux2 = null, aux3;
 
         ArrayList<String> arrayList = new ArrayList<>();
 
@@ -121,7 +123,13 @@ public class DataView {
         }
 
         aux1 = String.valueOf(variables.getTarget()).replace("[", "").replace("]", "");
-
+        
+             
+       
+        
+        SimpleDateFormat d = new SimpleDateFormat("dd/M/yyyy");
+        System.out.println( d.format(startDate));
+        
         // Fatal
         if (this.fact.equals("fact_murder")) {
             aux2 = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
@@ -221,19 +229,19 @@ public class DataView {
         this.data = data;
     }
 
-    public Date getDateStart() {
-        return dateStart;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }    
 }
