@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,13 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import managedBeans.login.ApplicationControlMB;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.DualListModel;
 
@@ -34,10 +42,9 @@ public class DataView {
     private int countColNameData;
     private int countData;
     private ArrayList<Object[]> data;
-    private List<String> colNameData=new ArrayList<>();
+    private List<String> colNameData = new ArrayList<>();
     private Date startDate;
     private Date endDate;
-   
 
     public DataView() {
         this.startDate = new Date(1000);
@@ -175,9 +182,27 @@ public class DataView {
             }
         }
     }
-    
-     
- 
+
+    public void preProcess(Object document) {
+        HSSFWorkbook book = (HSSFWorkbook) document;
+        HSSFSheet sheet = book.getSheetAt(0);// Se toma hoja del libro
+        
+        HSSFCellStyle cellStyle = book.createCellStyle();
+        HSSFFont font = book.createFont();
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        cellStyle.setFont(font);
+
+        Iterator<Row> rowIterator = sheet.iterator();
+        while(rowIterator.hasNext()){
+            Row row = rowIterator.next();
+            Iterator<Cell> cellIterator = row.cellIterator();
+            while(cellIterator.hasNext()){
+                Cell cell = cellIterator.next();
+                System.out.println(cell.getStringCellValue());
+            }
+        }
+                
+    }
 
     public DualListModel<SelectItem> getVariables() {
         return variables;

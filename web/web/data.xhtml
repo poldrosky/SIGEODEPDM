@@ -93,7 +93,7 @@
                 
                 <h:commandLink>
                     <h:outputText value="CSV" />
-                    <p:dataExporter type="csv" target="table1" fileName="report" />
+                    <p:dataExporter postProcessor="#{dataView.preProcess}" type="xls" target="table1" fileName="report"  />
                 </h:commandLink>
               
                 
