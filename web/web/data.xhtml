@@ -47,16 +47,16 @@
                     <p:row >                                            
                         <p:column  colspan="1">Filtrar Fecha</p:column>
                         <p:column colspan="1">
-                            
-                                <p:outputLabel for="start" value="Inicio:" />
-                                <br />
-                                <p:calendar id="start" value="#{dataView.dateStart}" />
-                                <br/>
-                                <br/>
-                                <p:outputLabel for="end" value="Fin:" />
-                                <br/>
-                                <p:calendar id="end" value="#{dataView.dateEnd}" /> 
-                         </p:column>                                            
+
+                            <p:outputLabel for="start" value="Inicio:" />
+                            <br />
+                            <p:calendar id="start" value="#{dataView.startDate}" pattern="dd-MM-yyyy"  />
+                            <br/>
+                            <br/>
+                            <p:outputLabel for="end" value="Fin:" />
+                            <br/>
+                            <p:calendar id="end" value="#{dataView.endDate}" pattern="dd-MM-yyyy"  /> 
+                        </p:column>                                            
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
@@ -65,10 +65,10 @@
                     </p:row> 
                 </p:panelGrid>
 
-                
+
                 <br/>
-                
-                <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -200px">
+
+                <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
                     <p:dataTable id="table1" 
                                  value="#{dataView.data}"
                                  var="data"

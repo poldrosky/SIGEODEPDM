@@ -39,6 +39,7 @@ public class DataView {
     private Date endDate;
 
     public DataView() {
+        this.startDate = new Date(1000);
     }
 
     public DataView(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
@@ -54,6 +55,9 @@ public class DataView {
         colNameData = new ArrayList<>();
         variablesSource = new ArrayList<>();
         variablesTarget = new ArrayList<>();
+
+        startDate = new Date(100, 0, 1);
+        endDate = new Date();
 
         facts = new ArrayList<>();
         facts.add(new SelectItem("fact_murder", "Homicidios"));
@@ -123,44 +127,42 @@ public class DataView {
         }
 
         aux1 = String.valueOf(variables.getTarget()).replace("[", "").replace("]", "");
-        
-             
-       
-        
-        SimpleDateFormat d = new SimpleDateFormat("dd/M/yyyy");
-        System.out.println( d.format(startDate));
-        
+
+        SimpleDateFormat d = new SimpleDateFormat("dd-M-yyyy");
+        String sD = d.format(startDate);
+        String eD = d.format(endDate);
+
+        aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
+
         // Fatal
         if (this.fact.equals("fact_murder")) {
             aux2 = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_murder natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
-        
+
         if (this.fact.equals("fact_suicides")) {
             aux2 = "fact_suicides natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_suicide natural join "
-                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
-        
+
         if (this.fact.equals("fact_traffic")) {
             aux2 = "fact_traffic natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_traffic natural join "
-                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
-        
-       if (this.fact.equals("fact_accidents")) {
+
+        if (this.fact.equals("fact_accidents")) {
             aux2 = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
-                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";            
+                    + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
-        
-               
-        System.out.println("SELECT " + aux1 + " FROM " + aux2);
-        
-        
+
+        System.out.println("SELECT " + aux1 + " FROM " + aux2 + aux3);
+
         if (!aux1.isEmpty()) {
-            ResultSet rs = connectionJdbcMB.consult("SELECT " + aux1 + " FROM " + aux2);
+            ResultSet rs = connectionJdbcMB.consult("SELECT " + aux1 + " FROM " + aux2 + aux3);
 
             while (rs.next()) {
                 arrayList = new ArrayList<>();
@@ -243,5 +245,5 @@ public class DataView {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }    
+    }
 }
