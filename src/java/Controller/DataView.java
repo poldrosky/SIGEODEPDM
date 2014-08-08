@@ -3,9 +3,9 @@ package Controller;
 import beans.connection.ConnectionJdbcMB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +15,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import managedBeans.login.ApplicationControlMB;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.DualListModel;
-import java.util.Date;
 
 @ManagedBean
 @SessionScoped
@@ -34,9 +34,10 @@ public class DataView {
     private int countColNameData;
     private int countData;
     private ArrayList<Object[]> data;
-    private List<String> colNameData;
+    private List<String> colNameData=new ArrayList<>();
     private Date startDate;
     private Date endDate;
+   
 
     public DataView() {
         this.startDate = new Date(1000);
@@ -174,6 +175,9 @@ public class DataView {
             }
         }
     }
+    
+     
+ 
 
     public DualListModel<SelectItem> getVariables() {
         return variables;

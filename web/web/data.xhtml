@@ -14,7 +14,14 @@
         </ui:define>
         <ui:define name="title">
             Análisis de Datos - BIENVENIDO
-        </ui:define>         
+        </ui:define>    
+        <ui:define name="head">  
+            <script type="text/javascript">                
+                function clickUno() {
+                    document.getElementById('form:IdBtnOculto').click();
+                }                
+            </script> 
+        </ui:define>
         <ui:define name="content"> 
             <br/>
 
@@ -60,7 +67,8 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton action="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="form:table1" ajax="true"/> 
+                            <p:commandButton actionListener="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickUno();"/> 
+                            <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnOculto"/>
                         </p:column>
                     </p:row> 
                 </p:panelGrid>
@@ -69,20 +77,26 @@
                 <br/>
 
                 <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
-                    <p:dataTable id="table1" 
-                                 value="#{dataView.data}"
-                                 var="data"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                                 paginator="true" rows="8" style="margin-bottom:20px">
-
-                        <p:columns value="#{dataView.colNameData}" var="colNameData" columnIndexVar="index">  
-                            <f:facet name="header">  
-                                <h:outputText value="#{colNameData}"/>  
-                            </f:facet>  
-                            <h:outputText value="#{data[index]}"/>                          
-                        </p:columns>  
+                    <p:dataTable 
+                        id="table1" 
+                        value="#{dataView.data}"                        
+                        var="row"                                
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                        paginator="true" rows="8" style="margin-bottom:20px">
+                        <c:forEach var="i" begin="0" end="#{dataView.colNameData.size()-1}">
+                            <p:column headerText="#{dataView.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
+                                <h:outputLabel value="#{row[i]}"/>
+                            </p:column>
+                        </c:forEach>
                     </p:dataTable>
-                </div>  
+                </div>
+                
+                <h:commandLink>
+                    <h:outputText value="CSV" />
+                    <p:dataExporter type="csv" target="table1" fileName="report" />
+                </h:commandLink>
+              
+                
             </h:form> 
         </ui:define>
     </ui:composition>
