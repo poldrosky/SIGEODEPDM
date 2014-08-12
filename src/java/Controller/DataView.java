@@ -1,8 +1,13 @@
 package Controller;
 
 import beans.connection.ConnectionJdbcMB;
+import com.csvreader.CsvWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,16 +20,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
 import managedBeans.login.ApplicationControlMB;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.DualListModel;
+
 
 @ManagedBean
 @SessionScoped
@@ -183,26 +188,50 @@ public class DataView {
         }
     }
 
-    public void preProcess(Object document) {
+    public void postProcess(Object document) throws IOException {
+
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/") + "Resources/csv/";
+        
+        Date date= new java.util.Date();
+        Timestamp time = new Timestamp(date.getTime());
+                        
+        String fileName = time.toString();
+        
+        File file = new File(realPath + fileName);
+        CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), ',');
+        
+       
+        
         HSSFWorkbook book = (HSSFWorkbook) document;
         HSSFSheet sheet = book.getSheetAt(0);// Se toma hoja del libro
-        
+
         HSSFCellStyle cellStyle = book.createCellStyle();
         HSSFFont font = book.createFont();
         font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         cellStyle.setFont(font);
 
         Iterator<Row> rowIterator = sheet.iterator();
-        while(rowIterator.hasNext()){
+         
+        while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
             Iterator<Cell> cellIterator = row.cellIterator();
-            while(cellIterator.hasNext()){
+            if (row.getRowNum()==0){
+                continue;
+            }
+            while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 System.out.println(cell.getStringCellValue());
+                csvOutput.write(cell.getStringCellValue());                
             }
+            csvOutput.endRecord();
+            
         }
-                
+        csvOutput.flush();
+        csvOutput.close();
     }
+    
 
     public DualListModel<SelectItem> getVariables() {
         return variables;

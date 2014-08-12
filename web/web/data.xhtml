@@ -92,8 +92,8 @@
                 </div>
                 
                 <h:commandLink>
-                    <h:outputText value="CSV" />
-                    <p:dataExporter postProcessor="#{dataView.preProcess}" type="xls" target="table1" fileName="report"  />
+                    <h:outputText value="CSV"/>
+                    <p:dataExporter postProcessor="#{dataView.postProcess}" type="xls" target="table1" fileName="report" encoding="UTF-8"   />
                 </h:commandLink>
               
                 
