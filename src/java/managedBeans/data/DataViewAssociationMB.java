@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -30,8 +31,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.data.FilterEvent;
 import org.primefaces.model.DualListModel;
-
 
 @ManagedBean
 @SessionScoped
@@ -48,7 +50,7 @@ public class DataViewAssociationMB {
     private SelectItem selectedList;
     private int countColNameData;
     private int countData;
-    private ArrayList<Object[]> data;
+    private ArrayList<String[]> data;
     private List<String> colNameData = new ArrayList<>();
     private Date startDate;
     private Date endDate;
@@ -60,19 +62,19 @@ public class DataViewAssociationMB {
         loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
     }
 
-    public DataViewAssociationMB(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
+    public DataViewAssociationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
         this.colNameData = colNameData;
 
     }
-    
-     public void reset(){
-         variables = new DualListModel<>();
-         
-         
-        
+
+    public void reset() {
+        variables = new DualListModel<>();
+
+
+
     }
 
     @PostConstruct
@@ -113,15 +115,15 @@ public class DataViewAssociationMB {
                 String descriptionVariable = rs.getString("description");
                 String nameVariable = rs.getString("name");
                 //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
-                
-                variablesSource.add(new ItemList(descriptionVariable,nameVariable));
+
+                variablesSource.add(new ItemList(descriptionVariable, nameVariable));
 
             }
             while (rsOwn.next()) {
                 String descriptionVariable = rsOwn.getString("description");
                 String nameVariable = rsOwn.getString("name");
                 //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
-                variablesSource.add(new ItemList(descriptionVariable,nameVariable));
+                variablesSource.add(new ItemList(descriptionVariable, nameVariable));
                 //variablesSource.add(item);
             }
 
@@ -139,7 +141,7 @@ public class DataViewAssociationMB {
         data = new ArrayList<>();
         String aux1, aux2 = null, aux3;
 
-        ArrayList<String> arrayList = new ArrayList<>();
+        //ArrayList<String> arrayList = new ArrayList<>();
 
         for (int i = 0; i < this.variables.getTarget().size(); i++) {
             for (ItemList source : variablesSource) {
@@ -152,7 +154,7 @@ public class DataViewAssociationMB {
                 }
             }
         }
-        
+
 
         aux1 = String.valueOf(variables.getTarget()).replace("[", "").replace("]", "");
 
@@ -193,65 +195,72 @@ public class DataViewAssociationMB {
             ResultSet rs = connectionJdbcMB.consult("SELECT " + aux1 + " FROM " + aux2 + aux3);
 
             while (rs.next()) {
-                arrayList = new ArrayList<>();
+                String[] arrayList;
                 int columns = rs.getMetaData().getColumnCount();
+                arrayList = new String[columns];
+
                 for (int i = 0; i < columns; i++) {
-                    arrayList.add(rs.getString(i + 1));
+                    arrayList[i] = rs.getString(i + 1);
                 }
-                data.add(arrayList.toArray());
+                data.add(arrayList);
             }
         }
     }
+    List<String[]> resultado;
 
-    public void postProcess(Object document) throws IOException {
+    public void filter(FilterEvent event) {
+        DataTable table = (DataTable) event.getSource();
+        resultado = table.getFilteredData();
+//        if (resultado != null) {
+//            for (String[] fila : resultado) {
+//                for (String columna : fila) {
+//                    System.out.println(columna);
+//                }
+//
+//            }
+//        }
+    }
 
-        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+    public void buildCSV() throws IOException{
+
+       ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
                 .getExternalContext().getContext();
         String realPath = ctx.getRealPath("/") + "Resources/csv/";
-        
-        Date date= new java.util.Date();
+
+        Date date = new java.util.Date();
         Timestamp time = new Timestamp(date.getTime());
-                        
-        
-        fileName = loginMB.getUserLogin()+time.toString();
-        
+        fileName = loginMB.getUserLogin() + time.toString();
+
         File file = new File(realPath + fileName);
         CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), ',');
-        
-       
-        
-        HSSFWorkbook book = (HSSFWorkbook) document;
-        HSSFSheet sheet = book.getSheetAt(0);// Se toma hoja del libro
 
-        HSSFCellStyle cellStyle = book.createCellStyle();
-        HSSFFont font = book.createFont();
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-        cellStyle.setFont(font);
-
-        Iterator<Row> rowIterator = sheet.iterator();
-        
         for (int i = 0; i < this.variables.getTarget().size(); i++) {
-           csvOutput.write(String.valueOf(variables.getTarget().get(i)));
+            csvOutput.write(String.valueOf(variables.getTarget().get(i)));
         }
         csvOutput.endRecord();
-         
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-            if (row.getRowNum()==0){
-                continue;
+        
+        if (resultado != null) {
+            for (String[] fila : resultado) {
+                for (String columna : fila) {
+                    System.out.println(columna);
+                    csvOutput.write(columna);                    
+                }
+                csvOutput.endRecord();
+
             }
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                csvOutput.write(cell.getStringCellValue());                
-            }
-            csvOutput.endRecord();
-            
         }
+        
+        else{
+            for (String[] fila : data) {
+                for (String columna : fila) {
+                    System.out.println(columna);
+                    csvOutput.write(columna);                    
+                }
+                csvOutput.endRecord();
+            }      
+        }       
         csvOutput.flush();
         csvOutput.close();
-        document = null;
-        
     }
 
     public String getFileName() {
@@ -269,11 +278,6 @@ public class DataViewAssociationMB {
     public void setVariables(DualListModel<ItemList> variables) {
         this.variables = variables;
     }
-    
-  
-    
-
-   
 
     public String getFact() {
         return fact;
@@ -315,11 +319,11 @@ public class DataViewAssociationMB {
         this.colNameData = colNameData;
     }
 
-    public ArrayList<Object[]> getData() {
+    public ArrayList<String[]> getData() {
         return data;
     }
 
-    public void setData(ArrayList<Object[]> data) {
+    public void setData(ArrayList<String[]> data) {
         this.data = data;
     }
 

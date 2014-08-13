@@ -11,7 +11,7 @@ citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
 \usepackage{longtable}
 
 <<echo=FALSE, results='hide', message=FALSE>>=
-table <- "hola"
+table <- "Observatorio"
 
 data <- read.csv(file=fileInput, header=TRUE, sep=",") 
   

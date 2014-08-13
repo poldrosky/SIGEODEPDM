@@ -87,6 +87,7 @@
                         var="row"                                
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         paginator="true" rows="8" style="margin-bottom:20px">
+                        <p:ajax event="filter" listener="#{dataViewAssociationMB.filter}" />
                         <c:forEach var="i" begin="0" end="#{dataViewAssociationMB.colNameData.size()-1}">
                             <p:column headerText="#{dataViewAssociationMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
                                 <h:outputLabel value="#{row[i]}"/>
@@ -95,13 +96,8 @@
                     </p:dataTable>
                 </div>
                 
-                <h:commandLink>
-                    <h:outputText value="CSV" style="display: none;" id="IdBtnCsv" />
-                    <p:dataExporter postProcessor="#{dataViewAssociationMB.postProcess}"  type="xls" target="table1" fileName="report" encoding="UTF-8"   />
-                </h:commandLink>
-                
+                              
                 <p:column colspan="2">
-                    <p:commandButton onstart="clickTwo();" value="Generar Datos" />
                     <h:commandButton value="Calidad de Datos" >
                         <p:fileDownload value="#{dataAnalysis.qualityDataFile}"/> 
                     </h:commandButton>   

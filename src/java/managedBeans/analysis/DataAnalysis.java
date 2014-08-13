@@ -31,7 +31,8 @@ public class DataAnalysis implements Serializable {
         dataView = (DataViewAssociationMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{dataViewAssociationMB}", DataViewAssociationMB.class);
     }
     
-   public StreamedContent getQualityDataFile() {
+   public StreamedContent getQualityDataFile() throws IOException {
+        dataView.buildCSV();
         qualityData();
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/reporte.pdf");
         qualityDataFile = new DefaultStreamedContent(stream, "application/pdf", "reporte.pdf");
