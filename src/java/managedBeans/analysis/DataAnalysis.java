@@ -1,4 +1,4 @@
-package beans.analysis;
+package managedBeans.analysis;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import managedBeans.data.DataView;
+import managedBeans.data.DataViewAssociationMB;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -25,10 +25,10 @@ import org.primefaces.model.StreamedContent;
 public class DataAnalysis implements Serializable {
 
     private StreamedContent qualityDataFile;
-    private DataView dataView;
+    private DataViewAssociationMB dataView;
 
     public DataAnalysis() {
-        dataView = (DataView) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{dataView}", DataView.class);
+        dataView = (DataViewAssociationMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{dataViewAssociationMB}", DataViewAssociationMB.class);
     }
     
    public StreamedContent getQualityDataFile() {

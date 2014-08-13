@@ -29,18 +29,18 @@
             <br/>
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
-                #{dataView.reset()}
+                #{dataViewAssociationMB.reset()}
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
                         <p:column colspan="2" >
                             <p:outputLabel for="fact" value="Eventos: " />
-                            <p:selectOneMenu id="fact" value="#{dataView.fact}">
+                            <p:selectOneMenu id="fact" value="#{dataViewAssociationMB.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
-                                <f:selectItems value="#{dataView.facts}" />
+                                <f:selectItems value="#{dataViewAssociationMB.facts}" />
                                 <f:ajax 
                                     event="change"
-                                    listener="#{dataView.load}"
+                                    listener="#{dataViewAssociationMB.load}"
                                     render="variablesList"
                                     />
                             </p:selectOneMenu>                            
@@ -48,7 +48,7 @@
                     </p:row>
                     <p:row>                       
                         <p:column colspan="2">
-                            <p:pickList id="variablesList" value="#{dataView.variables}" 
+                            <p:pickList id="variablesList" value="#{dataViewAssociationMB.variables}" 
                                         var="item" 
                                         itemLabel="#{item.valueSp}" 
                                         itemValue="#{item.valueEn}"
@@ -61,17 +61,17 @@
 
                             <p:outputLabel for="start" value="Inicio:" />
                             <br />
-                            <p:calendar id="start" value="#{dataView.startDate}" pattern="dd-MM-yyyy"  />
+                            <p:calendar id="start" value="#{dataViewAssociationMB.startDate}" pattern="dd-MM-yyyy"  />
                             <br/>
                             <br/>
                             <p:outputLabel for="end" value="Fin:" />
                             <br/>
-                            <p:calendar id="end" value="#{dataView.endDate}" pattern="dd-MM-yyyy"  /> 
+                            <p:calendar id="end" value="#{dataViewAssociationMB.endDate}" pattern="dd-MM-yyyy"  /> 
                         </p:column>                                            
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton actionListener="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton actionListener="#{dataViewAssociationMB.loadData}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
@@ -83,12 +83,12 @@
                 <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
                     <p:dataTable 
                         id="table1" 
-                        value="#{dataView.data}"                        
+                        value="#{dataViewAssociationMB.data}"                        
                         var="row"                                
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         paginator="true" rows="8" style="margin-bottom:20px">
-                        <c:forEach var="i" begin="0" end="#{dataView.colNameData.size()-1}">
-                            <p:column headerText="#{dataView.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
+                        <c:forEach var="i" begin="0" end="#{dataViewAssociationMB.colNameData.size()-1}">
+                            <p:column headerText="#{dataViewAssociationMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
                                 <h:outputLabel value="#{row[i]}"/>
                             </p:column>
                         </c:forEach>
@@ -97,7 +97,7 @@
                 
                 <h:commandLink>
                     <h:outputText value="CSV" style="display: none;" id="IdBtnCsv" />
-                    <p:dataExporter postProcessor="#{dataView.postProcess}"  type="xls" target="table1" fileName="report" encoding="UTF-8"   />
+                    <p:dataExporter postProcessor="#{dataViewAssociationMB.postProcess}"  type="xls" target="table1" fileName="report" encoding="UTF-8"   />
                 </h:commandLink>
                 
                 <p:column colspan="2">

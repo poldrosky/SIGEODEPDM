@@ -35,7 +35,7 @@ import org.primefaces.model.DualListModel;
 
 @ManagedBean
 @SessionScoped
-public class DataView {
+public class DataViewAssociationMB {
 
     private DualListModel<ItemList> variables;
     private String fact;
@@ -55,12 +55,12 @@ public class DataView {
     private LoginMB loginMB;
     private String fileName;
 
-    public DataView() {
+    public DataViewAssociationMB() {
         this.startDate = new Date(1000);
         loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
     }
 
-    public DataView(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
+    public DataViewAssociationMB(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
@@ -126,7 +126,7 @@ public class DataView {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DataView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
