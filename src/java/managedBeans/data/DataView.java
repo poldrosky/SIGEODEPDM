@@ -1,5 +1,6 @@
-package Controller;
+package managedBeans.data;
 
+import beans.util.ItemList;
 import beans.connection.ConnectionJdbcMB;
 import com.csvreader.CsvWriter;
 import java.io.File;
@@ -22,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletContext;
 import managedBeans.login.ApplicationControlMB;
+import managedBeans.login.LoginMB;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -35,11 +37,11 @@ import org.primefaces.model.DualListModel;
 @SessionScoped
 public class DataView {
 
-    private DualListModel<SelectItem> variables;
+    private DualListModel<ItemList> variables;
     private String fact;
     private List<SelectItem> facts;
-    private List<SelectItem> variablesSource;
-    private List<SelectItem> variablesTarget;
+    private List<ItemList> variablesSource;
+    private List<ItemList> variablesTarget;
     ConnectionJdbcMB connectionJdbcMB;
     ApplicationControlMB applicationControlMB;
     FacesContext context;
@@ -50,9 +52,12 @@ public class DataView {
     private List<String> colNameData = new ArrayList<>();
     private Date startDate;
     private Date endDate;
+    private LoginMB loginMB;
+    private String fileName;
 
     public DataView() {
         this.startDate = new Date(1000);
+        loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
     }
 
     public DataView(int countData, int countColNameData, ArrayList<Object[]> data, List<String> colNameData) {
@@ -61,6 +66,13 @@ public class DataView {
         this.data = data;
         this.colNameData = colNameData;
 
+    }
+    
+     public void reset(){
+         variables = new DualListModel<>();
+         
+         
+        
     }
 
     @PostConstruct
@@ -100,15 +112,17 @@ public class DataView {
             while (rs.next()) {
                 String descriptionVariable = rs.getString("description");
                 String nameVariable = rs.getString("name");
-                SelectItem item = new SelectItem(nameVariable, descriptionVariable);
-                variablesSource.add(item);
+                //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
+                
+                variablesSource.add(new ItemList(descriptionVariable,nameVariable));
 
             }
             while (rsOwn.next()) {
                 String descriptionVariable = rsOwn.getString("description");
                 String nameVariable = rsOwn.getString("name");
-                SelectItem item = new SelectItem(nameVariable, descriptionVariable);
-                variablesSource.add(item);
+                //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
+                variablesSource.add(new ItemList(descriptionVariable,nameVariable));
+                //variablesSource.add(item);
             }
 
         } catch (SQLException ex) {
@@ -128,16 +142,17 @@ public class DataView {
         ArrayList<String> arrayList = new ArrayList<>();
 
         for (int i = 0; i < this.variables.getTarget().size(); i++) {
-            for (SelectItem source : variablesSource) {
-                String a = (String) source.getValue();
+            for (ItemList source : variablesSource) {
+                String a = source.getValueEn();
                 String b = String.valueOf(variables.getTarget().get(i));
 
                 if (a.equals(b)) {
-                    colNameData.add(source.getLabel());
+                    colNameData.add(source.getValueSp());
                     break;
                 }
             }
         }
+        
 
         aux1 = String.valueOf(variables.getTarget()).replace("[", "").replace("]", "");
 
@@ -197,7 +212,8 @@ public class DataView {
         Date date= new java.util.Date();
         Timestamp time = new Timestamp(date.getTime());
                         
-        String fileName = time.toString();
+        
+        fileName = loginMB.getUserLogin()+time.toString();
         
         File file = new File(realPath + fileName);
         CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), ',');
@@ -213,6 +229,11 @@ public class DataView {
         cellStyle.setFont(font);
 
         Iterator<Row> rowIterator = sheet.iterator();
+        
+        for (int i = 0; i < this.variables.getTarget().size(); i++) {
+           csvOutput.write(String.valueOf(variables.getTarget().get(i)));
+        }
+        csvOutput.endRecord();
          
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
@@ -222,7 +243,6 @@ public class DataView {
             }
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-                System.out.println(cell.getStringCellValue());
                 csvOutput.write(cell.getStringCellValue());                
             }
             csvOutput.endRecord();
@@ -230,16 +250,30 @@ public class DataView {
         }
         csvOutput.flush();
         csvOutput.close();
+        document = null;
+        
     }
-    
 
-    public DualListModel<SelectItem> getVariables() {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public DualListModel<ItemList> getVariables() {
         return variables;
     }
 
-    public void setVariables(DualListModel<SelectItem> variables) {
+    public void setVariables(DualListModel<ItemList> variables) {
         this.variables = variables;
     }
+    
+  
+    
+
+   
 
     public String getFact() {
         return fact;

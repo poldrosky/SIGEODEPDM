@@ -11,12 +11,10 @@ citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
 \usepackage{longtable}
 
 <<echo=FALSE, results='hide', message=FALSE>>=
+table <- "hola"
 
-
-sql <- paste("SELECT * FROM ",table, sep="")
-data <- dbGetQuery(connection, sql)
-dbDisconnect(connection)
-dbUnloadDriver(driver)
+data <- read.csv(file=fileInput, header=TRUE, sep=",") 
+  
 #data <- data[ , -which(names(data) %in% c("identificacion"))]
 data <- as.data.frame(sapply(data, str_trim))
 data <- as.data.frame(sapply(data, as.factor))

@@ -49,7 +49,7 @@ public class LoginMB {
     private boolean autenticado = false;
     ApplicationControlMB applicationControlMB;
 
-    public LoginMB() {
+public LoginMB() {
     }
 
     public void logout1() {

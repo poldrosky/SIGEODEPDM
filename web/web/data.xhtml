@@ -17,8 +17,11 @@
         </ui:define>    
         <ui:define name="head">  
             <script type="text/javascript">                
-                function clickUno() {
-                    document.getElementById('form:IdBtnOculto').click();
+                function clickOne() {
+                    document.getElementById('form:IdBtnHide').click();
+                }
+                function clickTwo() {
+                    document.getElementById('form:IdBtnCsv').click();
                 }                
             </script> 
         </ui:define>
@@ -26,6 +29,7 @@
             <br/>
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
+                #{dataView.reset()}
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
@@ -45,9 +49,9 @@
                     <p:row>                       
                         <p:column colspan="2">
                             <p:pickList id="variablesList" value="#{dataView.variables}" 
-                                        var="selectItem" 
-                                        itemLabel="#{selectItem.label}" 
-                                        itemValue="#{selectItem.value}"
+                                        var="item" 
+                                        itemLabel="#{item.valueSp}" 
+                                        itemValue="#{item.valueEn}"
                                         />
                         </p:column>
                     </p:row>
@@ -67,8 +71,8 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton actionListener="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickUno();"/> 
-                            <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnOculto"/>
+                            <p:commandButton actionListener="#{dataView.loadData}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
                 </p:panelGrid>
@@ -92,9 +96,19 @@
                 </div>
                 
                 <h:commandLink>
-                    <h:outputText value="CSV"/>
-                    <p:dataExporter postProcessor="#{dataView.postProcess}" type="xls" target="table1" fileName="report" encoding="UTF-8"   />
+                    <h:outputText value="CSV" style="display: none;" id="IdBtnCsv" />
+                    <p:dataExporter postProcessor="#{dataView.postProcess}"  type="xls" target="table1" fileName="report" encoding="UTF-8"   />
                 </h:commandLink>
+                
+                <p:column colspan="2">
+                    <p:commandButton onstart="clickTwo();" value="Generar Datos" />
+                    <h:commandButton value="Calidad de Datos" >
+                        <p:fileDownload value="#{dataAnalysis.qualityDataFile}"/> 
+                    </h:commandButton>   
+                    
+                    
+                    
+                </p:column>
               
                 
             </h:form> 

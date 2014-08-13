@@ -14,7 +14,12 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>dataAnalysis</from-outcome>
+            <from-outcome>association</from-outcome>
+            <to-view-id>/web/data.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>classification</from-outcome>
             <to-view-id>/web/qualityData.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
