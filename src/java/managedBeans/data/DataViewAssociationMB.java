@@ -206,19 +206,11 @@ public class DataViewAssociationMB {
             }
         }
     }
-    List<String[]> resultado;
+    List<String[]> resultFilter;
 
     public void filter(FilterEvent event) {
         DataTable table = (DataTable) event.getSource();
-        resultado = table.getFilteredData();
-//        if (resultado != null) {
-//            for (String[] fila : resultado) {
-//                for (String columna : fila) {
-//                    System.out.println(columna);
-//                }
-//
-//            }
-//        }
+        resultFilter = table.getFilteredData();
     }
 
     public void buildCSV() throws IOException{
@@ -229,7 +221,8 @@ public class DataViewAssociationMB {
 
         Date date = new java.util.Date();
         Timestamp time = new Timestamp(date.getTime());
-        fileName = loginMB.getUserLogin() + time.toString();
+        
+        fileName = loginMB.getUserLogin() + time.toString().replace(" ", "H");
 
         File file = new File(realPath + fileName);
         CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), ',');
@@ -239,8 +232,8 @@ public class DataViewAssociationMB {
         }
         csvOutput.endRecord();
         
-        if (resultado != null) {
-            for (String[] fila : resultado) {
+        if (resultFilter != null) {
+            for (String[] fila : resultFilter) {
                 for (String columna : fila) {
                     System.out.println(columna);
                     csvOutput.write(columna);                    

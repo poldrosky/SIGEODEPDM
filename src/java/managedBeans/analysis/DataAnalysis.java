@@ -34,8 +34,8 @@ public class DataAnalysis implements Serializable {
    public StreamedContent getQualityDataFile() throws IOException {
         dataView.buildCSV();
         qualityData();
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/reporte.pdf");
-        qualityDataFile = new DefaultStreamedContent(stream, "application/pdf", "reporte.pdf");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/"+dataView.getFileName()+".pdf");
+        qualityDataFile = new DefaultStreamedContent(stream, "application/pdf", dataView.getFileName()+".pdf");
         return qualityDataFile;
     }
 
@@ -57,7 +57,7 @@ public class DataAnalysis implements Serializable {
         System.out.println(directory + fileInput);
         
         
-        pb = new ProcessBuilder("Rscript", directory + "qualityData.R", fileInput, "reporte", directory);
+        pb = new ProcessBuilder("Rscript", directory + "qualityData.R", fileInput, dataView.getFileName(), directory);
         try {
             p = pb.start();
             InputStream is = p.getInputStream();
