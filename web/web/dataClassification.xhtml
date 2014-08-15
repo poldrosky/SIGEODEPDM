@@ -29,18 +29,18 @@
             <br/>
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
-                #{dataViewAssociationMB.reset()}
+                #{dataViewClassificationMB.reset()}
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
                         <p:column colspan="2" >
                             <p:outputLabel for="fact" value="Eventos: " />
-                            <p:selectOneMenu id="fact" value="#{dataViewAssociationMB.fact}">
+                            <p:selectOneMenu id="fact" value="#{dataViewClassificationMB.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
-                                <f:selectItems value="#{dataViewAssociationMB.facts}" />
+                                <f:selectItems value="#{dataViewClassificationMB.facts}" />
                                 <f:ajax 
                                     event="change"
-                                    listener="#{dataViewAssociationMB.loadVariablesPickList}"
+                                    listener="#{dataViewClassificationMB.loadVariablesPickList}"
                                     render="variablesList"
                                     />
                             </p:selectOneMenu>                            
@@ -48,7 +48,7 @@
                     </p:row>
                     <p:row>                       
                         <p:column colspan="2">
-                            <p:pickList id="variablesList" value="#{dataViewAssociationMB.variables}" 
+                            <p:pickList id="variablesList" value="#{dataViewClassificationMB.variables}" 
                                         var="item" 
                                         itemLabel="#{item.valueSp}" 
                                         itemValue="#{item.valueEn}"
@@ -61,17 +61,17 @@
 
                             <p:outputLabel for="start" value="Inicio:" />
                             <br />
-                            <p:calendar id="start" value="#{dataViewAssociationMB.startDate}" pattern="dd-MM-yyyy"  />
+                            <p:calendar id="start" value="#{dataViewClassificationMB.startDate}" pattern="dd-MM-yyyy"  />
                             <br/>
                             <br/>
                             <p:outputLabel for="end" value="Fin:" />
                             <br/>
-                            <p:calendar id="end" value="#{dataViewAssociationMB.endDate}" pattern="dd-MM-yyyy"  /> 
+                            <p:calendar id="end" value="#{dataViewClassificationMB.endDate}" pattern="dd-MM-yyyy"  /> 
                         </p:column>                                            
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton actionListener="#{dataViewAssociationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
@@ -83,13 +83,13 @@
                 <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
                     <p:dataTable 
                         id="table1" 
-                        value="#{dataViewAssociationMB.data}"                        
+                        value="#{dataViewClassificationMB.data}"                        
                         var="row"                                
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         paginator="true" rows="8" style="margin-bottom:20px">
-                        <p:ajax event="filter" listener="#{dataViewAssociationMB.filter}" />
-                        <c:forEach var="i" begin="0" end="#{dataViewAssociationMB.colNameData.size()-1}">
-                            <p:column headerText="#{dataViewAssociationMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
+                        <p:ajax event="filter" listener="#{dataViewClassificationMB.filter}" />
+                        <c:forEach var="i" begin="0" end="#{dataViewClassificationMB.colNameData.size()-1}">
+                            <p:column headerText="#{dataViewClassificationMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
                                 <h:outputLabel value="#{row[i]}"/>
                             </p:column>
                         </c:forEach>
@@ -99,7 +99,7 @@
                               
                 <p:column colspan="2">
                     <h:commandButton value="Calidad de Datos" >
-                        <p:fileDownload value="#{dataViewAssociationMB.qualityData()}"/> 
+                        <p:fileDownload value="#{dataViewClassificationMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
               

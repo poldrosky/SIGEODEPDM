@@ -29,10 +29,9 @@ import org.primefaces.event.data.FilterEvent;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.StreamedContent;
 
-
 @ManagedBean
 @SessionScoped
-public class DataViewAssociationMB {
+public class DataViewClassificationMB{
 
     private DualListModel<ItemList> variables;
     private String fact;
@@ -52,13 +51,13 @@ public class DataViewAssociationMB {
     private LoginMB loginMB;
     private DataAnalysis analysis;
 
-    public DataViewAssociationMB() {
+    public DataViewClassificationMB() {
         this.startDate = new Date(1000);
         loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
         analysis = new DataAnalysis();
     }
 
-    public DataViewAssociationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
+    public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
@@ -80,16 +79,9 @@ public class DataViewAssociationMB {
         endDate = new Date();
 
         facts = new ArrayList<>();
-        facts.add(new SelectItem("fact_murder", "Homicidios"));
-        facts.add(new SelectItem("fact_suicides", "Suicidios"));
-        facts.add(new SelectItem("fact_traffic", "Muertes Accidentes Tránsito"));
-        facts.add(new SelectItem("fact_accidents", "Muertes Accidentales"));
+        facts.add(new SelectItem("fatal", "Fatales"));
+        facts.add(new SelectItem("non_fatal", "No fatales"));
 
-        facts.add(new SelectItem("fact_interpersonal", "Interpersonal"));
-        facts.add(new SelectItem("fact_intrafamiliar", "Intrafamiliar"));
-        facts.add(new SelectItem("fact_self_inflicted", "Auto Inflingido"));
-        facts.add(new SelectItem("fact_transport", "Lesiones de Tránsito"));
-        facts.add(new SelectItem("fact_unintencional", "No intencional"));
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
     }
@@ -98,8 +90,13 @@ public class DataViewAssociationMB {
         context = FacesContext.getCurrentInstance();
         connectionJdbcMB = (ConnectionJdbcMB) context.getApplication().evaluateExpressionGet(context, "#{connectionJdbcMB}", ConnectionJdbcMB.class);
         connectionJdbcMB.connectToDb();
-        ResultSet rs = connectionJdbcMB.consult("Select * from common_variables_fatal");
-        ResultSet rsOwn = connectionJdbcMB.consult("Select * from own_variables where fact like '" + this.fact + "'");
+        ResultSet rs = null;
+
+        if (fact.equals("fatal")) {
+            rs = connectionJdbcMB.consult("Select * from common_variables_fatal");
+        } else if (fact.equals("non_fatal")) {
+            rs = connectionJdbcMB.consult("Select * from common_variables_non_fatal");
+        }
 
         try {
             while (rs.next()) {
@@ -108,18 +105,10 @@ public class DataViewAssociationMB {
                 //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
 
                 variablesSource.add(new ItemList(descriptionVariable, nameVariable));
-
-            }
-            while (rsOwn.next()) {
-                String descriptionVariable = rsOwn.getString("description");
-                String nameVariable = rsOwn.getString("name");
-                //SelectItem item = new SelectItem(nameVariable, descriptionVariable);
-                variablesSource.add(new ItemList(descriptionVariable, nameVariable));
-                //variablesSource.add(item);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -155,35 +144,36 @@ public class DataViewAssociationMB {
 
         aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
 
+
+        String aux_murder = null;
+        String aux_suicides = null;
+        String aux_traffic = null;
+        String aux_accidents = null;
         // Fatal
-        if (this.fact.equals("fact_murder")) {
-            aux2 = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
+        if (this.fact.equals("fatal")) {
+            aux_murder = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_murder natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
-        }
 
-        if (this.fact.equals("fact_suicides")) {
-            aux2 = "fact_suicides natural join dim_victim natural join dim_date natural join dim_time natural"
+            aux_suicides = "fact_suicides natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_suicide natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
-        }
 
-        if (this.fact.equals("fact_traffic")) {
-            aux2 = "fact_traffic natural join dim_victim natural join dim_date natural join dim_time natural"
+            aux_traffic = "fact_traffic natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_traffic natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
-        }
 
-        if (this.fact.equals("fact_accidents")) {
-            aux2 = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
+            aux_accidents = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
         }
 
-        System.out.println("SELECT " + aux1 + " FROM " + aux2 + aux3);
 
         if (!aux1.isEmpty()) {
-            ResultSet rs = connectionJdbcMB.consult("SELECT " + aux1 + " FROM " + aux2 + aux3);
+            ResultSet rs = connectionJdbcMB.consult("SELECT " + "'Homicidio'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
+                    + "SELECT " + "'Suicidio'," + aux1 + " FROM " + aux_suicides + aux3 + " UNION "
+                    + "SELECT " + "'Transito'," + aux1 + " FROM " + aux_traffic + aux3 + " UNION "
+                    + "SELECT " + "'Accidentes'," + aux1 + " FROM " + aux_accidents + aux3);
 
             while (rs.next()) {
                 String[] arrayList;
@@ -203,15 +193,15 @@ public class DataViewAssociationMB {
         DataTable table = (DataTable) event.getSource();
         resultado = table.getFilteredData();
     }
-    
+
     public StreamedContent qualityData() {
         try {
             return analysis.getQualityDataFile(loginMB.getUserLogin(), variables, resultado, data);
         } catch (IOException ex) {
-            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }    
+    }
 
     public DualListModel<ItemList> getVariables() {
         return variables;

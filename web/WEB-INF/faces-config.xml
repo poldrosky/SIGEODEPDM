@@ -20,7 +20,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>classification</from-outcome>
-            <to-view-id>/web/dataClasification.xhtml</to-view-id>
+            <to-view-id>/web/dataClassification.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
 </navigation-rule>
