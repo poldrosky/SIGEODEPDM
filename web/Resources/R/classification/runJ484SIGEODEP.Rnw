@@ -1,0 +1,43 @@
+\subsection{Generación de Árbol con M = \Sexpr{m} y C = \Sexpr{c}}
+<<echo=FALSE>>=
+  model <- J48(formula, data=data, na.action=NULL, control=Weka_control(M=m,C=c))
+  filename <- paste(path,'/model_M',m,'_C',c,'.txt', sep="")
+  write(capture.output(model),filename)
+  write(capture.output(summary(model)),filename, append=TRUE)
+@
+
+<<>>=
+  print(model)
+  print(summary(model))
+@
+
+<<echo=FALSE>>=
+  dotfile <- paste(path,'/model_M',m,'_C',c,'.dot', sep="")
+  write_to_dot(model, dotfile)
+  pdffile <- paste(path,'/model_M',m,'_C',c*100,'.',format, sep="")
+  system(paste('dot -Gsize=100,100 -T',format,' ',dotfile,' -o ',pdffile, sep=""))
+  sum <- summary(model)
+  conf <- sum$details['pctCorrect']
+  label <- paste('M',m,'C',c*100, sep="")
+  if(bestConf < conf){
+    bestConf <- conf
+    bestM <- m
+    bestC <- c
+    bestLabel <- label
+  }
+  
+@
+
+\begin{figure}[H] 
+  \centering
+  {\includegraphics[width=1\textwidth]{\Sexpr{pdffile}}}
+  \caption{Visualización del árbol obtenido con J48 (M = \Sexpr{m} y C = \Sexpr{c}) [Conf: \Sexpr{conf}\%].}
+  \label{\Sexpr{label}}
+\end{figure}
+
+<<echo=FALSE>>=
+  conf_table[i, ] <- c(m,c,round(as.numeric(conf),2),paste('ver figura~\\ref{',label,'}',sep=""))
+  i <- i + 1
+@
+
+\clearpage

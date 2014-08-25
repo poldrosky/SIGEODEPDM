@@ -1,14 +1,11 @@
 package managedBeans.data;
 
+import beans.analysis.DataAnalysis;
 import beans.connection.ConnectionJdbcMB;
 import beans.util.ItemList;
-import com.csvreader.CsvWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,8 +17,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
-import managedBeans.analysis.DataAnalysis;
 import managedBeans.login.ApplicationControlMB;
 import managedBeans.login.LoginMB;
 import org.primefaces.component.datatable.DataTable;
@@ -98,7 +93,7 @@ public class DataViewAssociationMB {
         context = FacesContext.getCurrentInstance();
         connectionJdbcMB = (ConnectionJdbcMB) context.getApplication().evaluateExpressionGet(context, "#{connectionJdbcMB}", ConnectionJdbcMB.class);
         connectionJdbcMB.connectToDb();
-        ResultSet rs = connectionJdbcMB.consult("Select * from common_variables_fatal");
+        ResultSet rs = connectionJdbcMB.consult("Select * from common_variables_fatal ORDER BY id");
         ResultSet rsOwn = connectionJdbcMB.consult("Select * from own_variables where fact like '" + this.fact + "'");
 
         try {
@@ -206,7 +201,7 @@ public class DataViewAssociationMB {
     
     public StreamedContent qualityData() {
         try {
-            return analysis.getQualityDataFile(loginMB.getUserLogin(), variables, resultado, data);
+            return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
         } catch (IOException ex) {
             Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
         }

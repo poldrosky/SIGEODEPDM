@@ -1,14 +1,11 @@
 package managedBeans.data;
 
+import beans.analysis.DataAnalysis;
 import beans.connection.ConnectionJdbcMB;
 import beans.util.ItemList;
-import com.csvreader.CsvWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,8 +17,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
-import managedBeans.analysis.DataAnalysis;
 import managedBeans.login.ApplicationControlMB;
 import managedBeans.login.LoginMB;
 import org.primefaces.component.datatable.DataTable;
@@ -31,11 +26,13 @@ import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 @SessionScoped
-public class DataViewClassificationMB{
+public class DataViewClassificationMB {
 
     private DualListModel<ItemList> variables;
     private String fact;
     private List<SelectItem> facts;
+    private String classValue;
+    private List<SelectItem> classValues;
     private List<ItemList> variablesSource;
     private List<ItemList> variablesTarget;
     ConnectionJdbcMB connectionJdbcMB;
@@ -50,6 +47,14 @@ public class DataViewClassificationMB{
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
+    private double confidence;
+    private double support;
+    private int maxM;
+    private int minM;
+    private int deltaM;
+    private double maxC;
+    private double minC;
+    private double deltaC;
 
     public DataViewClassificationMB() {
         this.startDate = new Date(1000);
@@ -57,12 +62,22 @@ public class DataViewClassificationMB{
         analysis = new DataAnalysis();
     }
 
-    public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
+    public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData, String classValue,
+            int maxM, int minM, int deltaM, double maxC, double minC, double deltaC, double confidence,
+            double support) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
         this.colNameData = colNameData;
-
+        this.classValue = classValue;
+        this.maxM = maxM;
+        this.minM = minM;
+        this.deltaM = deltaM;
+        this.maxC = maxC;
+        this.minC = minC;
+        this.deltaC = deltaC;
+        this.confidence = confidence;
+        this.support = support;
     }
 
     public void reset() {
@@ -84,6 +99,15 @@ public class DataViewClassificationMB{
 
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
+        
+        confidence = 0.6;
+        support = 0.005;
+        maxM = 100;
+        minM = 100;
+        deltaM = 10;
+        maxC = 0.5;
+        minC = 0.5;
+        deltaC = 0.1;        
     }
 
     public void loadVariablesPickList() {
@@ -93,9 +117,9 @@ public class DataViewClassificationMB{
         ResultSet rs = null;
 
         if (fact.equals("fatal")) {
-            rs = connectionJdbcMB.consult("Select * from common_variables_fatal");
+            rs = connectionJdbcMB.consult("Select * from common_variables_fatal ORDER BY id");
         } else if (fact.equals("non_fatal")) {
-            rs = connectionJdbcMB.consult("Select * from common_variables_non_fatal");
+            rs = connectionJdbcMB.consult("Select * from common_variables_non_fatal ORDER by id");
         }
 
         try {
@@ -113,11 +137,29 @@ public class DataViewClassificationMB{
 
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
+        loadClass();
+    }
 
+    public void loadClass() {
+        if (fact.equals("fatal")) {
+            classValues = new ArrayList<>();
+            classValues.add(new SelectItem("Homicidios", "Homicidios"));
+            classValues.add(new SelectItem("Homicidios", "Homicidios"));
+            classValues.add(new SelectItem("Transito", "Transito"));
+            classValues.add(new SelectItem("Accidentes", "Accidentes"));
+        } else if (fact.equals("non_fatal")) {
+            classValues = new ArrayList<>();
+            classValues.add(new SelectItem("Interpersonal", "Interpersonal"));
+            classValues.add(new SelectItem("Intrafamiliar", "Intrafamiliar"));
+            classValues.add(new SelectItem("Auto_Inflingido", "Auto Inflingido"));
+            classValues.add(new SelectItem("Lesiones_Transito", "Lesiones de Tránsito"));
+            classValues.add(new SelectItem("No_Intencial", "No intencional"));
+        }
     }
 
     public void loadDataTable() throws SQLException {
         colNameData = new ArrayList<>();
+        colNameData.add("TIPO_EVENTO");
         data = new ArrayList<>();
         String aux1, aux2 = null, aux3;
 
@@ -170,8 +212,8 @@ public class DataViewClassificationMB{
 
 
         if (!aux1.isEmpty()) {
-            ResultSet rs = connectionJdbcMB.consult("SELECT " + "'Homicidio'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
-                    + "SELECT " + "'Suicidio'," + aux1 + " FROM " + aux_suicides + aux3 + " UNION "
+            ResultSet rs = connectionJdbcMB.consult("SELECT " + "'Homicidios'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
+                    + "SELECT " + "'Suicidios'," + aux1 + " FROM " + aux_suicides + aux3 + " UNION "
                     + "SELECT " + "'Transito'," + aux1 + " FROM " + aux_traffic + aux3 + " UNION "
                     + "SELECT " + "'Accidentes'," + aux1 + " FROM " + aux_accidents + aux3);
 
@@ -196,7 +238,17 @@ public class DataViewClassificationMB{
 
     public StreamedContent qualityData() {
         try {
-            return analysis.getQualityDataFile(loginMB.getUserLogin(), variables, resultado, data);
+            return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
+        } catch (IOException ex) {
+            Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public StreamedContent classificationAnalysis() {                
+        try {
+            return analysis.getClassificationFile(loginMB.getUserLogin(), colNameData, resultado, data,
+                     classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support);
         } catch (IOException ex) {
             Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,6 +273,22 @@ public class DataViewClassificationMB{
 
     public List<SelectItem> getFacts() {
         return facts;
+    }
+
+    public String getClassValue() {
+        return classValue;
+    }
+
+    public void setClassValue(String classValue) {
+        this.classValue = classValue;
+    }
+
+    public List<SelectItem> getClassValues() {
+        return classValues;
+    }
+
+    public void setClassValues(List<SelectItem> classValues) {
+        this.classValues = classValues;
     }
 
     public SelectItem getSelectedList() {
@@ -274,4 +342,70 @@ public class DataViewClassificationMB{
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+    
+    public double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(double confidence) {
+        this.confidence = confidence;
+    }
+
+    public double getSupport() {
+        return support;
+    }
+
+    public void setSupport(double support) {
+        this.support = support;
+    }
+
+    public int getMaxM() {
+        return maxM;
+    }
+
+    public void setMaxM(int maxM) {
+        this.maxM = maxM;
+    }
+
+    public int getMinM() {
+        return minM;
+    }
+
+    public void setMinM(int minM) {
+        this.minM = minM;
+    }
+
+    public int getDeltaM() {
+        return deltaM;
+    }
+
+    public void setDeltaM(int deltaM) {
+        this.deltaM = deltaM;
+    }
+
+    public double getMaxC() {
+        return maxC;
+    }
+
+    public void setMaxC(double maxC) {
+        this.maxC = maxC;
+    }
+
+    public double getMinC() {
+        return minC;
+    }
+
+    public void setMinC(double minC) {
+        this.minC = minC;
+    }
+
+    public double getDeltaC() {
+        return deltaC;
+    }
+
+    public void setDeltaC(double deltaC) {
+        this.deltaC = deltaC;
+    }
+    
+    
 }

@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage[hmargin=2cm,vmargin=2cm,landscape]{geometry}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage[stable]{footmisc}
+\usepackage{longtable}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+%\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{3\baselineskip}
+  \includegraphics[scale=0.42]{udenar.jpg}\hspace{2cm}
+  \includegraphics[scale=0.85]{colciencias.jpg}\hspace{2cm}
+  \includegraphics[scale=1.2]{alcaldia.jpg} 
+  \\ \vspace*{4\baselineskip}
+  \large
+  \bfseries
+DETECCION DE PATRONES DELICTIVOS CON TECNICAS DE MINERIA DE DATOS EN EL OBSERVATORIO DEL DELITO DEL MUNICIPIO DE PASTO. \\ [5\baselineskip]
+  \normalfont
+  Análisis de Clasificación \\
+  Repositorio de Lesiones de Causa Externa Fatales \\
+  Version 1.0 \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\
+  Realizado para:  Convenio 615 \\ [5\baselineskip]
+  
+  \textbf{\today} \\[2\baselineskip]    
+\end{titlepage}
+
+\pagestyle{plain}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman} 
+\tableofcontents 
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Generación de Árboles de Decisión\footnote{Click en las figuras para ampliar.}.}
+<<A1, run-all, include=FALSE>>=
+opts_chunk$set(fig.path='/tmp/', comment=NA, prompt=FALSE, fig.align='center', fig.show='hold')
+
+output <- NULL
+for(m in seq(minM, maxM, deltaM)){
+  for(c in seq(minC, maxC, deltaC)){
+    output <- c(output, knit_child('runJ484SIGEODEP.Rnw'))
+  }
+}
+@
+
+\Sexpr{paste(output, collapse = '\n')}
+
+\section{Mejor Árbol}
+El mejor árbol alcanzo una confianza de \Sexpr{round(bestConf,2)}\% y se obtuvo con los parámetros M=\Sexpr{bestM} y C=\Sexpr{bestC} (ver figura~\ref{\Sexpr{bestLabel}}). La tabla \ref{list} ordena los árboles generados de acuerdo a la confianza obtenida.
+
+<<A2, echo=FALSE,results='asis'>>=
+names(conf_table) <-c('M','C','Conf (%)','Detalle')
+conf_table <- conf_table[order(conf_table[,3], decreasing=T),]
+print(xtable(conf_table, caption='Resumen de parámetros usados ordenado por la confianza obtenida.', label='list')
+      , booktabs=TRUE
+      , tabular.environment='longtable'
+      , floating=FALSE
+      , caption.placement = "top"
+      , sanitize.text.function=function(str){str}
+      , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)})
+@
+
+<<A3, echo=FALSE, results='hide'>>=
+mm <- bestM
+cc <- bestC
+str_conf <- paste0(round(CONFIDENCE,4)*100,'\\%')
+str_supp <- paste0(round(SUPPORT,4)*100,'\\%')
+dotprune <- paste(path,'/pruned_M',mm,'_C',cc,'.dot', sep="")
+pdfprune <- paste(path,'/pruned_M',mm,'_C',cc*100,'.',format, sep="")
+source('bestTreeFunctions.R')
+rules <- bestTree(formula, data, mm, cc, CONFIDENCE, SUPPORT, dotprune)
+system(paste('dot -Gsize=100,100 -T',format,' ',dotprune,' -o ',pdfprune, sep=""))
+@
+
+\clearpage
+\section{Poda del Árbol}
+Para mejorar la interpretabilidad del resultado, se tomó el mejor árbol encontrado por el previo análisis y se podó aquellas reglas que no superaban un criterio de confianza y soporte predefinido.  En la figura \ref{pruned} se muestra una nueva versión del árbol de clasificación preservando solo las ramas con una confianza superior a \Sexpr{str_conf} y un soporte superior a \Sexpr{str_supp}. Finalmente, la tabla \ref{rules} muestra un resumen de las reglas seleccionadas con información adicional sobre su confianza y soporte.
+
+<<A4, echo=FALSE,results='asis'>>=
+tab_rules <- rules2table(rules)
+the_table <- xtable(tab_rules, caption='Resumen de las mejores reglas obtenidas después del proceso de poda.', label = 'rules')
+align(the_table) <- "rp{12cm}rrr"
+n <- nrow(tab_rules) - 1
+if (n == 0){
+  print(the_table
+        , booktabs=TRUE
+        , tabular.environment="longtable"
+        , floating=FALSE
+        , caption.placement = "top"
+        , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+        , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)})
+} else {
+  rws <- seq(1, n, by = 2)
+  col <- rep("\\rowcolor[gray]{0.9}", length(rws))
+  print(the_table
+      , booktabs=TRUE
+      , tabular.environment="longtable"
+      , floating=FALSE
+      , caption.placement = "top"
+      , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+      , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)}
+      , add.to.row = list(pos = as.list(rws), command = col))
+}
+@
+
+\begin{figure}[H] 
+  \centering
+  \href{run:\Sexpr{pdfprune}}{\includegraphics[width=1\textwidth]{\Sexpr{pdfprune}}}
+  \caption{Visualización del árbol podado [Conf: \Sexpr{str_conf} Supp: \Sexpr{str_supp}].}
+  \label{pruned}
+\end{figure}
+
+\clearpage
+\section{Curva ROC}
+
+<<A5, echo=FALSE, results='asis'>>=
+require(ROCR)
+model.j48 <- J48(formula, data=data, na.action=NULL, control=Weka_control(M=mm,C=cc))
+xtable(summary(model.j48)$confusionMatrix, caption='Matriz de confusión.', label = 'mc', digits=c(0,0,0))
+@
+
+<<A6, echo=FALSE, results='asis'>>=
+prediction <- as.data.frame(summary(predict(model.j48, data[,-1])))
+names(prediction)[1] <- "prediction"
+xtable(prediction, , caption='Predicción por clase.', label = 'rules')
+@
+
+<<ROC, echo=FALSE, fig.width=7, fig.height=7, out.width='.7\\textheight', out.height='.7\\textheight', fig.cap='Curva ROC.'>>=
+model.preds <- predict(model.j48, data[,-1], type = 'prob')
+preds <- model.preds[,"Y"]
+plot(performance(prediction(preds, data[,1]), 'tpr', 'fpr'))
+@
+
+
+\end{document}

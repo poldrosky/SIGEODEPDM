@@ -33,21 +33,23 @@
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
-                        <p:column colspan="2" >
+                        <p:column colspan="4" >
                             <p:outputLabel for="fact" value="Eventos: " />
                             <p:selectOneMenu id="fact" value="#{dataViewClassificationMB.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
                                 <f:selectItems value="#{dataViewClassificationMB.facts}" />
                                 <f:ajax 
                                     event="change"
-                                    listener="#{dataViewClassificationMB.loadVariablesPickList}"
-                                    render="variablesList"
+                                    listener="#{dataViewClassificationMB.loadVariablesPickList}"                                    
+                                    render="variablesList classValue" 
                                     />
+                                 
+                                
                             </p:selectOneMenu>                            
                         </p:column>
                     </p:row>
                     <p:row>                       
-                        <p:column colspan="2">
+                        <p:column colspan="4">
                             <p:pickList id="variablesList" value="#{dataViewClassificationMB.variables}" 
                                         var="item" 
                                         itemLabel="#{item.valueSp}" 
@@ -57,7 +59,7 @@
                     </p:row>
                     <p:row >                                            
                         <p:column  colspan="1">Filtrar Fecha</p:column>
-                        <p:column colspan="1">
+                        <p:column colspan="3">
 
                             <p:outputLabel for="start" value="Inicio:" />
                             <br />
@@ -70,11 +72,73 @@
                         </p:column>                                            
                     </p:row>
                     <p:row>
-                        <p:column colspan="2">
+                        <p:column colspan="4">
                             <p:commandButton actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
-                    </p:row> 
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <h2>Datos Adicionales para Clasificación</h2>
+                        </p:column>                        
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="1">
+                            <p:outputLabel for="classValue" value="Valor Clase: " />
+                            <br />
+                            <p:selectOneMenu id="classValue" value="#{dataViewClassificationMB.classValue}">
+                                <f:selectItem itemLabel="Seleccione una " itemValue="" />
+                                <f:selectItems value="#{dataViewClassificationMB.classValues}"/>
+                            </p:selectOneMenu>                            
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="confidence" value="Confianza:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.confidence}" id="confidence" min="0.0" max="1.0" stepFactor="0.1"/>                            
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="support" value="Soporte:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.support}" id="support" min="0.0" max="1.0" stepFactor="0.01" />                            
+                        </p:column>
+                        
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="maxM" value="Max M:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.maxM}" id="maxM" min="1" max="100" stepFactor="1" />
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="minM" value="Min M:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.minM}" id="minM" min="1" max="100" stepFactor="1"/>                           
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="deltaM" value="Delta M:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.deltaM}" id="deltaM" min="1" max="10" stepFactor="1" />                            
+                        </p:column>
+                        
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="1">
+                            <p:outputLabel for="maxC" value="Max C:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.maxC}" id="maxC" min="0.1" max="0.5" stepFactor="0.01"/>                            
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="minC" value="Min C:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.minC}" id="minC" min="0.1" max="0.5" stepFactor="0.01"/>                            
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="deltaC" value="Delta C:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.deltaC}" id="deltaC" min="0.1" max="1.0" stepFactor="0.01"/>                            
+                        </p:column>
+                        
+                    </p:row>
                 </p:panelGrid>
 
 
@@ -100,6 +164,11 @@
                 <p:column colspan="2">
                     <h:commandButton value="Calidad de Datos" >
                         <p:fileDownload value="#{dataViewClassificationMB.qualityData()}"/> 
+                    </h:commandButton> 
+                </p:column>
+                 <p:column colspan="2">
+                    <h:commandButton value="Análisis Clasificación" >
+                        <p:fileDownload value="#{dataViewClassificationMB.classificationAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>
               
