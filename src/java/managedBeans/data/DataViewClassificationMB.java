@@ -114,11 +114,17 @@ public class DataViewClassificationMB {
         context = FacesContext.getCurrentInstance();
         connectionJdbcMB = (ConnectionJdbcMB) context.getApplication().evaluateExpressionGet(context, "#{connectionJdbcMB}", ConnectionJdbcMB.class);
         connectionJdbcMB.connectToDb();
+        
+        variablesSource = new ArrayList<>();
+        variablesTarget = new ArrayList<>();
+        variables = new DualListModel<>(variablesSource, variablesTarget);
+        
         ResultSet rs = null;
+        
 
         if (fact.equals("fatal")) {
             rs = connectionJdbcMB.consult("Select * from common_variables_fatal ORDER BY id");
-        } else if (fact.equals("non_fatal")) {
+        } else{
             rs = connectionJdbcMB.consult("Select * from common_variables_non_fatal ORDER by id");
         }
 
@@ -144,16 +150,16 @@ public class DataViewClassificationMB {
         if (fact.equals("fatal")) {
             classValues = new ArrayList<>();
             classValues.add(new SelectItem("Homicidios", "Homicidios"));
-            classValues.add(new SelectItem("Homicidios", "Homicidios"));
+            classValues.add(new SelectItem("Suicidios", "Suicidios"));
             classValues.add(new SelectItem("Transito", "Transito"));
             classValues.add(new SelectItem("Accidentes", "Accidentes"));
-        } else if (fact.equals("non_fatal")) {
+        } else {
             classValues = new ArrayList<>();
             classValues.add(new SelectItem("Interpersonal", "Interpersonal"));
             classValues.add(new SelectItem("Intrafamiliar", "Intrafamiliar"));
             classValues.add(new SelectItem("Auto_Inflingido", "Auto Inflingido"));
             classValues.add(new SelectItem("Lesiones_Transito", "Lesiones de Tránsito"));
-            classValues.add(new SelectItem("No_Intencial", "No intencional"));
+            classValues.add(new SelectItem("No_Intencional", "No intencional"));
         }
     }
 
@@ -161,7 +167,8 @@ public class DataViewClassificationMB {
         colNameData = new ArrayList<>();
         colNameData.add("TIPO_EVENTO");
         data = new ArrayList<>();
-        String aux1, aux2 = null, aux3;
+        ResultSet rs=null;
+        String aux1,  aux3;
 
         //ArrayList<String> arrayList = new ArrayList<>();
 
@@ -186,12 +193,19 @@ public class DataViewClassificationMB {
 
         aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
 
-
+        // Fatal variables
         String aux_murder = null;
         String aux_suicides = null;
         String aux_traffic = null;
         String aux_accidents = null;
-        // Fatal
+        
+        //nonFatal variables
+        String aux_interpersonal = null;
+        String aux_intrafamiliar = null;
+        String aux_self_inflicted = null;
+        String aux_transport = null;
+        String aux_unintentional = null;
+        
         if (this.fact.equals("fatal")) {
             aux_murder = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_murder natural join "
@@ -208,26 +222,57 @@ public class DataViewClassificationMB {
             aux_accidents = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
-        }
 
-
-        if (!aux1.isEmpty()) {
-            ResultSet rs = connectionJdbcMB.consult("SELECT " + "'Homicidios'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
-                    + "SELECT " + "'Suicidios'," + aux1 + " FROM " + aux_suicides + aux3 + " UNION "
-                    + "SELECT " + "'Transito'," + aux1 + " FROM " + aux_traffic + aux3 + " UNION "
-                    + "SELECT " + "'Accidentes'," + aux1 + " FROM " + aux_accidents + aux3);
-
-            while (rs.next()) {
-                String[] arrayList;
-                int columns = rs.getMetaData().getColumnCount();
-                arrayList = new String[columns];
-
-                for (int i = 0; i < columns; i++) {
-                    arrayList[i] = rs.getString(i + 1);
-                }
-                data.add(arrayList);
+            if (!aux1.isEmpty()) {
+                rs = connectionJdbcMB.consult("SELECT " + "'Homicidios'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
+                        + "SELECT " + "'Suicidios'," + aux1 + " FROM " + aux_suicides + aux3 + " UNION "
+                        + "SELECT " + "'Auto_Inflingido'," + aux1 + " FROM " + aux_traffic + aux3 + " UNION "
+                        + "SELECT " + "'Accidentes'," + aux1 + " FROM " + aux_accidents + aux3);
+            }
+        } else {
+            aux_interpersonal = "fact_interpersonal natural join dim_interpersonal natural join dim_anatomical_location natural join"
+                    +" dim_date natural join dim_time left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood"
+                    +" natural join dim_non_fatal natural join dim_victim";
+            
+            aux_intrafamiliar = "fact_intrafamiliar natural join dim_abuse left join dim_anatomical_location using (anatomical_location_key)"
+                    + " natural join dim_date left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood natural join"
+                    + " dim_non_fatal natural join dim_time natural join dim_victim left join dim_aggressor using (aggressor_key)";
+            
+            aux_self_inflicted = "fact_self_inflicted natural join dim_date natural join dim_time natural join dim_anatomical_location"
+                    + " left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood  natural join dim_non_fatal"
+                    + " natural join dim_self_inflicted natural join dim_victim";
+            
+            aux_transport = "fact_transport natural join dim_date natural join dim_time natural join dim_anatomical_location left"
+                    + " join dim_kind_of_injury using(kind_of_injury_key) natural join dim_neighborhood natural join dim_non_fatal"
+                    + " left join dim_security_elements using (security_elements_key) natural join dim_transport natural join"
+                    + " dim_victim ";
+            
+            aux_unintentional = "fact_unintentional natural join dim_date natural join dim_time natural join dim_anatomical_location left"
+                    + " join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood natural join dim_non_fatal natural"
+                    + " join dim_victim";
+            
+            if (!aux1.isEmpty()) {
+                rs = connectionJdbcMB.consult("SELECT " + "'Interpersonal'," + aux1 + " FROM " + aux_interpersonal + aux3 + " UNION "
+                        + "SELECT " + "'Intrafamiliar'," + aux1 + " FROM " + aux_intrafamiliar + aux3 + " UNION "
+                        + "SELECT " + "'Transito'," + aux1 + " FROM " +  aux_self_inflicted + aux3 + " UNION "
+                        + "SELECT " + "'Lesiones_Transito'," + aux1 + " FROM " + aux_transport + aux3 + " UNION "
+                        + "SELECT " + "'No_Intencional'," + aux1 + " FROM " + aux_unintentional + aux3);
             }
         }
+
+       
+
+        while (rs.next()) {
+            String[] arrayList;
+            int columns = rs.getMetaData().getColumnCount();
+            arrayList = new String[columns];
+
+            for (int i = 0; i < columns; i++) {
+                arrayList[i] = rs.getString(i + 1);
+            }
+            data.add(arrayList);
+        }        
+        
     }
     List<String[]> resultado;
 
