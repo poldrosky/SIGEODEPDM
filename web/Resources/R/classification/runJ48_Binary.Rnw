@@ -85,14 +85,23 @@ dotprune <- paste(path,'/pruned_M',mm,'_C',cc,'.dot', sep="")
 pdfprune <- paste(path,'/pruned_M',mm,'_C',cc*100,'.',format, sep="")
 source('bestTreeFunctions.R')
 rules <- bestTree(formula, data, mm, cc, CONFIDENCE, SUPPORT, dotprune)
-system(paste('dot -Gsize=100,100 -T',format,' ',dotprune,' -o ',pdfprune, sep=""))
+
+if (length(rules) == 0){
+  textOut <- "No se puede ejecutar la poda."
+}else {
+  system(paste('dot -Gsize=100,100 -T',format,' ',dotprune,' -o ',pdfprune, sep=""))
+  textOut <- paste("Para mejorar la interpretabilidad del resultado, se tomó el mejor árbol encontrado por el previo análisis y se podó aquellas reglas que no superaban un criterio de confianza y soporte predefinido.  En la figura \\ref{pruned} se muestra una nueva versión del árbol de clasificación preservando solo las ramas con una confianza superior a", str_conf, "y un soporte superior a",str_supp,". Finalmente, la tabla \\ref{rules} muestra un resumen de las reglas seleccionadas con información adicional sobre su confianza y soporte.")
+}
 @
 
 \clearpage
 \section{Poda del Árbol}
-Para mejorar la interpretabilidad del resultado, se tomó el mejor árbol encontrado por el previo análisis y se podó aquellas reglas que no superaban un criterio de confianza y soporte predefinido.  En la figura \ref{pruned} se muestra una nueva versión del árbol de clasificación preservando solo las ramas con una confianza superior a \Sexpr{str_conf} y un soporte superior a \Sexpr{str_supp}. Finalmente, la tabla \ref{rules} muestra un resumen de las reglas seleccionadas con información adicional sobre su confianza y soporte.
+\Sexpr{textOut}
+
 
 <<A4, echo=FALSE,results='asis'>>=
+figurePrune <- ""
+if (length(rules) != 0){
 tab_rules <- rules2table(rules)
 the_table <- xtable(tab_rules, caption='Resumen de las mejores reglas obtenidas después del proceso de poda.', label = 'rules')
 align(the_table) <- "rp{12cm}rrr"
@@ -117,14 +126,16 @@ if (n == 0){
       , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)}
       , add.to.row = list(pos = as.list(rws), command = col))
 }
+figurePrune <- paste0("\\begin{figure}[H] 
+  \\centering
+  \\href{run:",pdfprune,"}{\\includegraphics[width=1\\textwidth]{",pdfprune,"}}
+  \\caption{Visualización del árbol podado [Conf: " ,str_conf," Supp: ", str_supp,"].}
+  \\label{pruned}
+\\end{figure}")
+}
 @
 
-\begin{figure}[H] 
-  \centering
-  \href{run:\Sexpr{pdfprune}}{\includegraphics[width=1\textwidth]{\Sexpr{pdfprune}}}
-  \caption{Visualización del árbol podado [Conf: \Sexpr{str_conf} Supp: \Sexpr{str_supp}].}
-  \label{pruned}
-\end{figure}
+\Sexpr{figurePrune}
 
 \clearpage
 \section{Curva ROC}
