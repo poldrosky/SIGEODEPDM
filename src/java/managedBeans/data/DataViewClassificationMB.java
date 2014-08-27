@@ -191,7 +191,7 @@ public class DataViewClassificationMB {
         String sD = d.format(startDate);
         String eD = d.format(endDate);
 
-        aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
+        
 
         // Fatal variables
         String aux_murder = null;
@@ -222,6 +222,8 @@ public class DataViewClassificationMB {
             aux_accidents = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
+            
+            aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
 
             if (!aux1.isEmpty()) {
                 rs = connectionJdbcMB.consult("SELECT " + "'Homicidios'," + aux1 + " FROM " + aux_murder + aux3 + " UNION "
@@ -230,26 +232,95 @@ public class DataViewClassificationMB {
                         + "SELECT " + "'Accidentes'," + aux1 + " FROM " + aux_accidents + aux3);
             }
         } else {
-            aux_interpersonal = "fact_interpersonal natural join dim_interpersonal natural join dim_anatomical_location natural join"
-                    +" dim_date natural join dim_time left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood"
-                    +" natural join dim_non_fatal natural join dim_victim";
+            aux_interpersonal = "fact_interpersonal fact"
+                    + " NATURAL JOIN dim_interpersonal"
+                    + " NATURAL JOIN dim_anatomical_location "
+                    + " NATURAL JOIN dim_time "
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key) "
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
             
-            aux_intrafamiliar = "fact_intrafamiliar natural join dim_abuse left join dim_anatomical_location using (anatomical_location_key)"
-                    + " natural join dim_date left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood natural join"
-                    + " dim_non_fatal natural join dim_time natural join dim_victim left join dim_aggressor using (aggressor_key)";
+            aux_intrafamiliar = "fact_intrafamiliar fact"
+                    + " NATURAL JOIN dim_abuse"
+                    + " LEFT JOIN dim_anatomical_location USING (anatomical_location_key)"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_victim"
+                    + " LEFT JOIN dim_aggressor USING (aggressor_key)"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
             
-            aux_self_inflicted = "fact_self_inflicted natural join dim_date natural join dim_time natural join dim_anatomical_location"
-                    + " left join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood  natural join dim_non_fatal"
-                    + " natural join dim_self_inflicted natural join dim_victim";
+            aux_self_inflicted = "fact_self_inflicted fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_self_inflicted"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+                    
             
-            aux_transport = "fact_transport natural join dim_date natural join dim_time natural join dim_anatomical_location left"
-                    + " join dim_kind_of_injury using(kind_of_injury_key) natural join dim_neighborhood natural join dim_non_fatal"
-                    + " left join dim_security_elements using (security_elements_key) natural join dim_transport natural join"
-                    + " dim_victim ";
+            aux_transport = "fact_transport fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " left join dim_security_elements USING (security_elements_key)"
+                    + " NATURAL JOIN dim_transport"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+                   
             
-            aux_unintentional = "fact_unintentional natural join dim_date natural join dim_time natural join dim_anatomical_location left"
-                    + " join dim_kind_of_injury using (kind_of_injury_key) natural join dim_neighborhood natural join dim_non_fatal natural"
-                    + " join dim_victim";
+            aux_unintentional = "fact_unintentional fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+            
+            aux3 = " WHERE event_date.date_value BETWEEN '" + sD + "' AND '" + eD + "'";
             
             if (!aux1.isEmpty()) {
                 rs = connectionJdbcMB.consult("SELECT " + "'Interpersonal'," + aux1 + " FROM " + aux_interpersonal + aux3 + " UNION "
@@ -260,7 +331,11 @@ public class DataViewClassificationMB {
             }
         }
 
-       
+        System.out.println("SELECT " + "'Interpersonal'," + aux1 + " FROM " + aux_interpersonal + aux3 + " UNION "
+                        + "SELECT " + "'Intrafamiliar'," + aux1 + " FROM " + aux_intrafamiliar + aux3 + " UNION "
+                        + "SELECT " + "'Transito'," + aux1 + " FROM " +  aux_self_inflicted + aux3 + " UNION "
+                        + "SELECT " + "'Lesiones_Transito'," + aux1 + " FROM " + aux_transport + aux3 + " UNION "
+                        + "SELECT " + "'No_Intencional'," + aux1 + " FROM " + aux_unintentional + aux3);
 
         while (rs.next()) {
             String[] arrayList;
