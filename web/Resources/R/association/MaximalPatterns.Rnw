@@ -1,0 +1,200 @@
+\documentclass{article}
+\usepackage[hmargin=2cm,vmargin=2cm,landscape]{geometry}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage[stable]{footmisc}
+\usepackage{longtable}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\begin{document}
+
+<<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
+opts_chunk$set(fig.path='/tmp/', comment=NA, prompt=FALSE, fig.align='center', fig.show='hold')
+source('FPFunctions.R')
+@
+
+%%%%%%%%%%%
+%% PARAM %%
+%%%%%%%%%%%
+
+<<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
+DATASET <- "Homicidios"
+INJURY <- "fact_accidents"
+K <- 20
+LCM_PATH <- "lcm/lcm"
+LCM_TYPE <- "C"
+LCM_SUPP_PERC <- 0.01
+LCM_FILES_PATH <- '/tmp/'
+LCM_IN <- 'translated.in'
+LCM_OUT <- 'translated.out'
+LCM_FILE_IN <- paste0(LCM_FILES_PATH,LCM_IN)
+LCM_FILE_OUT <- paste0(LCM_FILES_PATH,LCM_OUT)
+LCM_MIN_LEN <- "4"
+LCM_SEP <- ";"
+LCM_OPTIONS <- paste0(LCM_TYPE,"f -l ", LCM_MIN_LEN,"  -, '", LCM_SEP,"'")
+FIELDS <- "date_month_name + date_day_name  + fatal_place_name + neighborhood_suburb_name + time_name + time_group + victim_age_five_year + victim_gender + victim_ethnic_group_name + residence_neighborhood_suburb_name"
+@
+
+\section{Análisis de Patrones Frecuentes Conjunto de Datos \Sexpr{DATASET}.}
+
+%%%%%%%%%%
+%% DATA %%
+%%%%%%%%%%
+
+<<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
+# data <- read.csv(url("http://190.254.4.36:9191/resources/fatales.csv"))
+data <- read.csv("fatales.csv")
+#data <- data[ , -which(names(data) %in% c("counts"))]
+data[data[,c('injury')]=='fact_traffic',c('fatal_place_name')] <- 'ESPACIO O VIA PUBLICA'
+data <- as.data.frame(sapply(data, str_trim))
+data <- as.data.frame(sapply(data, as.factor))
+
+data <- data[data$injury == INJURY,]
+data <- data[ , -which(names(data) %in% c("injury"))]
+fields <- lapply(str_split(FIELDS, '\\+'), str_trim)
+data <- data[,fields[[1]]]
+@
+
+<<echo=FALSE, results='hide'>>=
+HAS_PATTERNS <- FALSE
+N <- nrow(data)
+LCM_SUPP <- round(N * LCM_SUPP_PERC)
+LCM_TYPE_STR <- "Todos"
+if(LCM_TYPE == 'C'){
+  LCM_TYPE_STR <- "Cerrados"
+}
+if(LCM_TYPE == 'M'){
+  LCM_TYPE_STR <- "Máximos"
+}
+@
+
+\subsection{Configuración}
+
+\begin{tabular}{ll}
+Tipo: & \Sexpr{LCM_TYPE_STR} \\
+Soporte: & \Sexpr{round(LCM_SUPP_PERC * 100, 2)}\% (\Sexpr{LCM_SUPP} casos) \\
+Longitud mínima: & \Sexpr{LCM_MIN_LEN} \\
+\end{tabular}
+<<echo=FALSE, results='hide'>>=
+dict <- coding(data)
+translated <- translating(data, dict)
+write.translated(translated, LCM_FILE_IN)
+LCM = paste(LCM_PATH, LCM_OPTIONS, LCM_FILE_IN, LCM_SUPP, LCM_FILE_OUT)
+info <- system(LCM, intern=TRUE)
+patterns <- readChar(LCM_FILE_OUT, file.info(LCM_FILE_OUT)$size)
+if(patterns != ""){
+  NPATTERNS <- as.numeric(info[1])
+  patterns <- str_split(patterns, '\n')[[1]]
+  patterns <- str_split(patterns, ' ')
+  ID <- vector()
+  KEY <- vector()
+  SUPP <- vector()
+  LEN <- vector()
+  id <- 1
+  for(pattern in patterns){
+    if(is.na(pattern[2])){
+      next
+    }
+    SUPP <- c(SUPP, gsub("[\\(\\)]", "", pattern[2]))
+    items <- str_split(pattern[1], LCM_SEP)[[1]]
+    len <-length(items)
+    LEN <- c(LEN, len)
+    ID <- c(ID, rep(id, len))
+    KEY <- c(KEY, items)
+    id <- id + 1
+  }
+  patterns <- data.frame(ID = ID, KEY = KEY)
+  patterns <- sqldf("SELECT ID, VALUE FROM patterns NATURAL JOIN dict")
+  patterns <- sqldf("SELECT '[ ' || group_concat(VALUE,' | ') || ' ]' AS pattern FROM patterns GROUP BY ID")
+  patterns <- data.frame(PATTERNS = patterns, length = as.numeric(LEN), support = as.numeric(SUPP))
+  
+  patterns_by_length <- patterns[order(-patterns$length, -patterns$support), ]
+  patterns_by_support <- patterns[order(-patterns$support, -patterns$length), ]
+  
+  if(K > NPATTERNS){
+    K <- NPATTERNS
+  }
+  patterns_by_length <- patterns_by_length[1:K, ]
+  patterns_by_support <- patterns_by_support[1:K, ]
+  patterns_by_length$support <- paste0(round(patterns_by_length$support * 100 / N, 2), '\\% (', patterns_by_length$support, ')')
+  patterns_by_support$support <- paste0(round(patterns_by_support$support * 100 / N, 2), '\\% (', patterns_by_support$support, ')')
+  HAS_PATTERNS <- TRUE
+  output <- paste("Se encontraron un total de", NPATTERNS,"patrones. A continuación se muestran los primeros", K,"patrones frecuentes de acuerdo a su longitud y soporte.")
+} else {
+  output <- "No se encontraron patrones frecuentes bajo esta configuración."
+}
+@
+
+\section{Resultados}
+\Sexpr{output}
+
+<<ByLength, echo=FALSE,results='asis'>>=
+if(HAS_PATTERNS){
+  names(patterns_by_length) <- c('Patrones Frecuentes', 'Longitud', 'Soporte')
+  rownames(patterns_by_length) <- seq(1, nrow(patterns_by_length))
+  the_table <- xtable(patterns_by_length, caption='Patrones frecuentes de acuerdo a su longitud.'
+                      , label = 'patterns_by_length', digits=c(0,0,0,0))
+  align(the_table) <- "rp{15cm}cl"
+  n <- nrow(patterns_by_length) - 1
+  if (n == 0){
+    print(the_table
+          , booktabs=TRUE
+          , tabular.environment="longtable"
+          , floating=FALSE
+          , caption.placement = "top"
+          , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+          , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)})
+  } else {
+    rws <- seq(1, n, by = 2)
+    col <- rep("\\rowcolor[gray]{0.9}", length(rws))
+    print(the_table
+        , booktabs=TRUE
+        , tabular.environment="longtable"
+        , floating=FALSE
+        , caption.placement = "top"
+        , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+        , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)}
+        , add.to.row = list(pos = as.list(rws), command = col))
+  }
+}
+@
+
+<<BySupport, echo=FALSE,results='asis'>>=
+if(HAS_PATTERNS){
+  names(patterns_by_support) <- c('Patrones Frecuentes', 'Longitud', 'Soporte')
+  rownames(patterns_by_support) <- seq(1, nrow(patterns_by_support))
+  the_table <- xtable(patterns_by_support, caption='Patrones frecuentes de acuerdo a su soporte.'
+                      , label = 'patterns_by_length', digits=c(0,0,0,0))
+  align(the_table) <- "rp{15cm}cl"
+  n <- nrow(patterns_by_support) - 1
+  if (n == 0){
+    print(the_table
+          , booktabs=TRUE
+          , tabular.environment="longtable"
+          , floating=FALSE
+          , caption.placement = "top"
+          , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+          , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)})
+  } else {
+    rws <- seq(1, n, by = 2)
+    col <- rep("\\rowcolor[gray]{0.9}", length(rws))
+    print(the_table
+        , booktabs=TRUE
+        , tabular.environment="longtable"
+        , floating=FALSE
+        , caption.placement = "top"
+        , sanitize.text.function=function(str){gsub("_","\\_",str,fixed=TRUE)}
+        , sanitize.colnames.function = function(str){gsub("%","\\%",str,fixed=TRUE)}
+        , add.to.row = list(pos = as.list(rws), command = col))
+  }
+}
+@
+
+
+
+\end{document}
