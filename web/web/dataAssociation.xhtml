@@ -80,6 +80,24 @@
                             <h2>Datos Adicionales para Asociación</h2>
                         </p:column>                        
                     </p:row>
+                    
+                    <p:row>
+                        <p:column colspan="1">
+                            <p:outputLabel for="kValue" value="Valor K:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.kValue}" id="kValue" min="0.0" max="1.0" stepFactor="0.1"/>                                                         
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="lcmSuppPerc" value="Soporte LCM" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.lcmSuppPerc}" id="lcmSuppPerc" min="0.0" max="1.0" stepFactor="0.1"/>                            
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:outputLabel for="lcmMinLen" value="Valor Minimo LCM" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.lcmMinLen}" id="lcmMinLen" min="0.0" max="1.0" stepFactor="0.01" />                            
+                        </p:column>                        
+                    </p:row>
                 </p:panelGrid>
 
 
