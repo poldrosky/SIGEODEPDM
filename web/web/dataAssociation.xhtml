@@ -33,7 +33,7 @@
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
-                        <p:column colspan="2" >
+                        <p:column colspan="4" >
                             <p:outputLabel for="fact" value="Eventos: " />
                             <p:selectOneMenu id="fact" value="#{dataViewAssociationMB.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
@@ -47,7 +47,7 @@
                         </p:column>
                     </p:row>
                     <p:row>                       
-                        <p:column colspan="2">
+                        <p:column colspan="4">
                             <p:pickList id="variablesList" value="#{dataViewAssociationMB.variables}" 
                                         var="item" 
                                         itemLabel="#{item.valueSp}" 
@@ -57,7 +57,7 @@
                     </p:row>
                     <p:row >                                            
                         <p:column  colspan="1">Filtrar Fecha</p:column>
-                        <p:column colspan="1">
+                        <p:column colspan="3">
 
                             <p:outputLabel for="start" value="Inicio:" />
                             <br />
@@ -70,7 +70,7 @@
                         </p:column>                                            
                     </p:row>
                     <p:row>
-                        <p:column colspan="2">
+                        <p:column colspan="3">
                             <p:commandButton actionListener="#{dataViewAssociationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
@@ -85,17 +85,17 @@
                         <p:column colspan="1">
                             <p:outputLabel for="kValue" value="Valor K:" />
                             <br />
-                            <p:spinner value="#{dataViewClassificationMB.kValue}" id="kValue" min="0.0" max="1.0" stepFactor="0.1"/>                                                         
+                            <p:spinner value="#{dataViewAssociationMB.kValue}" id="kValue" min="0.0" max="1.0" stepFactor="0.1"/>                                                         
                         </p:column>
                         <p:column colspan="1">
                             <p:outputLabel for="lcmSuppPerc" value="Soporte LCM" />
                             <br />
-                            <p:spinner value="#{dataViewClassificationMB.lcmSuppPerc}" id="lcmSuppPerc" min="0.0" max="1.0" stepFactor="0.1"/>                            
+                            <p:spinner value="#{dataViewAssociationMB.lcmSuppPerc}" id="lcmSuppPerc" min="0.0" max="1.0" stepFactor="0.1"/>                            
                         </p:column>
                         <p:column colspan="1">
                             <p:outputLabel for="lcmMinLen" value="Valor Minimo LCM" />
                             <br />
-                            <p:spinner value="#{dataViewClassificationMB.lcmMinLen}" id="lcmMinLen" min="0.0" max="1.0" stepFactor="0.01" />                            
+                            <p:spinner value="#{dataViewAssociationMB.lcmMinLen}" id="lcmMinLen" min="0.0" max="1.0" stepFactor="0.01" />                            
                         </p:column>                        
                     </p:row>
                 </p:panelGrid>

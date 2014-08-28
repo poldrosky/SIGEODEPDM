@@ -46,6 +46,9 @@ public class DataViewAssociationMB {
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
+    private int kValue;
+    private double lcmSuppPerc;
+    private int lcmMinLen;
 
     public DataViewAssociationMB() {
         this.startDate = new Date(1000);
@@ -279,4 +282,31 @@ public class DataViewAssociationMB {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public int getkValue() {
+        return kValue;
+    }
+
+    public void setkValue(int kValue) {
+        this.kValue = kValue;
+    }
+
+    public double getLcmSuppPerc() {
+        return lcmSuppPerc;
+    }
+
+    public void setLcmSuppPerc(double lcmSuppPerc) {
+        this.lcmSuppPerc = lcmSuppPerc;
+    }
+
+    public int getLcmMinLen() {
+        return lcmMinLen;
+    }
+
+    public void setLcmMinLen(int lcmMinLen) {
+        this.lcmMinLen = lcmMinLen;
+    }
+    
+    
+    
 }
