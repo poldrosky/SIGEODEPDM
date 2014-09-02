@@ -27,7 +27,7 @@ import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 @SessionScoped
-public class DataViewAssociationMB {
+public class DataViewClusteringMB {
 
     private DualListModel<ItemList> variables;
     private String fact;
@@ -46,18 +46,15 @@ public class DataViewAssociationMB {
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
-    private int kValue;
-    private double lcmSuppPerc;
-    private int lcmMinLen;
-    
+    private int cols_PerPage;    
 
-    public DataViewAssociationMB() {
+    public DataViewClusteringMB() {
         this.startDate = new Date(1000);
         loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
         analysis = new DataAnalysis();
     }
 
-    public DataViewAssociationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
+    public DataViewClusteringMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
@@ -73,9 +70,7 @@ public class DataViewAssociationMB {
         colNameData = new ArrayList<>();
         variablesSource = new ArrayList<>();
         variablesTarget = new ArrayList<>();
-        kValue = 20;
-        lcmSuppPerc = 0.01;
-        lcmMinLen = 4;
+        cols_PerPage = 3;
 
         startDate = new Date(100, 0, 1);
         endDate = new Date();
@@ -134,7 +129,7 @@ public class DataViewAssociationMB {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -223,16 +218,16 @@ public class DataViewAssociationMB {
         try {
             return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
         } catch (IOException ex) {
-            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     } 
     
-    public StreamedContent associationAnalysis() {                      
+    public StreamedContent clusteringAnalysis() {                      
         try {            
-            return analysis.getAssociationFile(loginMB.getUserLogin(), colNameData, resultado, data, kValue, lcmSuppPerc, lcmMinLen);
+            return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, cols_PerPage);
         } catch (IOException ex) {
-            Logger.getLogger(DataViewAssociationMB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }    
@@ -309,34 +304,11 @@ public class DataViewAssociationMB {
         this.endDate = endDate;
     }
 
-    public int getkValue() {
-        return kValue;
+    public int getCols_PerPage() {
+        return cols_PerPage;
     }
 
-    public void setkValue(int kValue) {
-        this.kValue = kValue;
-    }
-
-    public double getLcmSuppPerc() {
-        return lcmSuppPerc;
-    }
-
-    public void setLcmSuppPerc(double lcmSuppPerc) {
-        this.lcmSuppPerc = lcmSuppPerc;
-    }
-
-    public int getLcmMinLen() {
-        return lcmMinLen;
-    }
-
-    public void setLcmMinLen(int lcmMinLen) {
-        this.lcmMinLen = lcmMinLen;
-    }
-
-    
-    
-    
-    
-    
-    
+    public void setCols_PerPage(int cols_PerPage) {
+        this.cols_PerPage = cols_PerPage;
+    }     
 }

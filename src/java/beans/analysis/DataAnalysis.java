@@ -27,6 +27,7 @@ public class DataAnalysis {
     private StreamedContent qualityDataFile;
     private StreamedContent associationFile;
     private StreamedContent classificationFile;
+    private StreamedContent clusteringFile;
     
     public DataAnalysis() {
     }
@@ -34,7 +35,7 @@ public class DataAnalysis {
     public StreamedContent getQualityDataFile(String userLogin, List<String> colNameData, List<String[]> resultado, ArrayList<String[]> data) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
         qualityData();
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/" + fileName + ".pdf");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/"+ fileName + "/"+fileName+".pdf");
         qualityDataFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return qualityDataFile;
     }
@@ -114,15 +115,41 @@ public class DataAnalysis {
         }
     }
     
-    public StreamedContent getAssociationFile(String userLogin, List<String> colNameData, List<String[]> resultado, ArrayList<String[]> data) throws IOException {
+    public StreamedContent getAssociationFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
+            ArrayList<String[]> data, int kValue, double lcmSuppPerc, int lcmMinLen) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
-        association();
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/association/" + fileName + ".pdf");
+        association(kValue, lcmSuppPerc, lcmMinLen);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/association/"  + fileName + "/"+fileName+".pdf");
         associationFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return associationFile;
     }
     
-    public void association(){
+    public void association(int kValue, double lcmSuppPerc, int lcmMinLen){
+        Process p;
+        ProcessBuilder pb = new ProcessBuilder();
+
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String directory = ctx.getRealPath("/") + "Resources/R/association/";
+        String fileInput = ctx.getRealPath("/") + "Resources/csv/" + fileName;
+
+        System.out.println(directory + fileInput);
+
+
+        pb = new ProcessBuilder("Rscript", directory + "association.R", fileInput, fileName, directory, String.valueOf(kValue),
+                String.valueOf(lcmSuppPerc), String.valueOf(lcmMinLen), "Homicidios");
+        try {
+            p = pb.start();
+            InputStream is = p.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
     
@@ -163,9 +190,44 @@ public class DataAnalysis {
             }
         } catch (IOException ex) {
             Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }   
+    }
     
+    public StreamedContent getClusteringFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
+            ArrayList<String[]> data, int cols_PerPage) throws IOException {
+        buildCSV(userLogin, colNameData, resultado, data);
+        clustering(cols_PerPage);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/clustering/"  + fileName + "/"+fileName+".pdf");
+        clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
+        return clusteringFile;
+    }
+    
+    public void clustering(int cols_PerPage){
+        Process p;
+        ProcessBuilder pb = new ProcessBuilder();
+
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String directory = ctx.getRealPath("/") + "Resources/R/clustering/";
+        String fileInput = ctx.getRealPath("/") + "Resources/csv/" + fileName;
+
+        System.out.println(directory + fileInput);
+
+
+        pb = new ProcessBuilder("Rscript", directory + "clustering.R", fileInput, fileName, directory, 
+                String.valueOf(cols_PerPage),"Homicidios");
+        try {
+            p = pb.start();
+            InputStream is = p.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }    
     }
     
 }

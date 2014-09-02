@@ -29,18 +29,18 @@
             <br/>
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
-                #{dataViewAssociationMB.reset()}
+                #{dataViewClusteringMB.reset()}
                 <p:messages autoUpdate="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
                         <p:column colspan="4" >
                             <p:outputLabel for="fact" value="Eventos: " />
-                            <p:selectOneMenu id="fact" value="#{dataViewAssociationMB.fact}">
+                            <p:selectOneMenu id="fact" value="#{dataViewClusteringMB.fact}">
                                 <f:selectItem itemLabel="Seleccione una " itemValue="" />
-                                <f:selectItems value="#{dataViewAssociationMB.facts}" />
+                                <f:selectItems value="#{dataViewClusteringMB.facts}" />
                                 <f:ajax 
                                     event="change"
-                                    listener="#{dataViewAssociationMB.loadVariablesPickList}"
+                                    listener="#{dataViewClusteringMB.loadVariablesPickList}"
                                     render="variablesList"
                                     />
                             </p:selectOneMenu>                            
@@ -48,7 +48,7 @@
                     </p:row>
                     <p:row>                       
                         <p:column colspan="4">
-                            <p:pickList id="variablesList" value="#{dataViewAssociationMB.variables}" 
+                            <p:pickList id="variablesList" value="#{dataViewClusteringMB.variables}" 
                                         var="item" 
                                         itemLabel="#{item.valueSp}" 
                                         itemValue="#{item.valueEn}"
@@ -61,17 +61,17 @@
 
                             <p:outputLabel for="start" value="Inicio:" />
                             <br />
-                            <p:calendar id="start" value="#{dataViewAssociationMB.startDate}" pattern="dd-MM-yyyy"  />
+                            <p:calendar id="start" value="#{dataViewClusteringMB.startDate}" pattern="dd-MM-yyyy"  />
                             <br/>
                             <br/>
                             <p:outputLabel for="end" value="Fin:" />
                             <br/>
-                            <p:calendar id="end" value="#{dataViewAssociationMB.endDate}" pattern="dd-MM-yyyy"  /> 
+                            <p:calendar id="end" value="#{dataViewClusteringMB.endDate}" pattern="dd-MM-yyyy"  /> 
                         </p:column>                                            
                     </p:row>
                     <p:row>
                         <p:column colspan="3">
-                            <p:commandButton actionListener="#{dataViewAssociationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton actionListener="#{dataViewClusteringMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
@@ -82,21 +82,11 @@
                     </p:row>
 
                     <p:row>
-                        <p:column colspan="1">
-                            <p:outputLabel for="kValue" value="Valor K:" />
+                        <p:column colspan="4">
+                            <p:outputLabel for="cols_PerPage" value="Columnas por página:" />
                             <br />
-                            <p:spinner value="#{dataViewAssociationMB.kValue}" id="kValue" min="1" max="100" stepFactor="1"/>                                                         
-                        </p:column>
-                        <p:column colspan="1">
-                            <p:outputLabel for="lcmSuppPerc" value="Soporte LCM" />
-                            <br />
-                            <p:spinner value="#{dataViewAssociationMB.lcmSuppPerc}" id="lcmSuppPerc" min="0.0" max="1.0" stepFactor="0.01"/>                            
-                        </p:column>
-                        <p:column colspan="1">
-                            <p:outputLabel for="lcmMinLen" value="Valor Minimo LCM" />
-                            <br />
-                            <p:spinner value="#{dataViewAssociationMB.lcmMinLen}" id="lcmMinLen" min="1" max="20" stepFactor="1" />                            
-                        </p:column>                        
+                            <p:spinner value="#{dataViewClusteringMB.cols_PerPage}" id="cols_PerPage" min="1" max="100" stepFactor="1"/>                                                         
+                        </p:column>                                            
                     </p:row>
                 </p:panelGrid>
 
@@ -106,13 +96,13 @@
                 <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
                     <p:dataTable 
                         id="table1" 
-                        value="#{dataViewAssociationMB.data}"                        
+                        value="#{dataViewClusteringMB.data}"                        
                         var="row"                                
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         paginator="true" rows="8" style="margin-bottom:20px">
-                        <p:ajax event="filter" listener="#{dataViewAssociationMB.filter}" />
-                        <c:forEach var="i" begin="0" end="#{dataViewAssociationMB.colNameData.size()-1}">
-                            <p:column headerText="#{dataViewAssociationMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
+                        <p:ajax event="filter" listener="#{dataViewClusteringMB.filter}" />
+                        <c:forEach var="i" begin="0" end="#{dataViewClusteringMB.colNameData.size()-1}">
+                            <p:column headerText="#{dataViewClusteringMB.colNameData.get(i)}" filterBy="#{row[i]}"  filterMatchMode="contains"  >
                                 <h:outputLabel value="#{row[i]}"/>
                             </p:column>
                         </c:forEach>
@@ -122,12 +112,12 @@
 
                 <p:column colspan="2">
                     <h:commandButton value="Calidad de Datos" >
-                        <p:fileDownload value="#{dataViewAssociationMB.qualityData()}"/> 
+                        <p:fileDownload value="#{dataViewClusteringMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton value="Análisis Asociación" >
-                        <p:fileDownload value="#{dataViewAssociationMB.associationAnalysis()}"/> 
+                    <h:commandButton value="Análisis Agrupación" >
+                        <p:fileDownload value="#{dataViewClusteringMB.clusteringAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>
             </h:form> 

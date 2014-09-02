@@ -23,6 +23,11 @@
             <to-view-id>/web/dataClassification.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>clustering</from-outcome>
+            <to-view-id>/web/dataClustering.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
 </navigation-rule>
 
 </faces-config>

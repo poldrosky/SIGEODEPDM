@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[hmargin=2cm,vmargin=2cm,landscape]{geometry}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage[stable]{footmisc}
+\usepackage{longtable}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+%\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{3\baselineskip}
+  \includegraphics[scale=0.42]{udenar.jpg}\hspace{2cm}
+  \includegraphics[scale=0.85]{colciencias.jpg}\hspace{2cm}
+  \includegraphics[scale=1.2]{alcaldia.jpg} 
+  \\ \vspace*{4\baselineskip}
+  \large
+  \bfseries
+DETECCION DE PATRONES DELICTIVOS CON TECNICAS DE MINERIA DE DATOS EN EL OBSERVATORIO DEL DELITO DEL MUNICIPIO DE PASTO. \\ [5\baselineskip]
+  \normalfont
+  Análisis de Agrupación \\
+  Repositorio de Lesiones de Causa Externa Fatales \\
+  Version 1.0 \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\
+  Realizado para:  Convenio 615 \\ [5\baselineskip]
+  
+  \textbf{\today} \\[2\baselineskip]    
+\end{titlepage}
+
+\pagestyle{plain}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman} 
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<A1, , results='hide', echo=FALSE>>=
+data <- read.csv(file=fileInput, header=TRUE)
+#fields <- lapply(str_split(FIELDS, '\\+'), str_trim)
+#data <- data[, fields[[1]] ]
+data <- as.data.frame(apply(data,2,function(x)gsub('\\s+', '_',x)))
+data <- as.data.frame(apply(data,2,function(x)gsub('_/_', '/',x)))
+@
+
+\section*{Conjunto \Sexpr{tag} [N = \Sexpr{N}]}
+
+\subsection*{Clusters originales}
+<<A2, results='hide', echo=FALSE>>=
+model <- SimpleKMeans(data, control=Weka_control(N=N))
+clusters <- rJava::.jstrVal(model$clusterer)
+start <- str_locate(clusters, 'Cluster#\n')[2]
+clusters <- str_sub(clusters, start + 1)
+clusters <- str_replace_all(clusters, '={2,}', '')
+clusters <- str_replace_all(clusters, '\n{2,}', '\n')
+clusters <- str_replace_all(clusters, 'Full Data', 'Full_Data')
+clusters <- str_replace_all(clusters, '\n$', '')
+clusters <- str_replace_all(clusters, ' {1,}', ';')
+clusters <- str_split(clusters, '\n')
+clusters <- lapply(clusters, str_split, ';')
+transponse <- t(sapply(clusters[[1]], rbind))
+data <- as.data.frame(transponse[2:nrow(transponse), 2:ncol(transponse)])
+colnames(data) <- transponse[1,2:ncol(transponse)]
+rownames(data) <- transponse[2:nrow(transponse),1]
+@
+
+<<A3, echo = FALSE, results='asis'>>=
+if(N > 2){
+  x <- seq(1,N+1)
+  p<-classIntervals(x, COLS_PER_PAGE, dataPrecision=0, style='jenks')
+  p<-p$brks
+  n <- length(p)
+  print(xtable(data[,p[1]:p[2]]), size="\\footnotesize", booktabs=TRUE)
+  for(i in seq(2,n-1)){
+    a <- p[i]+1
+    b <- p[i+1]
+    print(xtable(data[,a:b]), size="\\footnotesize", booktabs=TRUE)
+  }
+} else {
+  print(xtable(data), size="\\footnotesize", booktabs=TRUE)
+}
+@
+
+\clearpage
+\subsection*{Clusters sin duplicados}
+<<A4, results='hide', echo=FALSE>>=
+diff_attributes <- vector()
+for(i in 2:nrow(data)){
+  to_delete <- TRUE
+  x <- as.character(data[i,1])
+  for(j in 2:ncol(data)){
+    y <- as.character(data[i,j])
+    if(x != y){
+      to_delete <- FALSE
+      break
+    }
+  }
+  if(!to_delete){
+    diff_attributes <- c(diff_attributes, rownames(data)[i])
+  }
+}
+resumed_data <- data[diff_attributes,]
+@
+
+<<A5, echo = FALSE, results='asis'>>=
+if(N > 2){
+x <- seq(1,N+1)
+p<-classIntervals(x, COLS_PER_PAGE, dataPrecision=0, style='jenks')
+p<-p$brks
+n <- length(p)
+print(xtable(resumed_data[,p[1]:p[2]]), size="\\footnotesize", booktabs=TRUE)
+for(i in seq(2,n-1)){
+  a <- p[i]+1
+  b <- p[i+1]
+  print(xtable(resumed_data[,a:b]), size="\\footnotesize", booktabs=TRUE)
+}
+} else {
+  print(xtable(resumed_data), size="\\footnotesize", booktabs=TRUE)
+}
+@
+
+\end{document}

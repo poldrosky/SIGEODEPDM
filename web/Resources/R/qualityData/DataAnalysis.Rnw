@@ -35,17 +35,18 @@ i <- 1
 \begin{titlepage}
   \centering
   \vspace*{3\baselineskip}
-  \includegraphics[width=3cm]{udenar.png}\hspace{2cm}
-  \includegraphics[width=4cm]{icfes.png}\hspace{2cm}
-  \includegraphics[width=3cm]{coperativa.png} 
+  \includegraphics[width=3cm]{udenar.jpg}\hspace{2cm}
+  \includegraphics[width=4cm]{colciencias.jpg}\hspace{2cm}
+  \includegraphics[width=3cm]{alcaldia.jpg} 
   \\ \vspace*{4\baselineskip}
   \large
   \bfseries
-  Detección de Patrones de rendimiento en competencias genéricas de las pruebas SABER PRO 2011 - 2012 \\ [5\baselineskip]
+  DETECCION DE PATRONES DELICTIVOS CON TECNICAS DE MINERIA DE DATOS EN EL OBSERVATORIO DEL DELITO DEL MUNICIPIO DE PASTO \\ [5\baselineskip]
   \normalfont
   Análisis de Datos Conjunto ``\Sexpr{table}'' \\
   Version 1.0 \\ [5\baselineskip]
-  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\
+  Realizado para:  Convenio 615 \\ [5\baselineskip]
   
   \textbf{2014} \\[2\baselineskip]    
 \end{titlepage}

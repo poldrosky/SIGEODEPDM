@@ -62,22 +62,11 @@ public class DataViewClassificationMB {
         analysis = new DataAnalysis();
     }
 
-    public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData, String classValue,
-            int maxM, int minM, int deltaM, double maxC, double minC, double deltaC, double confidence,
-            double support) {
+    public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
         this.countData = countData;
         this.countColNameData = countColNameData;
         this.data = data;
         this.colNameData = colNameData;
-        this.classValue = classValue;
-        this.maxM = maxM;
-        this.minM = minM;
-        this.deltaM = deltaM;
-        this.maxC = maxC;
-        this.minC = minC;
-        this.deltaC = deltaC;
-        this.confidence = confidence;
-        this.support = support;
     }
 
     public void reset() {

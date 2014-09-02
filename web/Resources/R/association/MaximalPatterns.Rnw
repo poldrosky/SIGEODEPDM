@@ -12,6 +12,39 @@
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 
 \begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+%\maketitle
+\begin{titlepage}
+  \centering
+  \vspace*{3\baselineskip}
+  \includegraphics[scale=0.42]{udenar.jpg}\hspace{2cm}
+  \includegraphics[scale=0.85]{colciencias.jpg}\hspace{2cm}
+  \includegraphics[scale=1.2]{alcaldia.jpg} 
+  \\ \vspace*{4\baselineskip}
+  \large
+  \bfseries
+DETECCION DE PATRONES DELICTIVOS CON TECNICAS DE MINERIA DE DATOS EN EL OBSERVATORIO DEL DELITO DEL MUNICIPIO DE PASTO. \\ [5\baselineskip]
+  \normalfont
+  Análisis de Asociación \\
+  Repositorio de Lesiones de Causa Externa Fatales \\
+  Version 1.0 \\ [5\baselineskip]
+  Realizado por: Grupo de Investigación Aplicada en Sistemas - GRIAS. Línea KDD \\
+  Realizado para:  Convenio 615 \\ [5\baselineskip]
+  
+  \textbf{\today} \\[2\baselineskip]    
+\end{titlepage}
+
+\pagestyle{plain}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman} 
+\tableofcontents 
+\listoftables
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 <<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
 opts_chunk$set(fig.path='/tmp/', comment=NA, prompt=FALSE, fig.align='center', fig.show='hold')
@@ -23,21 +56,21 @@ source('FPFunctions.R')
 %%%%%%%%%%%
 
 <<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
-DATASET <- "Homicidios"
-INJURY <- "fact_accidents"
-K <- 20
-LCM_PATH <- "lcm/lcm"
+#DATASET <- "Homicidios"
+#INJURY <- "fact_accidents"
+#K <- 20
+LCM_PATH <- "/usr/local/bin/lcm"
 LCM_TYPE <- "C"
-LCM_SUPP_PERC <- 0.01
+#LCM_SUPP_PERC <- 0.01
 LCM_FILES_PATH <- '/tmp/'
 LCM_IN <- 'translated.in'
 LCM_OUT <- 'translated.out'
 LCM_FILE_IN <- paste0(LCM_FILES_PATH,LCM_IN)
 LCM_FILE_OUT <- paste0(LCM_FILES_PATH,LCM_OUT)
-LCM_MIN_LEN <- "4"
+#LCM_MIN_LEN <- "4"
 LCM_SEP <- ";"
 LCM_OPTIONS <- paste0(LCM_TYPE,"f -l ", LCM_MIN_LEN,"  -, '", LCM_SEP,"'")
-FIELDS <- "date_month_name + date_day_name  + fatal_place_name + neighborhood_suburb_name + time_name + time_group + victim_age_five_year + victim_gender + victim_ethnic_group_name + residence_neighborhood_suburb_name"
+#FIELDS <- "date_month_name + date_day_name  + fatal_place_name + neighborhood_suburb_name + time_name + time_group + victim_age_five_year + victim_gender + victim_ethnic_group_name + residence_neighborhood_suburb_name"
 @
 
 \section{Análisis de Patrones Frecuentes Conjunto de Datos \Sexpr{DATASET}.}
@@ -48,16 +81,11 @@ FIELDS <- "date_month_name + date_day_name  + fatal_place_name + neighborhood_su
 
 <<echo=FALSE, results='hide', include=FALSE, message=F, warning=F>>=
 # data <- read.csv(url("http://190.254.4.36:9191/resources/fatales.csv"))
-data <- read.csv("fatales.csv")
+data <- read.csv(file=fileInput)
 #data <- data[ , -which(names(data) %in% c("counts"))]
-data[data[,c('injury')]=='fact_traffic',c('fatal_place_name')] <- 'ESPACIO O VIA PUBLICA'
+#data[data[,c('injury')]=='fact_traffic',c('fatal_place_name')] <- 'ESPACIO O VIA PUBLICA'
 data <- as.data.frame(sapply(data, str_trim))
 data <- as.data.frame(sapply(data, as.factor))
-
-data <- data[data$injury == INJURY,]
-data <- data[ , -which(names(data) %in% c("injury"))]
-fields <- lapply(str_split(FIELDS, '\\+'), str_trim)
-data <- data[,fields[[1]]]
 @
 
 <<echo=FALSE, results='hide'>>=
@@ -125,9 +153,9 @@ if(patterns != ""){
   patterns_by_support$support <- paste0(round(patterns_by_support$support * 100 / N, 2), '\\% (', patterns_by_support$support, ')')
   HAS_PATTERNS <- TRUE
   output <- paste("Se encontraron un total de", NPATTERNS,"patrones. A continuación se muestran los primeros", K,"patrones frecuentes de acuerdo a su longitud y soporte.")
-} else {
+}else{
   output <- "No se encontraron patrones frecuentes bajo esta configuración."
-}
+} 
 @
 
 \section{Resultados}

@@ -1,6 +1,9 @@
-require("knitr")
-require("stringr")
-require("xtable")
+require('tcltk')
+require('stringr')
+require('xtable')
+require('knitr')
+require('sqldf')
+require('data.table')
 
 args <- commandArgs(TRUE)
 
@@ -10,15 +13,18 @@ setwd(directory)
 
 fileInput <- args[1]
 fileOutput <- args[2]
-path <- args[2]
-path <- paste0(directory,path)
 nameFile <- args[2]
+path <- paste0(directory,nameFile)
 fileOutput <- paste0(fileOutput,".tex")
 print(paste("Done in ", getwd()))
+K <- as.numeric(args[4])
+LCM_SUPP_PERC <- as.numeric(args[5])
+LCM_MIN_LEN <- as.numeric(args[6])
+DATASET <- args[7]
 
 system(paste0('rm -R ',path))
 system(paste0('mkdir ',path))
-knit2pdf("DataAnalysis.Rnw", output = fileOutput)
+knit2pdf("MaximalPatterns.Rnw", output = fileOutput)
 
 system(paste0('mv ',nameFile,'.pdf ', path,'/'))
 system(paste0('mv ',nameFile,'.tex ', path,'/'))

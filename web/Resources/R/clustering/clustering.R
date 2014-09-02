@@ -1,6 +1,10 @@
+require("rJava")
+require("RWeka")
 require("knitr")
+require("RPostgreSQL")
 require("stringr")
 require("xtable")
+require("classInt")
 
 args <- commandArgs(TRUE)
 
@@ -10,16 +14,18 @@ setwd(directory)
 
 fileInput <- args[1]
 fileOutput <- args[2]
-path <- args[2]
-path <- paste0(directory,path)
 nameFile <- args[2]
+path <- paste0(directory,nameFile)
 fileOutput <- paste0(fileOutput,".tex")
 print(paste("Done in ", getwd()))
 
+tag <- args[5]
+N <- 6
+COLS_PER_PAGE <- as.numeric(args[4])
+
 system(paste0('rm -R ',path))
 system(paste0('mkdir ',path))
-knit2pdf("DataAnalysis.Rnw", output = fileOutput)
-
+knit2pdf("runClustersSIGEODEP.Rnw", output = fileOutput)
 system(paste0('mv ',nameFile,'.pdf ', path,'/'))
 system(paste0('mv ',nameFile,'.tex ', path,'/'))
 system(paste0('mv ',nameFile,'.aux ', path,'/'))
