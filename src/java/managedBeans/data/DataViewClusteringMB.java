@@ -46,7 +46,7 @@ public class DataViewClusteringMB {
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
-    private int cols_PerPage;    
+    private int valueN;    
 
     public DataViewClusteringMB() {
         this.startDate = new Date(1000);
@@ -70,7 +70,7 @@ public class DataViewClusteringMB {
         colNameData = new ArrayList<>();
         variablesSource = new ArrayList<>();
         variablesTarget = new ArrayList<>();
-        cols_PerPage = 3;
+        valueN = 3;
 
         startDate = new Date(100, 0, 1);
         endDate = new Date();
@@ -225,7 +225,7 @@ public class DataViewClusteringMB {
     
     public StreamedContent clusteringAnalysis() {                      
         try {            
-            return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, cols_PerPage);
+            return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, valueN);
         } catch (IOException ex) {
             Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -304,11 +304,12 @@ public class DataViewClusteringMB {
         this.endDate = endDate;
     }
 
-    public int getCols_PerPage() {
-        return cols_PerPage;
+    public int getValueN() {
+        return valueN;
     }
 
-    public void setCols_PerPage(int cols_PerPage) {
-        this.cols_PerPage = cols_PerPage;
-    }     
+    public void setValueN(int valueN) {
+        this.valueN = valueN;
+    }
+      
 }

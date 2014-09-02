@@ -194,15 +194,15 @@ public class DataAnalysis {
     }
     
     public StreamedContent getClusteringFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
-            ArrayList<String[]> data, int cols_PerPage) throws IOException {
+            ArrayList<String[]> data, int valueN) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
-        clustering(cols_PerPage);
+        clustering(valueN);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/clustering/"  + fileName + "/"+fileName+".pdf");
         clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return clusteringFile;
     }
     
-    public void clustering(int cols_PerPage){
+    public void clustering(int valueN){
         Process p;
         ProcessBuilder pb = new ProcessBuilder();
 
@@ -215,7 +215,7 @@ public class DataAnalysis {
 
 
         pb = new ProcessBuilder("Rscript", directory + "clustering.R", fileInput, fileName, directory, 
-                String.valueOf(cols_PerPage),"Homicidios");
+                String.valueOf(valueN),"Homicidios");
         try {
             p = pb.start();
             InputStream is = p.getInputStream();

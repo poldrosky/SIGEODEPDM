@@ -20,8 +20,13 @@ fileOutput <- paste0(fileOutput,".tex")
 print(paste("Done in ", getwd()))
 
 tag <- args[5]
-N <- 6
-COLS_PER_PAGE <- as.numeric(args[4])
+
+N <- as.numeric(args[4])
+if (N%%2 == 0){
+  COLS_PER_PAGE <- ceiling(N/2) - 1
+}else{
+  COLS_PER_PAGE <- ceiling(N/2)
+}
 
 system(paste0('rm -R ',path))
 system(paste0('mkdir ',path))
