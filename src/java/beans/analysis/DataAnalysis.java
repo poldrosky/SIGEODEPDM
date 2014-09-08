@@ -116,15 +116,15 @@ public class DataAnalysis {
     }
     
     public StreamedContent getAssociationFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
-            ArrayList<String[]> data, int kValue, double lcmSuppPerc, int lcmMinLen) throws IOException {
+            ArrayList<String[]> data, int kValue, double lcmSuppPerc, int lcmMinLen, String tag) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
-        association(kValue, lcmSuppPerc, lcmMinLen);
+        association(kValue, lcmSuppPerc, lcmMinLen, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/association/"  + fileName + "/"+fileName+".pdf");
         associationFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return associationFile;
     }
     
-    public void association(int kValue, double lcmSuppPerc, int lcmMinLen){
+    public void association(int kValue, double lcmSuppPerc, int lcmMinLen, String tag){
         Process p;
         ProcessBuilder pb = new ProcessBuilder();
 
@@ -137,7 +137,7 @@ public class DataAnalysis {
 
 
         pb = new ProcessBuilder("Rscript", directory + "association.R", fileInput, fileName, directory, String.valueOf(kValue),
-                String.valueOf(lcmSuppPerc), String.valueOf(lcmMinLen), "Homicidios");
+                String.valueOf(lcmSuppPerc), String.valueOf(lcmMinLen), tag);
         try {
             p = pb.start();
             InputStream is = p.getInputStream();
@@ -155,16 +155,16 @@ public class DataAnalysis {
     
     public StreamedContent getClassificationFile(String userLogin, List<String> colNameData, List<String[]> resultado, ArrayList<String[]> data, 
             String classValue, int maxM, int minM, int deltaM, double maxC, double minC, double deltaC, double confidence,
-            double support) throws IOException {
+            double support, int nfolds) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
-        classification(classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support);
+        classification(classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/classification/" + fileName + "/"+fileName+".pdf");
         classificationFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return classificationFile;
     }
     
     public void classification(String classValue, int maxM, int minM, int deltaM, double maxC, double minC, double deltaC, double confidence,
-            double support){
+            double support, int nfolds){
         Process p;
         ProcessBuilder pb = new ProcessBuilder();
 
@@ -176,7 +176,7 @@ public class DataAnalysis {
 
         pb = new ProcessBuilder("Rscript", directory + "runJ48_Binary.R", fileInput, fileName, directory, classValue,
                 String.valueOf(maxM), String.valueOf(minM), String.valueOf(deltaM), String.valueOf(maxC), 
-                String.valueOf(minC), String.valueOf(deltaC), String.valueOf(confidence), String.valueOf(support));
+                String.valueOf(minC), String.valueOf(deltaC), String.valueOf(confidence), String.valueOf(support), String.valueOf(nfolds));
         
                 
         try {
@@ -194,15 +194,15 @@ public class DataAnalysis {
     }
     
     public StreamedContent getClusteringFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
-            ArrayList<String[]> data, int valueN) throws IOException {
+            ArrayList<String[]> data, int valueN, String tag) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
-        clustering(valueN);
+        clustering(valueN, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/clustering/"  + fileName + "/"+fileName+".pdf");
         clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
         return clusteringFile;
     }
     
-    public void clustering(int valueN){
+    public void clustering(int valueN, String tag){
         Process p;
         ProcessBuilder pb = new ProcessBuilder();
 
@@ -215,7 +215,7 @@ public class DataAnalysis {
 
 
         pb = new ProcessBuilder("Rscript", directory + "clustering.R", fileInput, fileName, directory, 
-                String.valueOf(valueN),"Homicidios");
+                String.valueOf(valueN), tag);
         try {
             p = pb.start();
             InputStream is = p.getInputStream();

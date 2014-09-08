@@ -33,6 +33,7 @@ minC <- as.numeric(args[9])   # entre 1 y 50 %
 deltaC <- as.numeric(args[10]) # porcentaje de delta
 CONFIDENCE <- as.numeric(args[11]) # porcentaje
 SUPPORT <- as.numeric(args[12]) # porcentaje
+nFolds <- as.numeric(args[13]) # numero de folds
 N <- length(seq(minM, maxM, deltaM))*length(seq(minC, maxC, deltaC))
 i <- 1
 conf_table <- data.frame(M=rep(NA, N),C=rep(NA, N),Conf =rep(NA, N), Detalle=rep("", N),  stringsAsFactors=FALSE) 

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -163,7 +164,12 @@ public class DataViewClusteringMB {
         String sD = d.format(startDate);
         String eD = d.format(endDate);
 
-        aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
+        if (fact.equals("fact_murder") || fact.equals("fact_suicides") || fact.equals("fact_traffic")
+                || fact.equals("fact_accidents")) {
+            aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
+        } else {
+            aux3 = " WHERE event_date.date_value BETWEEN '" + sD + "' AND '" + eD + "'";
+        }
 
         // Fatal
         if (this.fact.equals("fact_murder")) {
@@ -188,6 +194,107 @@ public class DataViewClusteringMB {
             aux2 = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
+        }
+        
+        //non_fatal
+
+        if (this.fact.equals("fact_interpersonal")) {
+            aux2 = "fact_interpersonal fact"
+                    + " NATURAL JOIN dim_interpersonal"
+                    + " NATURAL JOIN dim_anatomical_location "
+                    + " NATURAL JOIN dim_time "
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key) "
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+        }
+
+        if (this.fact.equals("fact_fact_intrafamiliar")) {
+            aux2 = "fact_intrafamiliar fact"
+                    + " NATURAL JOIN dim_abuse"
+                    + " LEFT JOIN dim_anatomical_location USING (anatomical_location_key)"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_victim"
+                    + " LEFT JOIN dim_aggressor USING (aggressor_key)"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+
+        }
+
+        if (this.fact.equals("fact_self_inflicted")) {
+            aux2 = "fact_self_inflicted fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_self_inflicted"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+
+        }
+
+        if (this.fact.equals("fact_transport")) {
+            aux2 = "fact_transport fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " left join dim_security_elements USING (security_elements_key)"
+                    + " NATURAL JOIN dim_transport"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
+
+        }
+
+        if (this.fact.equals("fact_unintencional")) {
+            aux2 = "fact_unintentional fact"
+                    + " NATURAL JOIN dim_time"
+                    + " NATURAL JOIN dim_anatomical_location"
+                    + " LEFT JOIN dim_kind_of_injury USING (kind_of_injury_key)"
+                    + " NATURAL JOIN dim_neighborhood"
+                    + " NATURAL JOIN dim_non_fatal"
+                    + " NATURAL JOIN dim_victim"
+                    + " NATURAL JOIN dim_jobs"
+                    + " LEFT JOIN dim_vulnerable_groups USING (vulnerable_group_key)"
+                    + " JOIN dim_date checkup_date ON (checkup_date.date_key = fact.date_key)"
+                    + " JOIN dim_date event_date ON (event_date.date_key = fact.checkup_date_key) "
+                    + " JOIN dim_time checkup_time ON (checkup_time.time_key = fact.time_key) "
+                    + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
+                    + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
+                    + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
         }
 
         System.out.println("SELECT " + aux1 + " FROM " + aux2 + aux3);
@@ -216,16 +323,30 @@ public class DataViewClusteringMB {
     
     public StreamedContent qualityData() {
         try {
-            return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
+            if (data != null && !data.isEmpty()) {
+                return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            }
         } catch (IOException ex) {
             Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     } 
     
-    public StreamedContent clusteringAnalysis() {                      
-        try {            
-            return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, valueN);
+    public StreamedContent clusteringAnalysis() { 
+        String tag=null;
+        for(SelectItem f:facts){
+            if(f.getValue().equals(fact)){
+                tag = f.getLabel();
+            }        
+        }
+        try {
+            if (data != null && !data.isEmpty()) {
+                return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, valueN, tag);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            }
         } catch (IOException ex) {
             Logger.getLogger(DataViewClusteringMB.class.getName()).log(Level.SEVERE, null, ex);
         }

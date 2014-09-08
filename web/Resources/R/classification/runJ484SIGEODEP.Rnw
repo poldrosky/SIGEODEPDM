@@ -1,14 +1,15 @@
 \subsection{Generación de Árbol con M = \Sexpr{m} y C = \Sexpr{c}}
 <<echo=FALSE>>=
   model <- J48(formula, data=data, na.action=NULL, control=Weka_control(M=m,C=c))
+  e <- evaluate_Weka_classifier(model, numFolds = nFolds, seed = 1)
   filename <- paste(path,'/model_M',m,'_C',c,'.txt', sep="")
   write(capture.output(model),filename)
-  write(capture.output(summary(model)),filename, append=TRUE)
+  write(capture.output(e),filename, append=TRUE)
 @
 
 <<>>=
   print(model)
-  print(summary(model))
+  print(e)
 @
 
 <<echo=FALSE>>=
@@ -16,8 +17,8 @@
   write_to_dot(model, dotfile)
   pdffile <- paste(path,'/model_M',m,'_C',c*100,'.',format, sep="")
   system(paste('dot -Gsize=100,100 -T',format,' ',dotfile,' -o ',pdffile, sep=""))
-  sum <- summary(model)
-  conf <- sum$details['pctCorrect']
+  # sum <- summary(model)
+  conf <- e$details['pctCorrect']
   label <- paste('M',m,'C',c*100, sep="")
   if(bestConf < conf){
     bestConf <- conf

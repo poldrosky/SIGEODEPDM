@@ -30,7 +30,7 @@
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
                 #{dataViewClassificationMB.reset()}
-                <p:messages autoUpdate="true" />
+                <p:growl id="message"  showDetail="true" sticky="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
                         <p:column colspan="4" >
@@ -117,7 +117,6 @@
                             <br />
                             <p:spinner value="#{dataViewClassificationMB.deltaM}" id="deltaM" min="1" max="10" stepFactor="1" />                            
                         </p:column>
-
                     </p:row>
                     <p:row>
                         <p:column colspan="1">
@@ -135,7 +134,13 @@
                             <br />
                             <p:spinner value="#{dataViewClassificationMB.deltaC}" id="deltaC" min="0.1" max="1.0" stepFactor="0.01"/>                            
                         </p:column>
-
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:outputLabel for="nfolds" value="Número de validaciones:" />
+                            <br />
+                            <p:spinner value="#{dataViewClassificationMB.nfolds}" id="nfolds" min="1" max="20" stepFactor="1"/>                            
+                        </p:column>                        
                     </p:row>
                 </p:panelGrid>
 
@@ -173,4 +178,3 @@
         </ui:define>
     </ui:composition>
 </html>
-

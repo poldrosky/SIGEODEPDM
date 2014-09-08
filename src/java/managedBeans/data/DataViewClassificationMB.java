@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import managedBeans.login.ApplicationControlMB;
@@ -55,6 +58,7 @@ public class DataViewClassificationMB {
     private double maxC;
     private double minC;
     private double deltaC;
+    private int nfolds;
 
     public DataViewClassificationMB() {
         this.startDate = new Date(1000);
@@ -96,7 +100,8 @@ public class DataViewClassificationMB {
         deltaM = 10;
         maxC = 0.5;
         minC = 0.5;
-        deltaC = 0.1;        
+        deltaC = 0.1;
+        nfolds = 10;
     }
 
     public void loadVariablesPickList() {
@@ -151,8 +156,8 @@ public class DataViewClassificationMB {
             classValues.add(new SelectItem("No_Intencional", "No intencional"));
         }
     }
-
-    public void loadDataTable() throws SQLException {
+    
+   public void loadDataTable() throws SQLException {
         colNameData = new ArrayList<>();
         colNameData.add("TIPO_EVENTO");
         data = new ArrayList<>();
@@ -345,25 +350,39 @@ public class DataViewClassificationMB {
         resultado = table.getFilteredData();
     }
 
-    public StreamedContent qualityData() {
+    public StreamedContent qualityData() {        
         try {
-            return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
+            if (data != null && !data.isEmpty()) {
+                return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            }
         } catch (IOException ex) {
             Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public StreamedContent classificationAnalysis() {                
-        try {
-            return analysis.getClassificationFile(loginMB.getUserLogin(), colNameData, resultado, data,
-                     classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support);
+    public StreamedContent classificationAnalysis() {        
+        try {            
+            if (data != null && !data.isEmpty() && classValue!=null) {
+                return analysis.getClassificationFile(loginMB.getUserLogin(), colNameData, resultado, data,
+                        classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
+            } 
+            else if(data == null || data.isEmpty()){           
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            }
+            else if (classValue == null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "Seleccione una clase"));                
+            }
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
+    
     public DualListModel<ItemList> getVariables() {
         return variables;
     }
@@ -515,6 +534,12 @@ public class DataViewClassificationMB {
     public void setDeltaC(double deltaC) {
         this.deltaC = deltaC;
     }
-    
-    
+
+    public int getNfolds() {
+        return nfolds;
+    }
+
+    public void setNfolds(int nfolds) {
+        this.nfolds = nfolds;
+    }   
 }

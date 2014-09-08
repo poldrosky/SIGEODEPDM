@@ -30,7 +30,7 @@
 
             <h:form id="form" style="text-align:center; margin-left: auto; margin-right: auto; width: 760px">
                 #{dataViewClusteringMB.reset()}
-                <p:messages autoUpdate="true" />
+                <p:growl id="message"  showDetail="true" sticky="true" />
                 <p:panelGrid  style="margin-bottom:10px">
                     <p:row>
                         <p:column colspan="4" >
@@ -77,7 +77,7 @@
                     </p:row> 
                     <p:row>
                         <p:column colspan="4">
-                            <h2>Datos Adicionales para Asociación</h2>
+                            <h2>Datos Adicionales para Agrupación</h2>
                         </p:column>                        
                     </p:row>
 

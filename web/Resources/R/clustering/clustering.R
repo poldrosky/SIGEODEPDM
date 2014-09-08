@@ -22,10 +22,10 @@ print(paste("Done in ", getwd()))
 tag <- args[5]
 
 N <- as.numeric(args[4])
-if (N%%2 == 0){
-  COLS_PER_PAGE <- ceiling(N/2) - 1
-}else{
+if (N%%2 != 0 || N == 4 ){
   COLS_PER_PAGE <- ceiling(N/2)
+}else{
+  COLS_PER_PAGE <- ceiling(N/2) -1
 }
 
 system(paste0('rm -R ',path))
