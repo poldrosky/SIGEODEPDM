@@ -229,5 +229,15 @@ public class DataAnalysis {
             Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    
     
 }

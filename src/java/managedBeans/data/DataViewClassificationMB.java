@@ -1,6 +1,7 @@
 package managedBeans.data;
 
 import beans.analysis.DataAnalysis;
+import beans.analysis.Ranking;
 import beans.connection.ConnectionJdbcMB;
 import beans.util.ItemList;
 import java.io.IOException;
@@ -35,6 +36,9 @@ public class DataViewClassificationMB {
     private String fact;
     private List<SelectItem> facts;
     private String classValue;
+    private String classifier;
+    private int top;
+    private List<SelectItem> classifiers;
     private List<SelectItem> classValues;
     private List<ItemList> variablesSource;
     private List<ItemList> variablesTarget;
@@ -50,6 +54,7 @@ public class DataViewClassificationMB {
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
+    private Ranking ranking;
     private double confidence;
     private double support;
     private int maxM;
@@ -64,6 +69,7 @@ public class DataViewClassificationMB {
         this.startDate = new Date(1000);
         loginMB = (LoginMB) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{loginMB}", LoginMB.class);
         analysis = new DataAnalysis();
+        ranking = new Ranking();
     }
 
     public DataViewClassificationMB(int countData, int countColNameData, ArrayList<String[]> data, List<String> colNameData) {
@@ -90,6 +96,13 @@ public class DataViewClassificationMB {
         facts.add(new SelectItem("fatal", "Fatales"));
         facts.add(new SelectItem("non_fatal", "No fatales"));
 
+        classifiers = new ArrayList<>();
+        classifiers.add(new SelectItem("ig","Information Gain"));
+        classifiers.add(new SelectItem("gr","Gain Ratio"));
+        classifiers.add(new SelectItem("su","Symmetrical Uncertainty"));
+        classifiers.add(new SelectItem("cs","Chi Squiared"));
+        classifiers.add(new SelectItem("or","oneR"));
+        
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
         
@@ -383,6 +396,19 @@ public class DataViewClassificationMB {
         return null;
     }
     
+    
+    public void rank() throws IOException{
+        analysis.buildCSV(loginMB.getUserLogin(), colNameData, resultado, data);
+        ArrayList<String> rankingValues = new ArrayList<String>();
+        
+        rankingValues.addAll(ranking.getRanking(classifier, top, analysis.getFileName())); 
+        
+        for (String f:rankingValues){
+            System.out.println(f);
+        }
+        
+    }
+    
     public DualListModel<ItemList> getVariables() {
         return variables;
     }
@@ -541,5 +567,29 @@ public class DataViewClassificationMB {
 
     public void setNfolds(int nfolds) {
         this.nfolds = nfolds;
-    }   
+    }  
+
+    public String getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier(String classifier) {
+        this.classifier = classifier;
+    }
+
+    public List<SelectItem> getClassifiers() {
+        return classifiers;
+    }
+
+    public void setClassifiers(List<SelectItem> classifiers) {
+        this.classifiers = classifiers;
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
+    }    
 }
