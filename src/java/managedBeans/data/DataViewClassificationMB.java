@@ -64,6 +64,7 @@ public class DataViewClassificationMB {
     private double minC;
     private double deltaC;
     private int nfolds;
+    private boolean btnRankingDisable = true;
 
     public DataViewClassificationMB() {
         this.startDate = new Date(1000);
@@ -97,15 +98,15 @@ public class DataViewClassificationMB {
         facts.add(new SelectItem("non_fatal", "No fatales"));
 
         classifiers = new ArrayList<>();
-        classifiers.add(new SelectItem("ig","Information Gain"));
-        classifiers.add(new SelectItem("gr","Gain Ratio"));
-        classifiers.add(new SelectItem("su","Symmetrical Uncertainty"));
-        classifiers.add(new SelectItem("cs","Chi Squiared"));
-        classifiers.add(new SelectItem("or","oneR"));
-        
+        classifiers.add(new SelectItem("ig", "Information Gain"));
+        classifiers.add(new SelectItem("gr", "Gain Ratio"));
+        classifiers.add(new SelectItem("su", "Symmetrical Uncertainty"));
+        classifiers.add(new SelectItem("cs", "Chi Squiared"));
+        classifiers.add(new SelectItem("or", "oneR"));
+
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
-        
+
         confidence = 0.6;
         support = 0.005;
         maxM = 100;
@@ -121,17 +122,16 @@ public class DataViewClassificationMB {
         context = FacesContext.getCurrentInstance();
         connectionJdbcMB = (ConnectionJdbcMB) context.getApplication().evaluateExpressionGet(context, "#{connectionJdbcMB}", ConnectionJdbcMB.class);
         connectionJdbcMB.connectToDb();
-        
+
         variablesSource = new ArrayList<>();
         variablesTarget = new ArrayList<>();
         variables = new DualListModel<>(variablesSource, variablesTarget);
-        
+
         ResultSet rs = null;
         
-
         if (fact.equals("fatal")) {
             rs = connectionJdbcMB.consult("Select * from common_variables_fatal ORDER BY id");
-        } else{
+        } else {
             rs = connectionJdbcMB.consult("Select * from common_variables_non_fatal ORDER by id");
         }
 
@@ -147,7 +147,6 @@ public class DataViewClassificationMB {
         } catch (SQLException ex) {
             Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 
         variables = new DualListModel<>(variablesSource, variablesTarget);
         loadClass();
@@ -169,13 +168,13 @@ public class DataViewClassificationMB {
             classValues.add(new SelectItem("No_Intencional", "No intencional"));
         }
     }
-    
-   public void loadDataTable() throws SQLException {
+
+    public void loadDataTable() throws SQLException {
         colNameData = new ArrayList<>();
         colNameData.add("TIPO_EVENTO");
         data = new ArrayList<>();
-        ResultSet rs=null;
-        String aux1,  aux3;
+        ResultSet rs = null;
+        String aux1, aux3;
 
         //ArrayList<String> arrayList = new ArrayList<>();
 
@@ -198,21 +197,21 @@ public class DataViewClassificationMB {
         String sD = d.format(startDate);
         String eD = d.format(endDate);
 
-        
+
 
         // Fatal variables
         String aux_murder = null;
         String aux_suicides = null;
         String aux_traffic = null;
         String aux_accidents = null;
-        
+
         //nonFatal variables
         String aux_interpersonal = null;
         String aux_intrafamiliar = null;
         String aux_self_inflicted = null;
         String aux_transport = null;
         String aux_unintentional = null;
-        
+
         if (this.fact.equals("fatal")) {
             aux_murder = "fact_murder natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_murder natural join "
@@ -229,7 +228,7 @@ public class DataViewClassificationMB {
             aux_accidents = "fact_accidents natural join dim_victim natural join dim_date natural join dim_time natural"
                     + " join dim_neighborhood natural join dim_quadrant natural join dim_accidents natural join "
                     + " dim_fatal left join dim_jobs using (job_key) left join dim_vulnerable_groups using (vulnerable_group_key)";
-            
+
             aux3 = " WHERE date_value BETWEEN '" + sD + "' AND '" + eD + "'";
 
             if (!aux1.isEmpty()) {
@@ -255,7 +254,7 @@ public class DataViewClassificationMB {
                     + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
                     + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
                     + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
-            
+
             aux_intrafamiliar = "fact_intrafamiliar fact"
                     + " NATURAL JOIN dim_abuse"
                     + " LEFT JOIN dim_anatomical_location USING (anatomical_location_key)"
@@ -273,7 +272,7 @@ public class DataViewClassificationMB {
                     + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
                     + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
                     + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
-            
+
             aux_self_inflicted = "fact_self_inflicted fact"
                     + " NATURAL JOIN dim_time"
                     + " NATURAL JOIN dim_anatomical_location"
@@ -290,8 +289,8 @@ public class DataViewClassificationMB {
                     + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
                     + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
                     + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
-                    
-            
+
+
             aux_transport = "fact_transport fact"
                     + " NATURAL JOIN dim_time"
                     + " NATURAL JOIN dim_anatomical_location"
@@ -309,8 +308,8 @@ public class DataViewClassificationMB {
                     + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
                     + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
                     + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
-                   
-            
+
+
             aux_unintentional = "fact_unintentional fact"
                     + " NATURAL JOIN dim_time"
                     + " NATURAL JOIN dim_anatomical_location"
@@ -326,23 +325,23 @@ public class DataViewClassificationMB {
                     + " JOIN dim_time event_time ON (event_time.time_key = fact.checkup_time_key)"
                     + " JOIN dim_icd10 first_cie10 ON (first_cie10.icd10_key = dim_non_fatal.first_cie10)"
                     + " JOIN dim_icd10 second_cie10 ON (second_cie10.icd10_key = dim_non_fatal.second_cie10)";
-            
+
             aux3 = " WHERE event_date.date_value BETWEEN '" + sD + "' AND '" + eD + "'";
-            
+
             if (!aux1.isEmpty()) {
                 rs = connectionJdbcMB.consult("SELECT " + "'Interpersonal'," + aux1 + " FROM " + aux_interpersonal + aux3 + " UNION "
                         + "SELECT " + "'Intrafamiliar'," + aux1 + " FROM " + aux_intrafamiliar + aux3 + " UNION "
-                        + "SELECT " + "'Transito'," + aux1 + " FROM " +  aux_self_inflicted + aux3 + " UNION "
+                        + "SELECT " + "'Transito'," + aux1 + " FROM " + aux_self_inflicted + aux3 + " UNION "
                         + "SELECT " + "'Lesiones_Transito'," + aux1 + " FROM " + aux_transport + aux3 + " UNION "
                         + "SELECT " + "'No_Intencional'," + aux1 + " FROM " + aux_unintentional + aux3);
             }
         }
 
         System.out.println("SELECT " + "'Interpersonal'," + aux1 + " FROM " + aux_interpersonal + aux3 + " UNION "
-                        + "SELECT " + "'Intrafamiliar'," + aux1 + " FROM " + aux_intrafamiliar + aux3 + " UNION "
-                        + "SELECT " + "'Transito'," + aux1 + " FROM " +  aux_self_inflicted + aux3 + " UNION "
-                        + "SELECT " + "'Lesiones_Transito'," + aux1 + " FROM " + aux_transport + aux3 + " UNION "
-                        + "SELECT " + "'No_Intencional'," + aux1 + " FROM " + aux_unintentional + aux3);
+                + "SELECT " + "'Intrafamiliar'," + aux1 + " FROM " + aux_intrafamiliar + aux3 + " UNION "
+                + "SELECT " + "'Transito'," + aux1 + " FROM " + aux_self_inflicted + aux3 + " UNION "
+                + "SELECT " + "'Lesiones_Transito'," + aux1 + " FROM " + aux_transport + aux3 + " UNION "
+                + "SELECT " + "'No_Intencional'," + aux1 + " FROM " + aux_unintentional + aux3);
 
         while (rs.next()) {
             String[] arrayList;
@@ -353,9 +352,14 @@ public class DataViewClassificationMB {
                 arrayList[i] = rs.getString(i + 1);
             }
             data.add(arrayList);
-        }        
+        }
         
+        if(!data.isEmpty()){
+            btnRankingDisable = false;
+        } 
+
     }
+    
     List<String[]> resultado;
 
     public void filter(FilterEvent event) {
@@ -363,7 +367,7 @@ public class DataViewClassificationMB {
         resultado = table.getFilteredData();
     }
 
-    public StreamedContent qualityData() {        
+    public StreamedContent qualityData() {
         try {
             if (data != null && !data.isEmpty()) {
                 return analysis.getQualityDataFile(loginMB.getUserLogin(), colNameData, resultado, data);
@@ -375,40 +379,50 @@ public class DataViewClassificationMB {
         }
         return null;
     }
-    
-    public StreamedContent classificationAnalysis() {        
-        try {            
-            if (data != null && !data.isEmpty() && classValue!=null) {
+
+    public StreamedContent classificationAnalysis() {
+        try {
+            if (data != null && !data.isEmpty() && classValue != null) {
                 return analysis.getClassificationFile(loginMB.getUserLogin(), colNameData, resultado, data,
                         classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
-            } 
-            else if(data == null || data.isEmpty()){           
+            } else if (data == null || data.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            } else if (classValue == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "Seleccione una clase"));
             }
-            else if (classValue == null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "Seleccione una clase"));                
-            }
-            
-            
+
+
         } catch (IOException ex) {
             Logger.getLogger(DataViewClassificationMB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    public void rank() throws IOException{
+
+    public void rank() throws IOException, SQLException {
         analysis.buildCSV(loginMB.getUserLogin(), colNameData, resultado, data);
         ArrayList<String> rankingValues = new ArrayList<String>();
+
+        rankingValues.addAll(ranking.getRanking(classifier, top, analysis.getFileName()));
+
+        for (String f : rankingValues) {
+            System.out.println("ranking" + f);
+        }
+
+        variablesTarget = new ArrayList<>();
         
-        rankingValues.addAll(ranking.getRanking(classifier, top, analysis.getFileName())); 
-        
-        for (String f:rankingValues){
-            System.out.println(f);
+        for (ItemList source : variablesSource) {
+            for (String f : rankingValues) {
+                String a = source.getValueSp();
+                String b = f;
+               if (a.equals(b)) {
+                    variablesTarget.add(source);
+                } 
+            }
         }
         
-    }
-    
+       variables = new DualListModel<>(variablesSource, variablesTarget);
+   }
+
     public DualListModel<ItemList> getVariables() {
         return variables;
     }
@@ -496,7 +510,7 @@ public class DataViewClassificationMB {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
+
     public double getConfidence() {
         return confidence;
     }
@@ -567,7 +581,7 @@ public class DataViewClassificationMB {
 
     public void setNfolds(int nfolds) {
         this.nfolds = nfolds;
-    }  
+    }
 
     public String getClassifier() {
         return classifier;
@@ -591,5 +605,15 @@ public class DataViewClassificationMB {
 
     public void setTop(int top) {
         this.top = top;
-    }    
+    }
+
+    public boolean isBtnRankingDisable() {
+        return btnRankingDisable;
+    }
+
+    public void setBtnRankingDisable(boolean btnRankingDisable) {
+        this.btnRankingDisable = btnRankingDisable;
+    }
+    
+    
 }

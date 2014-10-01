@@ -30,4 +30,7 @@ if(classifier=='ig'){
   weights <- oneR(formula, data)
 }
 
-print(rownames(weights)[order(weights, decreasing = T)][1:TOP])
+ranking <- (rownames(weights)[order(weights, decreasing = T)][1:TOP])
+for(i in ranking){
+  print(i)
+}

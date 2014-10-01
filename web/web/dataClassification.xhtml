@@ -21,7 +21,7 @@
                     document.getElementById('form:IdBtnHide').click();
                 }
                 function clickTwo() {
-                    document.getElementById('form:IdBtnCsv').click();
+                    document.getElementById('form:bntVerDatos').click();
                 }                
             </script> 
         </ui:define>
@@ -70,7 +70,7 @@
                             <p:spinner id="top" value="#{dataViewClassificationMB.top}" />
                             <br/>
                             <br/>
-                            <p:commandButton actionListener="#{dataViewClassificationMB.rank}" value="Ranking"/>                             
+                            <p:commandButton id="bntRanking" actionListener="#{dataViewClassificationMB.rank}" value="Ranking" update="variablesList" disabled="#{dataViewClassificationMB.btnRankingDisable}" oncomplete="clickTwo();"/>                             
                         </p:column>
                     </p:row>
                     <p:row >                                            
@@ -89,7 +89,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="4">
-                            <p:commandButton actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton id="bntVerDatos" actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1 bntRanking" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row>

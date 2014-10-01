@@ -41,8 +41,8 @@ public class Ranking {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                //System.out.println("ranking"+line);
-                rankingValues.add(line);
+                //System.out.println("ranking"+line.replaceAll("\\[1\\]",""));
+                rankingValues.add(line.replaceAll("\\[1\\] ","").replaceAll("\"", ""));
             }
         } catch (IOException ex) {
             Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
