@@ -49,6 +49,8 @@ public class DataViewAssociationMB {
     private int kValue;
     private double lcmSuppPerc;
     private int lcmMinLen;
+    private boolean btnQualityData = true;
+    private boolean btnAssociationAnalysis = true;
 
     public DataViewAssociationMB() {
         this.startDate = new Date(1000);
@@ -318,6 +320,12 @@ public class DataViewAssociationMB {
                 data.add(arrayList);
             }
         }
+        
+         if (!data.isEmpty()) {
+            btnQualityData = false;
+            btnAssociationAnalysis = false;
+        }
+        
     }
     List<String[]> resultado;
 
@@ -454,4 +462,14 @@ public class DataViewAssociationMB {
     public void setLcmMinLen(int lcmMinLen) {
         this.lcmMinLen = lcmMinLen;
     }
+
+    public boolean isBtnQualityData() {
+        return btnQualityData;
+    }
+
+    public boolean isBtnAssociationAnalysis() {
+        return btnAssociationAnalysis;
+    }
+    
+    
 }

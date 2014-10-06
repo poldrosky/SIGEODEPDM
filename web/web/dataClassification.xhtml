@@ -59,7 +59,6 @@
                             <br />
                             <br />
                             <p:selectOneMenu id="classifier" value="#{dataViewClassificationMB.classifier}">
-                                <f:selectItem itemLabel="Seleccione una " itemValue="" />
                                 <f:selectItems value="#{dataViewClassificationMB.classifiers}" />                                   
                             </p:selectOneMenu>
                             <br />
@@ -67,10 +66,10 @@
                             <p:outputLabel for="top" value="Numero de Atributos:" />
                             <br />
                             <br />
-                            <p:spinner id="top" value="#{dataViewClassificationMB.top}" />
+                            <p:spinner id="top" value="#{dataViewClassificationMB.top}" min="0" stepFactor="1"  max="#{dataViewClassificationMB.top}"/>
                             <br/>
                             <br/>
-                            <p:commandButton id="bntRanking" actionListener="#{dataViewClassificationMB.rank}" value="Ranking" update="variablesList" disabled="#{dataViewClassificationMB.btnRankingDisable}" oncomplete="clickTwo();"/>                             
+                            <p:commandButton id="bntRanking" actionListener="#{dataViewClassificationMB.rank}" value="Ranking" update="variablesList message" disabled="#{dataViewClassificationMB.btnRankingDisable}" oncomplete="clickTwo();"/>                             
                         </p:column>
                     </p:row>
                     <p:row >                                            
@@ -89,7 +88,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="4">
-                            <p:commandButton id="bntVerDatos" actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1 bntRanking" oncomplete="clickOne();"/> 
+                            <p:commandButton id="bntVerDatos" actionListener="#{dataViewClassificationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1 bntRanking btnQualityData btnClassificationAnalysis top" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row>
@@ -103,7 +102,6 @@
                             <p:outputLabel for="classValue" value="Valor Clase: " />
                             <br />
                             <p:selectOneMenu id="classValue" value="#{dataViewClassificationMB.classValue}">
-                                <f:selectItem itemLabel="Seleccione una " itemValue=""/>
                                 <f:selectItems value="#{dataViewClassificationMB.classValues}"/>
                             </p:selectOneMenu>                            
                         </p:column>
@@ -183,12 +181,12 @@
 
 
                 <p:column colspan="2">
-                    <h:commandButton value="Calidad de Datos" >
+                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewClassificationMB.btnQualityData}">
                         <p:fileDownload value="#{dataViewClassificationMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton value="Análisis Clasificación" >
+                    <h:commandButton id="btnClassificationAnalysis" value="Análisis Clasificación"  disabled="#{dataViewClassificationMB.btnClassificationAnalysis}">
                         <p:fileDownload value="#{dataViewClassificationMB.classificationAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>               

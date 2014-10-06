@@ -65,6 +65,8 @@ public class DataViewClassificationMB {
     private double deltaC;
     private int nfolds;
     private boolean btnRankingDisable = true;
+    private boolean btnQualityData = true;
+    private boolean btnClassificationAnalysis = true;
 
     public DataViewClassificationMB() {
         this.startDate = new Date(1000);
@@ -128,7 +130,7 @@ public class DataViewClassificationMB {
         variables = new DualListModel<>(variablesSource, variablesTarget);
 
         ResultSet rs = null;
-        
+
         if (fact.equals("fatal")) {
             rs = connectionJdbcMB.consult("Select * from common_variables_fatal ORDER BY id");
         } else {
@@ -353,13 +355,16 @@ public class DataViewClassificationMB {
             }
             data.add(arrayList);
         }
-        
-        if(!data.isEmpty()){
+
+        if (!data.isEmpty()) {
             btnRankingDisable = false;
-        } 
+            btnQualityData = false;
+            btnClassificationAnalysis = false;
+        }
+        
+        top = colNameData.size() - 1;
 
     }
-    
     List<String[]> resultado;
 
     public void filter(FilterEvent event) {
@@ -399,29 +404,30 @@ public class DataViewClassificationMB {
     }
 
     public void rank() throws IOException, SQLException {
+        if(data==null){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
+            return;
+        }
+        
         analysis.buildCSV(loginMB.getUserLogin(), colNameData, resultado, data);
         ArrayList<String> rankingValues = new ArrayList<String>();
 
         rankingValues.addAll(ranking.getRanking(classifier, top, analysis.getFileName()));
 
-        for (String f : rankingValues) {
-            System.out.println("ranking" + f);
-        }
-
         variablesTarget = new ArrayList<>();
-        
+
         for (ItemList source : variablesSource) {
             for (String f : rankingValues) {
                 String a = source.getValueSp();
                 String b = f;
-               if (a.equals(b)) {
+                if (a.equals(b)) {
                     variablesTarget.add(source);
-                } 
+                }
             }
         }
-        
-       variables = new DualListModel<>(variablesSource, variablesTarget);
-   }
+        variables = new DualListModel<>(variablesSource, variablesTarget);
+
+    }
 
     public DualListModel<ItemList> getVariables() {
         return variables;
@@ -614,6 +620,12 @@ public class DataViewClassificationMB {
     public void setBtnRankingDisable(boolean btnRankingDisable) {
         this.btnRankingDisable = btnRankingDisable;
     }
-    
-    
+
+    public boolean isBtnQualityData() {
+        return btnQualityData;
+    }
+
+    public boolean isBtnClassificationAnalysis() {
+        return btnClassificationAnalysis;
+    }
 }

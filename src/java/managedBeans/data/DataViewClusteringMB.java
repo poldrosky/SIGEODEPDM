@@ -47,7 +47,9 @@ public class DataViewClusteringMB {
     private Date endDate;
     private LoginMB loginMB;
     private DataAnalysis analysis;
-    private int valueN;    
+    private int valueN; 
+    private boolean btnQualityData = true;
+    private boolean btnClusteringAnalysis = true;
 
     public DataViewClusteringMB() {
         this.startDate = new Date(1000);
@@ -313,6 +315,13 @@ public class DataViewClusteringMB {
                 data.add(arrayList);
             }
         }
+        
+        if (!data.isEmpty()) {
+            btnQualityData = false;
+            btnClusteringAnalysis = false;
+        }
+        
+        
     }
     List<String[]> resultado;
 
@@ -432,5 +441,15 @@ public class DataViewClusteringMB {
     public void setValueN(int valueN) {
         this.valueN = valueN;
     }
+
+    public boolean isBtnQualityData() {
+        return btnQualityData;
+    }
+
+    public boolean isBtnClusteringAnalysis() {
+        return btnClusteringAnalysis;
+    }
+    
+    
       
 }

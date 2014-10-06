@@ -72,7 +72,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="3">
-                            <p:commandButton actionListener="#{dataViewAssociationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton actionListener="#{dataViewAssociationMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1 btnQualityData btnAssociationAnalysis" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
@@ -122,12 +122,12 @@
 
 
                 <p:column colspan="2">
-                    <h:commandButton value="Calidad de Datos" >
+                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewAssociationMB.btnQualityData}">
                         <p:fileDownload value="#{dataViewAssociationMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton value="Análisis Asociación" >
+                    <h:commandButton id="btnAssociationAnalysis" value="Análisis Asociación" disabled="#{dataViewAssociationMB.btnAssociationAnalysis}" >
                         <p:fileDownload value="#{dataViewAssociationMB.associationAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>

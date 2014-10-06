@@ -71,7 +71,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="3">
-                            <p:commandButton actionListener="#{dataViewClusteringMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1" oncomplete="clickOne();"/> 
+                            <p:commandButton actionListener="#{dataViewClusteringMB.loadDataTable}" value="Ver Datos" style="margin-left: auto" update="table1 btnClusteringAnalysis btnQualityData" oncomplete="clickOne();"/> 
                             <p:commandButton update="table1" value="a" style="display: none;" id="IdBtnHide"/>
                         </p:column>
                     </p:row> 
@@ -111,12 +111,12 @@
 
 
                 <p:column colspan="2">
-                    <h:commandButton value="Calidad de Datos" >
+                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewClusteringMB.btnQualityData}" >
                         <p:fileDownload value="#{dataViewClusteringMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton value="Análisis Agrupación" >
+                    <h:commandButton id="btnClusteringAnalysis" value="Análisis Agrupación"  disabled="#{dataViewClusteringMB.btnClusteringAnalysis}">
                         <p:fileDownload value="#{dataViewClusteringMB.clusteringAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>
