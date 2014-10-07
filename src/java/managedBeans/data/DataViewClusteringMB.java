@@ -343,7 +343,8 @@ public class DataViewClusteringMB {
         return null;
     } 
     
-    public StreamedContent clusteringAnalysis() { 
+    public StreamedContent clusteringAnalysis() {
+        String nameAnalysis = "_Clustering";
         String tag=null;
         for(SelectItem f:facts){
             if(f.getValue().equals(fact)){
@@ -352,7 +353,7 @@ public class DataViewClusteringMB {
         }
         try {
             if (data != null && !data.isEmpty()) {
-                return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, valueN, tag);
+                return analysis.getClusteringFile(loginMB.getUserLogin(), colNameData, resultado, data, valueN, tag, nameAnalysis);
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
             }

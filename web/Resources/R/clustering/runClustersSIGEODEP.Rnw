@@ -51,9 +51,13 @@ data <- read.csv(file=fileInput, header=TRUE)
 #data <- data[, fields[[1]] ]
 data <- as.data.frame(apply(data,2,function(x)gsub('\\s+', '_',x)))
 data <- as.data.frame(apply(data,2,function(x)gsub('_/_', '/',x)))
+
+TamN <- nrow(data)
 @
 
 \section*{Conjunto \Sexpr{tag} [N = \Sexpr{N}]}
+
+Tamaño del conjunto: \Sexpr{TamN}.
 
 \subsection*{Clusters originales}
 <<A2, results='hide', echo=FALSE>>=

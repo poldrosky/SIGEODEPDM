@@ -48,6 +48,9 @@ DETECCION DE PATRONES DELICTIVOS CON TECNICAS DE MINERIA DE DATOS EN EL OBSERVAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Generación de Árboles de Decisión\footnote{Click en las figuras para ampliar.}.}
+
+Tamaño del conjunto: \Sexpr{TamN}.
+
 <<A1, run-all, include=FALSE>>=
 opts_chunk$set(fig.path='/tmp/', comment=NA, prompt=FALSE, fig.align='center', fig.show='hold')
 

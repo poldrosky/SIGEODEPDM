@@ -105,7 +105,7 @@ if(LCM_TYPE == 'M'){
 
 \begin{tabular}{ll}
 Tipo: & \Sexpr{LCM_TYPE_STR} \\
-Soporte: & \Sexpr{round(LCM_SUPP_PERC * 100, 2)}\% (\Sexpr{LCM_SUPP} casos) \\
+Soporte: & \Sexpr{round(LCM_SUPP_PERC * 100, 2)}\% (\Sexpr{LCM_SUPP} \/ \Sexpr{N} casos) \\
 Longitud mínima: & \Sexpr{LCM_MIN_LEN} \\
 \end{tabular}
 <<echo=FALSE, results='hide'>>=

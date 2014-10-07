@@ -362,7 +362,7 @@ public class DataViewClassificationMB {
             btnClassificationAnalysis = false;
         }
         
-        top = colNameData.size() - 1;
+        top = colNameData.size()-1;
 
     }
     List<String[]> resultado;
@@ -386,10 +386,11 @@ public class DataViewClassificationMB {
     }
 
     public StreamedContent classificationAnalysis() {
+        String nameAnalysis= "_Clasificacion";
         try {
             if (data != null && !data.isEmpty() && classValue != null) {
                 return analysis.getClassificationFile(loginMB.getUserLogin(), colNameData, resultado, data,
-                        classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
+                        classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds, nameAnalysis);
             } else if (data == null || data.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
             } else if (classValue == null) {
@@ -412,20 +413,24 @@ public class DataViewClassificationMB {
         analysis.buildCSV(loginMB.getUserLogin(), colNameData, resultado, data);
         ArrayList<String> rankingValues = new ArrayList<String>();
 
-        rankingValues.addAll(ranking.getRanking(classifier, top, analysis.getFileName()));
+        rankingValues.addAll(ranking.getRanking(classifier, top  , analysis.getFileName()));
 
         variablesTarget = new ArrayList<>();
-
+        List<ItemList> auxVariableSource = new ArrayList<>();
+        auxVariableSource.addAll(variablesSource);
+        
         for (ItemList source : variablesSource) {
             for (String f : rankingValues) {
                 String a = source.getValueSp();
                 String b = f;
                 if (a.equals(b)) {
                     variablesTarget.add(source);
+                    auxVariableSource.remove(source);
                 }
             }
         }
-        variables = new DualListModel<>(variablesSource, variablesTarget);
+        
+        variables = new DualListModel<>(auxVariableSource, variablesTarget);
 
     }
 

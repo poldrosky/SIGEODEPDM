@@ -46,6 +46,7 @@ print(path)
 # data <- read.csv(url("http://190.254.4.36:9191/resources/fatales.csv"))
 data <- read.csv(file=fileInput, header=TRUE, sep=",") 
 
+TamN <- nrow(data)
 #data <- data[data$date_year_number == 2013, ]
 
 data <- as.data.frame(sapply(data, str_trim))

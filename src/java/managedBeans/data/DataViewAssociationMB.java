@@ -348,6 +348,7 @@ public class DataViewAssociationMB {
     }
 
     public StreamedContent associationAnalysis() {
+        String nameAnalysis = "_Asociacion";
         String tag = null;
         for (SelectItem f : facts) {
             if (f.getValue().equals(fact)) {
@@ -357,7 +358,7 @@ public class DataViewAssociationMB {
 
         try {
             if (data != null && !data.isEmpty()) {
-                return analysis.getAssociationFile(loginMB.getUserLogin(), colNameData, resultado, data, kValue, lcmSuppPerc, lcmMinLen, tag);
+                return analysis.getAssociationFile(loginMB.getUserLogin(), colNameData, resultado, data, kValue, lcmSuppPerc, lcmMinLen, tag, nameAnalysis);
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", "No ha cargado datos"));
             }

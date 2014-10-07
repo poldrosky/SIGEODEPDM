@@ -116,11 +116,11 @@ public class DataAnalysis {
     }
     
     public StreamedContent getAssociationFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
-            ArrayList<String[]> data, int kValue, double lcmSuppPerc, int lcmMinLen, String tag) throws IOException {
+            ArrayList<String[]> data, int kValue, double lcmSuppPerc, int lcmMinLen, String tag, String nameAnalysis) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
         association(kValue, lcmSuppPerc, lcmMinLen, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/association/"  + fileName + "/"+fileName+".pdf");
-        associationFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
+        associationFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
         return associationFile;
     }
     
@@ -155,11 +155,11 @@ public class DataAnalysis {
     
     public StreamedContent getClassificationFile(String userLogin, List<String> colNameData, List<String[]> resultado, ArrayList<String[]> data, 
             String classValue, int maxM, int minM, int deltaM, double maxC, double minC, double deltaC, double confidence,
-            double support, int nfolds) throws IOException {
+            double support, int nfolds, String nameAnalysis) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
         classification(classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/classification/" + fileName + "/"+fileName+".pdf");
-        classificationFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
+        classificationFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
         return classificationFile;
     }
     
@@ -194,11 +194,11 @@ public class DataAnalysis {
     }
     
     public StreamedContent getClusteringFile(String userLogin, List<String> colNameData, List<String[]> resultado, 
-            ArrayList<String[]> data, int valueN, String tag) throws IOException {
+            ArrayList<String[]> data, int valueN, String tag, String nameAnalysis) throws IOException {
         buildCSV(userLogin, colNameData, resultado, data);
         clustering(valueN, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/clustering/"  + fileName + "/"+fileName+".pdf");
-        clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
+        clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
         return clusteringFile;
     }
     
