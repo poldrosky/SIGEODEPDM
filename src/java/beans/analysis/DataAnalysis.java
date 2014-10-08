@@ -1,5 +1,6 @@
 package beans.analysis;
 
+import beans.util.Delete;
 import com.csvreader.CsvWriter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,8 +29,11 @@ public class DataAnalysis {
     private StreamedContent associationFile;
     private StreamedContent classificationFile;
     private StreamedContent clusteringFile;
+    private Delete delete;
+    
     
     public DataAnalysis() {
+        delete = new Delete();
     }
 
     public StreamedContent getQualityDataFile(String userLogin, List<String> colNameData, List<String[]> resultado, ArrayList<String[]> data) throws IOException {
@@ -37,6 +41,12 @@ public class DataAnalysis {
         qualityData();
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/qualityData/"+ fileName + "/"+fileName+".pdf");
         qualityDataFile = new DefaultStreamedContent(stream, "application/pdf", fileName + ".pdf");
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String Directory = ctx.getRealPath("/")+ "Resources/R/qualityData/"+ fileName;
+        File dir = new File(Directory);
+        delete.deleteFolder(dir);
+        dir.delete();
         return qualityDataFile;
     }
     
@@ -121,6 +131,12 @@ public class DataAnalysis {
         association(kValue, lcmSuppPerc, lcmMinLen, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/association/"  + fileName + "/"+fileName+".pdf");
         associationFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String Directory = ctx.getRealPath("/")+ "Resources/R/association/"+ fileName;
+        File dir = new File(Directory);
+        delete.deleteFolder(dir);
+        dir.delete();        
         return associationFile;
     }
     
@@ -160,6 +176,12 @@ public class DataAnalysis {
         classification(classValue, maxM, minM, deltaM, maxC, minC, deltaC, confidence, support, nfolds);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/classification/" + fileName + "/"+fileName+".pdf");
         classificationFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String Directory = ctx.getRealPath("/")+ "Resources/R/classification/"+ fileName;
+        File dir = new File(Directory);
+        delete.deleteFolder(dir);
+        dir.delete();
         return classificationFile;
     }
     
@@ -199,6 +221,12 @@ public class DataAnalysis {
         clustering(valueN, tag);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/Resources/R/clustering/"  + fileName + "/"+fileName+".pdf");
         clusteringFile = new DefaultStreamedContent(stream, "application/pdf", fileName+nameAnalysis + ".pdf");
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String Directory = ctx.getRealPath("/")+ "Resources/R/clustering/"+ fileName;
+        File dir = new File(Directory);
+        delete.deleteFolder(dir);
+        dir.delete();
         return clusteringFile;
     }
     
@@ -229,15 +257,12 @@ public class DataAnalysis {
             Logger.getLogger(DataAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
-
+    
     public String getFileName() {
         return fileName;
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-    
-    
-    
+    }   
 }
