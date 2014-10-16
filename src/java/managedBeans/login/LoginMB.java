@@ -16,6 +16,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -145,7 +146,8 @@ public LoginMB() {
                 //determino si el usuario tiene una session alctiva
                 if (applicationControlMB.hasLogged(rs.getInt("user_id"))) {
                     //System.out.println("Ingreso rechazado, ya tiene otra session activa");
-                    closeSessionDialog = "closeSessionDialog.show()";//dialog que permite terminar sesion desde otra terminal
+                    RequestContext.getCurrentInstance().execute("closeSessionDialog.show();");
+                    //closeSessionDialog = "closeSessionDialog.show()";//dialog que permite terminar sesion desde otra terminal
                     return "";//no dirigir a ninguna pagina
                 } else {
                     userLogin = rs.getString("user_login");
