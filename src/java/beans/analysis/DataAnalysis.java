@@ -47,6 +47,9 @@ public class DataAnalysis {
         File dir = new File(Directory);
         delete.deleteFolder(dir);
         dir.delete();
+        String FileCSV = ctx.getRealPath("/")+ "Resources/csv/" + fileName;
+        File csv = new File(FileCSV);
+        csv.delete();
         return qualityDataFile;
     }
     
@@ -136,7 +139,10 @@ public class DataAnalysis {
         String Directory = ctx.getRealPath("/")+ "Resources/R/association/"+ fileName;
         File dir = new File(Directory);
         delete.deleteFolder(dir);
-        dir.delete();        
+        dir.delete();
+        String FileCSV = ctx.getRealPath("/")+ "Resources/csv/" + fileName;
+        File csv = new File(FileCSV);
+        csv.delete();
         return associationFile;
     }
     
@@ -182,6 +188,9 @@ public class DataAnalysis {
         File dir = new File(Directory);
         delete.deleteFolder(dir);
         dir.delete();
+        String FileCSV = ctx.getRealPath("/")+ "Resources/csv/" + fileName;
+        File csv = new File(FileCSV);
+        csv.delete();
         return classificationFile;
     }
     
@@ -227,6 +236,9 @@ public class DataAnalysis {
         File dir = new File(Directory);
         delete.deleteFolder(dir);
         dir.delete();
+        String FileCSV = ctx.getRealPath("/")+ "Resources/csv/" + fileName;
+        File csv = new File(FileCSV);
+        csv.delete();
         return clusteringFile;
     }
     
