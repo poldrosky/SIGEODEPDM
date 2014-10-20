@@ -5,9 +5,11 @@
 package managedBeans.login;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -55,7 +57,13 @@ public class ApplicationControlMB {
          */
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         realPath = (String) servletContext.getRealPath("/");
-        
+//        try {
+//            PrintStream out = new PrintStream(new FileOutputStream("ou.s"));
+//            System.setOut(out);
+//            PrintStream out2 = new PrintStream(new FileOutputStream("ou.s2"));
+//            System.setErr(out2);
+//        } catch (Exception e) {
+//        }
 
     }
 
