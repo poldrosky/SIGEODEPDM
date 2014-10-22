@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 public class ConnectionJdbcMB implements Serializable {
 
 
-   @Resource(name = "jdbc/od")
+   @Resource(name = "jdbc/od_dwh3")
     private DataSource ds;
     public Connection conn;
     private Statement st;

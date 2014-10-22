@@ -34,7 +34,7 @@ import javax.sql.DataSource;
 @ApplicationScoped
 public class ApplicationControlMB {
 
-    @Resource(name = "jdbc/od")
+    @Resource(name = "jdbc/od_dwh3")
     private DataSource ds;//fuente de datos(es configurada por glassfish)  
     private ResultSet rs;
     private Statement st;
