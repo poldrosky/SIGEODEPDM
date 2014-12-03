@@ -111,12 +111,12 @@
 
 
                 <p:column colspan="2">
-                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewClusteringMB.btnQualityData}" >
+                    <h:commandButton id="btnQualityData" value="Calidad de Datos" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);" disabled="#{dataViewClusteringMB.btnQualityData}" >
                         <p:fileDownload value="#{dataViewClusteringMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton id="btnClusteringAnalysis" value="Análisis Agrupación"  disabled="#{dataViewClusteringMB.btnClusteringAnalysis}">
+                    <h:commandButton id="btnClusteringAnalysis" value="Análisis Agrupación" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);"  disabled="#{dataViewClusteringMB.btnClusteringAnalysis}">
                         <p:fileDownload value="#{dataViewClusteringMB.clusteringAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>

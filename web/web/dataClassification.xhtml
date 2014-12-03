@@ -181,12 +181,12 @@
 
 
                 <p:column colspan="2">
-                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewClassificationMB.btnQualityData}">
+                    <h:commandButton id="btnQualityData" value="Calidad de Datos" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);" disabled="#{dataViewClassificationMB.btnQualityData}">
                         <p:fileDownload value="#{dataViewClassificationMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton id="btnClassificationAnalysis" value="Análisis Clasificación"  disabled="#{dataViewClassificationMB.btnClassificationAnalysis}">
+                    <h:commandButton id="btnClassificationAnalysis" value="Análisis Clasificación" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);" disabled="#{dataViewClassificationMB.btnClassificationAnalysis}">
                         <p:fileDownload value="#{dataViewClassificationMB.classificationAnalysis()}"/> 
                     </h:commandButton> 
                 </p:column>               

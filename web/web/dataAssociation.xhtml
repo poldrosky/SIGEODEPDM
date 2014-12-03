@@ -100,10 +100,7 @@
                         </p:column>                        
                     </p:row>
                 </p:panelGrid>
-
-
                 <br/>
-
                 <div style="width: 760px; overflow-y: hidden; overflow-x:  scroll; margin-left: -100px">
                     <p:dataTable 
                         id="table1" 
@@ -119,16 +116,14 @@
                         </c:forEach>
                     </p:dataTable>
                 </div>
-
-
                 <p:column colspan="2">
-                    <h:commandButton id="btnQualityData" value="Calidad de Datos" disabled="#{dataViewAssociationMB.btnQualityData}">
+                    <h:commandButton id="btnQualityData" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);" value="Calidad de Datos" disabled="#{dataViewAssociationMB.btnQualityData}">
                         <p:fileDownload value="#{dataViewAssociationMB.qualityData()}"/> 
                     </h:commandButton> 
                 </p:column>
                 <p:column colspan="2">
-                    <h:commandButton id="btnAssociationAnalysis" value="Análisis Asociación" disabled="#{dataViewAssociationMB.btnAssociationAnalysis}" >
-                        <p:fileDownload value="#{dataViewAssociationMB.associationAnalysis()}"/> 
+                    <h:commandButton id="btnAssociationAnalysis" onclick="PrimeFaces.monitorDownload(pageInactive, pageActive);" value="Análisis Asociación" disabled="#{dataViewAssociationMB.btnAssociationAnalysis}" >                        
+                        <p:fileDownload value="#{dataViewAssociationMB.associationAnalysis()}"/>
                     </h:commandButton> 
                 </p:column>
             </h:form> 
