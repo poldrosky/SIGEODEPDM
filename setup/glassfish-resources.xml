@@ -5,8 +5,8 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="5432"/>
         <property name="databaseName" value="od_dwh3"/>
-        <property name="User" value="omar"/>
-        <property name="Password" value="123"/>
+        <property name="User" value="od"/>
+        <property name="Password" value="1234"/>
         <property name="URL" value="jdbc:postgresql://localhost:5432/od_dwh3"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
